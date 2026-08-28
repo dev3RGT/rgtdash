@@ -421,7 +421,2021 @@
 <!-- ===================== TOAST ===================== -->
 <div id="toast"><span class="td"></span><span id="toast-text">Saved</span></div>
 
-<script src="content.js"></script>
-<script src="dash.js"></script>
+<!-- ===================== INLINE SCRIPTS (combined) ===================== -->
+<!-- content.js : Shared content layer (data model + localStorage + BroadcastChannel real-time sync) -->
+<script>
+/* =====================================================================
+   Rare Grade Tech — Shared Content Layer
+   ---------------------------------------------------------------------
+   - DEFAULT_CONTENT: the exact content currently baked into the site
+   - getContent(): returns saved content merged with defaults
+   - saveContent(): persists + broadcasts (real-time sync across tabs)
+   - BroadcastChannel + storage event = instant live updates on open pages
+   ===================================================================== */
+
+(function (global) {
+  'use strict';
+
+  var STORAGE_KEY = 'rgt_content_v1';
+  var CHANNEL = 'rgt_content_channel';
+
+  var DEFAULT_CONTENT = {
+    _version: 1,
+    settings: {
+      brandName: 'Rare Grade Tech',
+      logo: 'https://i.postimg.cc/jSdtxk2y/1.png',
+      tagline: 'Imagination To Reality',
+      adminPassword: 'admin123',
+      phone: '+27 61 527 0749',
+      phoneHref: 'tel:+27615270749',
+      email: 'info@raregradetech.com',
+      emailHref: 'mailto:info@raregradetech.com',
+      hours: 'Mon – Fri: 8:00 – 17:00',
+      address: '69 Hooge Street, Mokopane',
+      addressFull: '69 Hooge Str, Mokopane, Limpopo, South Africa',
+      facebook: 'https://www.facebook.com/profile.php?id=61551174479756',
+      instagram: '#',
+      youtube: '#',
+      tumblr: '#',
+      footerEmail: 'admin@raregradetech.com'
+    },
+
+    hero: {
+      badge: 'Rare Grade Tech',
+      headline1: 'DIGITALY',
+      headline2: 'TRANSFORMING BRANDS',
+      subcopy: "We design, develop and deliver modern software, web and mobile applications, AI solutions and IT services that help businesses grow and communities thrive.",
+      ctaPrimaryLabel: 'Book An Appointment',
+      ctaPrimaryLink: 'https://raregradetech.com/book-appointment/',
+      ctaSecondaryLabel: 'View Our Work',
+      ctaSecondaryLink: '#services',
+      ratingIcons: 'https://i.postimg.cc/pr69vh6W/rating-icons.png',
+      ratingNumber: '5',
+      ratingLabel: '40+ Reviews',
+      teamPhoto: 'https://i.postimg.cc/W1YrqCHw/craiyon-134252-image.png',
+      heroTexture: 'https://i.postimg.cc/QdQW2r95/hero.png',
+      trustRow: [
+        { title: 'Reliable Support', sub: 'On-site & Remote' },
+        { title: 'Experienced Team', sub: 'Professional. Skilled. Dedicated.' },
+        { title: 'Based in Mokopane', sub: 'Serving Businesses Across South Africa' }
+      ],
+      heroServices: [
+        { icon: 'https://i.postimg.cc/rsGGkQ96/re-resized-canvas-873x628.png', label: 'Software<br>Solutions' },
+        { icon: 'https://i.postimg.cc/ydZXfVgW/mobile-resized-canvas-873x628.png', label: 'Web & <br>Mobile' },
+        { icon: 'https://i.postimg.cc/pXZQccT8/ai-resized-canvas-873x628.png', label: 'AI Automation<br>&amp; Integrations' },
+        { icon: 'https://i.postimg.cc/MZ1mVp8z/call-resized-canvas-873x628.png', label: 'IT Support &amp;<br>Maintenance' },
+        { icon: 'https://i.postimg.cc/XYtrs9fS/software-resized-canvas-873x628.png', label: 'PC Repair<br>' }
+      ]
+    },
+
+    trusted: {
+      eyebrow: 'Trusted By',
+      title: 'Trusted By 50+ Businesses Nation Wide',
+      logos: [
+        { src: 'https://i.postimg.cc/ncxrP4Pr/funza.png', alt: 'Funza' },
+        { src: 'https://i.postimg.cc/3NF8TqcQ/innat.png', alt: 'Innat' },
+        { src: 'https://i.postimg.cc/m2VLp09n/mokopane-fm.png', alt: 'Mokopane FM' }
+      ]
+    },
+
+    services: {
+      eyebrow: 'What We Do',
+      title: 'Elevate Your Brand With Our Services',
+      sub: "Give your brand the makeover it deserves — we'll help you stand out with a look and service that catches eyes and wins hearts.",
+      items: [
+        {
+          icon: 'https://i.postimg.cc/rsGGkQ96/re-resized-canvas-873x628.png',
+          title: 'Software Solutions',
+          features: ['System automation', 'Tailored solutions', 'Cloud-based solutions', 'Integration capabilities', 'User-friendly interfaces']
+        },
+        {
+          icon: 'https://i.postimg.cc/ydZXfVgW/mobile-resized-canvas-873x628.png',
+          title: 'Web & Mobile Apps',
+          features: ['Mobile app creation', 'Mobile-responsive websites', 'Seamless integration', 'User-centric design', 'Agile development']
+        },
+        {
+          icon: 'https://i.postimg.cc/pXZQccT8/ai-resized-canvas-873x628.png',
+          title: 'AI Automation & Integrations',
+          features: ['Workflow automation', 'AI-powered chatbots', 'Third-party API integrations', 'Data syncing & pipelines', 'Custom AI-powered tools']
+        },
+        {
+          icon: 'https://i.postimg.cc/XYtrs9fS/software-resized-canvas-873x628.png',
+          title: 'PC Repair',
+          features: ['Hardware repair', 'Software diagnostics', 'System upgrades', 'Screen replacement', 'Refurbished device sales']
+        },
+        {
+          icon: 'https://i.postimg.cc/MZ1mVp8z/call-resized-canvas-873x628.png',
+          title: 'IT Support & Maintenance',
+          features: ['Network setup & monitoring', 'Data backup & recovery', 'Cybersecurity essentials', 'Remote & on-site support', 'Preventative maintenance plans']
+        },
+        {
+          icon: 'https://i.postimg.cc/Jzpq0YC5/design-resized-canvas-873x628.png',
+          title: 'Graphic Design',
+          features: ['Brand identity', 'Digital marketing assets', 'Creative direction', 'Signage & typography', 'Print materials']
+        }
+      ]
+    },
+
+    solutions: {
+      eyebrow: 'Featured Projects',
+      title: 'A Few Of Our Recent Builds',
+      sub: "From radio stations to e-commerce apps, here's a look at real platforms we've designed, built and continue to support.",
+      items: [
+        { tag: 'Live Radio Platform', title: 'Mokopane FM', image: 'https://i.postimg.cc/G2gmDzf7/mokopane.png', link: '#' },
+        { tag: 'Company Platform', title: 'Rare Grade Tech', image: 'https://i.postimg.cc/PJBf3JT8/rgt.png', link: '#' },
+        { tag: 'Web Platform', title: 'Afribaraka', image: 'https://i.postimg.cc/9F7Q4dYR/afr.png', link: '#' }
+      ]
+    },
+
+    showcase: {
+      eyebrow: 'Design & UI',
+      title: 'Interfaces Built To Perform',
+      sub: "Every project starts with a design that's clean, intuitive and true to your brand — before a single line of code ships.",
+      image: 'https://i.postimg.cc/Zn7Pb9zs/hh.png'
+    },
+
+    whyChooseUs: {
+      eyebrow: 'Why Choose Us',
+      title: 'Why Businesses Choose Rare Grade Tech',
+      sub: "We're a local team that builds like a bigger one — hands-on, reliable and invested in your results.",
+      image: 'https://i.postimg.cc/KvDg8dPC/why-choose-us.png',
+      items: [
+        { num: '01', title: 'Local & Reachable', desc: 'Based right here in Mokopane, with fast on-site and remote support whenever you need it.' },
+        { num: '02', title: 'Full-Stack Team', desc: 'From design to deployment, we handle every layer of your project under one roof.' },
+        { num: '03', title: 'Modern Technology', desc: 'We build with reliable, current tools — Firebase, cloud infrastructure and mobile-first frameworks.' },
+        { num: '04', title: 'Transparent Process', desc: 'Track progress, invoices and proposals in real time through your own client portal.' },
+        { num: '05', title: 'Fast Turnaround', desc: 'Agile development means you see working versions early, not just at the very end.' },
+        { num: '06', title: 'Ongoing Support', desc: "We don't disappear after launch — every project comes with continued maintenance and support." }
+      ]
+    },
+
+    process: {
+      eyebrow: 'How We Work',
+      title: 'Our Process',
+      sub: 'A clear, collaborative process from first conversation to launch — and beyond.',
+      steps: [
+        { num: '01', title: 'Discovery', desc: 'We learn about your business, goals, and project requirements to set a clear direction.', icon: 'https://i.postimg.cc/x1n2LcrV/discover.png', color: '#1118F5' },
+        { num: '02', title: 'Planning', desc: 'We define the strategy, timeline, and project roadmap for smooth execution.', icon: 'https://i.postimg.cc/TYrxyn40/p.png', color: '#0D12A0' },
+        { num: '03', title: 'Design', desc: 'We create intuitive, user-friendly, and modern interfaces that match your brand.', icon: 'https://i.postimg.cc/bNX8Nm3v/desi.png', color: '#3B4CFF' },
+        { num: '04', title: 'Development', desc: 'We build secure, scalable, and high-performance solutions with modern tech.', icon: 'https://i.postimg.cc/5NmGdgrT/dev.png', color: '#0404d8' },
+        { num: '05', title: 'Deployment', desc: 'We test, launch, and configure your solution for real-world success.', icon: 'https://i.postimg.cc/Zqq2bNN2/deployment.png', color: '#020084' },
+        { num: '06', title: 'Support', desc: 'We provide ongoing maintenance, updates, and technical support after launch.', icon: 'https://i.postimg.cc/ZKkc7NKg/support.png', color: '#0A0E5A' }
+      ]
+    },
+
+    testimonials: {
+      eyebrow: 'Testimonials',
+      title: 'What Our Clients Say',
+      sub: "A few words from the businesses we've worked with.",
+      items: [
+        { avatar: 'https://i.postimg.cc/pT18W69y/sara.png', name: 'Sarah', role: 'CEO Of Company', text: 'Rare Grade Tech took our vision and built exactly what we needed — professional, reliable and always ready to support us.', blue: false },
+        { avatar: 'https://i.postimg.cc/V5PJ5Qm7/cupcake.png', name: 'Cupcake', role: 'CEO Of Company', text: 'The team is fast, communicates clearly, and the client portal makes it easy to stay updated on progress.', blue: true },
+        { avatar: 'https://i.postimg.cc/1390sTMm/OUT-NOW(1).png', name: 'Home-Mad Djz', role: 'CEO Of Company', text: 'From concept to launch, everything was handled with care. Highly recommend them for any business looking to go digital.', blue: false }
+      ]
+    },
+
+    portal: {
+      eyebrow: 'Client Portal',
+      title: 'Manage Everything In One Place',
+      paragraph: 'Registering on our business portal gives you access to a personalized client dashboard, where you can easily manage invoices, track project progress, view proposals, access contracts, and get instant quotations.',
+      image: 'https://i.postimg.cc/2y6qgF2z/portal-image.png',
+      features: ['Manage invoices', 'Track project progress', 'View proposals & contracts', 'Get instant quotations'],
+      buttonLabel: 'Sign Up / Login',
+      buttonLink: 'https://dashboard.raregradetech.com/'
+    },
+
+    contact: {
+      eyebrow: 'Get In Touch',
+      title: "Let's Build Something Great",
+      sub: 'Contact us for a free consultation and quotation.',
+      items: [
+        { icon: 'phone', label: 'Call Us', value: '+27 61 527 0749' },
+        { icon: 'email', label: 'Email Us', value: 'info@raregradetech.com' },
+        { icon: 'pin', label: 'Visit Us', value: '69 Hooge Street, Mokopane, Limpopo, South Africa' },
+        { icon: 'clock', label: 'Business Hours', value: 'Mon – Fri: 8:00 – 17:00' }
+      ],
+      formHeading: 'Send Us A Message',
+      formIntro: "Fill in the form and we'll get back to you with a free consultation and quotation.",
+      formAction: 'mailto:info@raregradetech.com'
+    },
+
+    footer: {
+      brandDesc: 'Software, web & mobile apps, design and IT services for start-ups, businesses and individuals across South Africa.',
+      copyright1: 'Rare Grade Tech. All Rights Reserved.',
+      copyright2: '© Copyright 2025. All Rights Reserved. Rare Grade Tech.',
+      companyCol: { title: 'Company', links: [{ label: 'Home', href: '#home' }, { label: 'Services', href: '#services' }, { label: 'Featured Projects', href: '#solutions' }, { label: 'Contact Us', href: '#contact' }] },
+      exploreCol: { title: 'Explore', links: [{ label: 'Why Choose Us', href: '#why-choose-us' }, { label: 'How We Work', href: '#process' }, { label: 'Testimonials', href: '#testimonials' }, { label: 'Client Portal', href: '#portal' }] },
+      contactCol: {
+        title: 'Contact Info',
+        lines: [
+          { icon: 'pin', text: '69 Hooge Str, Mokopane, Limpopo, South Africa' },
+          { icon: 'clock', text: '08:00 – 17:00' },
+          { icon: 'phone', text: '+27 61 527 0749' },
+          { icon: 'email', text: 'admin@raregradetech.com' }
+        ]
+      }
+    },
+
+    portfolio: {
+      heroHeadline: 'OUR PORTFOLIO',
+      heroSubcopy: "Real client websites, web apps and mobile experiences — designed, built and shipped end-to-end. Filter by service below to see work in that category.",
+      heroCtaLabel: 'Explore Our Work',
+      sectionEyebrow: 'Selected Work',
+      sectionTitle: 'Featured Projects',
+      sectionSub: 'Every project below is a live, shipped build — not a template. Filter by category to see the kind of work we do in each area.',
+      emptyHeading: 'More work coming soon in this category',
+      emptyText: "We're always shipping — this category's case studies are on the way. In the meantime, tell us about your project and we'll show you exactly how we'd approach it.",
+      emptyCtaLabel: 'Start a Conversation',
+      tabs: [
+        { key: 'all', label: 'All Projects' },
+        { key: 'software', label: 'Software Solutions' },
+        { key: 'web-mobile', label: 'Web & Mobile Apps' },
+        { key: 'ai', label: 'AI Automation & Integrations' },
+        { key: 'pc-repair', label: 'PC Repair' },
+        { key: 'it-support', label: 'IT Support & Maintenance' },
+        { key: 'design', label: 'Graphic Design' }
+      ],
+      projects: [
+        {
+          indexLabel: '01 — Web & Mobile Apps',
+          title: 'Rare Grade Tech — Our Own Website',
+          desc: "The site you're on right now. A cinematic, single-page HTML build with an animated hero, sliding service tabs, live pricing filters and a client portal — the same fast, self-contained approach we build for every client.",
+          tags: ['web-mobile', 'design'],
+          categories: 'web-mobile design',
+          features: [
+            'Animated hero and sliding-pill service & pricing tabs',
+            'Single self-contained HTML file — no build step, loads fast',
+            'Fully responsive, from mobile through to widescreen desktop'
+          ],
+          ctaLabel: 'Start a Project Like This',
+          image: 'https://i.postimg.cc/nzKYRHG9/rgtwebsite.png'
+        },
+        {
+          indexLabel: '02 — Web & Mobile Apps',
+          title: 'Mokopane FM — 100.0 MHz Radio Station',
+          desc: '"The Voice of Mogalakwena" — a Firebase-powered station site with a live admin dashboard controlling the show lineup, photo carousel, news and sponsored ads, all editable in real time without touching code.',
+          tags: ['web-mobile', 'software'],
+          categories: 'web-mobile software',
+          features: [
+            'Admin-controlled show lineup, photo gallery and news feed',
+            'Rotating sponsor popup carousel with click & impression tracking',
+            'Live-listen player, shipped as one self-contained HTML file'
+          ],
+          ctaLabel: 'Start a Project Like This',
+          image: 'https://i.postimg.cc/rsQGTQHH/mkfmwebsite.png'
+        },
+        {
+          indexLabel: '03 — Web & Mobile Apps',
+          title: '1BUSKET — Premium Delivery, Web & Mobile',
+          desc: 'A Firebase-backed delivery and pickup platform with live vendor menus, real-time order tracking and distance-based fees — built as one fast, installable app-like experience across web and mobile.',
+          tags: ['web-mobile', 'software'],
+          categories: 'web-mobile software',
+          features: [
+            'Real-time vendor menus and live order tracking via Firebase',
+            'Delivery/pickup toggle with dynamic, distance-based fee calculation',
+            'Cart, checkout and order history, installable without an app store'
+          ],
+          ctaLabel: 'Start a Project Like This',
+          image: 'https://i.postimg.cc/2y8v0n5F/1busket.png'
+        }
+      ],
+      ctaBanner: {
+        title: 'Have a Project in Mind?',
+        text: "Tell us what you're building — website, app or platform — and we'll show you how we'd approach it, with clear pricing and a realistic timeline.",
+        primaryLabel: 'Start Your Project',
+        primaryLink: 'contact.html',
+        secondaryLabel: 'View Our Services',
+        secondaryLink: 'services.html'
+      }
+    }
+  };
+
+  function deepMerge(base, override) {
+    if (Array.isArray(base)) {
+      return Array.isArray(override) ? override : base;
+    }
+    if (base && typeof base === 'object' && override && typeof override === 'object') {
+      var out = {};
+      var keys = Object.keys(base);
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        if (k in override) out[k] = deepMerge(base[k], override[k]);
+        else out[k] = base[k];
+      }
+      // include any extra keys from override
+      var okeys = Object.keys(override);
+      for (var j = 0; j < okeys.length; j++) {
+        if (!(okeys[j] in out)) out[okeys[j]] = override[okeys[j]];
+      }
+      return out;
+    }
+    return (override === undefined) ? base : override;
+  }
+
+  function getContent() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+      var parsed = JSON.parse(raw);
+      return deepMerge(DEFAULT_CONTENT, parsed);
+    } catch (e) {
+      return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+    }
+  }
+
+  function saveContent(content) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+    } catch (e) {}
+    broadcast(content);
+  }
+
+  function resetContent() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    var c = JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+    broadcast(c);
+    return c;
+  }
+
+  var channel = null;
+  try { channel = new BroadcastChannel(CHANNEL); } catch (e) {}
+
+  function broadcast(content) {
+    if (channel) {
+      try { channel.postMessage({ type: 'rgt-update', content: content }); } catch (e) {}
+    }
+    // storage event also fires for other tabs automatically
+  }
+
+  // Subscribe to live updates. callback(content) called on any change.
+  function subscribe(callback) {
+    if (channel) {
+      channel.onmessage = function (ev) {
+        if (ev.data && ev.data.type === 'rgt-update') {
+          callback(ev.data.content);
+        }
+      };
+    }
+    window.addEventListener('storage', function (ev) {
+      if (ev.key === STORAGE_KEY) {
+        try { callback(JSON.parse(ev.newValue)); } catch (e) {}
+      }
+    });
+  }
+
+  global.RGTContent = {
+    DEFAULT_CONTENT: DEFAULT_CONTENT,
+    getContent: getContent,
+    saveContent: saveContent,
+    resetContent: resetContent,
+    subscribe: subscribe,
+    STORAGE_KEY: STORAGE_KEY
+  };
+
+})(window);
+
+</script>
+
+<!-- render.js : Public page renderer (renders data into home/portfolio DOM) -->
+<script>
+/* =====================================================================
+   Rare Grade Tech — Public Page Renderer
+   Renders data-driven content into home.html / portfolio.html DOM,
+   and re-renders live when content updates (real-time sync).
+   ===================================================================== */
+(function (global) {
+  'use strict';
+
+  function esc(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  // allow controlled HTML (br, strong, em, span)
+  function safeHTML(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+  }
+
+  var ICONS = {
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6c0-1.1-.9-2-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6z"/><path d="m22 6-10 7L2 6"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    quote: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2H7v-1c0-1.7 1.3-3 3-3V6c-2.8 0-5 2.2-5 5v1h1zm10 0c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2h-1v-1c0-1.7 1.3-3 3-3V6c-2.8 0-5 2.2-5 5v1h1z"/></svg>',
+    fb: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8.5H16l.5-3.5h-3V7.7c0-1 .3-1.7 1.7-1.7H16.5V2.8C16 2.75 15 2.7 13.9 2.7c-2.4 0-4 1.45-4 4.1V10H7.4v3.5H10V22h3.5z"/></svg>',
+    ig: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>',
+    yt: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10.5 9.5v5l4.5-2.5z" fill="currentColor" stroke="none"/></svg>',
+    tu: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14.7 21.3c-3 0-4.9-1.7-4.9-4.6V11h-2.3V8.4c2.4-.6 3.4-2.7 3.5-4.7h2.6v4.4h3v3h-3v5c0 1.2.6 1.9 1.8 1.9.5 0 1-.1 1.3-.3l.7 2.9c-.6.3-1.7.6-2.7.6z"/></svg>'
+  };
+
+  function svg(name) { return ICONS[name] || ''; }
+
+  function setText(el, text) { if (el) el.textContent = text; }
+  function setHTML(el, html) { if (el) el.innerHTML = html; }
+  function setAttr(el, attr, val) { if (el) el.setAttribute(attr, val); }
+  function setSrc(el, src) { if (el) el.src = src; }
+  function setHref(el, href) { if (el) el.href = href; }
+
+  /* ---------- HOME PAGE RENDER ---------- */
+  function renderHome(c) {
+    var s = c.settings, h = c.hero;
+
+    // Utility bar
+    var ub = document.querySelector('.utility-bar');
+    if (ub) {
+      var ul = ub.querySelector('.utility-left');
+      if (ul) {
+        ul.innerHTML =
+          '<a class="utility-item" href="' + esc(s.phoneHref) + '" aria-label="Call ' + esc(s.phone) + '">' + svg('phone') + '<span>' + esc(s.phone) + '</span></a>' +
+          '<a class="utility-item" href="' + esc(s.emailHref) + '" aria-label="Email">' + svg('email') + '<span>' + esc(s.email) + '</span></a>' +
+          '<span class="utility-item">' + svg('clock') + '<span>' + esc(s.hours) + '</span></span>' +
+          '<span class="utility-item">' + svg('pin') + '<span>' + esc(s.address) + '</span></span>';
+      }
+      var us = ub.querySelector('.utility-social');
+      if (us) {
+        us.innerHTML =
+          '<a href="' + esc(s.facebook) + '" aria-label="Facebook">' + ICONS.fb + '</a>' +
+          '<a href="' + esc(s.instagram) + '" aria-label="Instagram">' + ICONS.ig + '</a>' +
+          '<a href="' + esc(s.youtube) + '" aria-label="YouTube">' + ICONS.yt + '</a>' +
+          '<a href="' + esc(s.tumblr) + '" aria-label="Tumblr">' + ICONS.tu + '</a>';
+      }
+    }
+
+    // Nav logo
+    document.querySelectorAll('.logo-image').forEach(function (img) { img.src = s.logo; img.alt = s.brandName; });
+
+    // Hero
+    setText(document.querySelector('.hero-left .badge'), h.badge);
+    var hl = document.querySelector('.hero-left .headline');
+    if (hl) hl.innerHTML = esc(h.headline1) + '<br><span class="headline-l2">' + esc(h.headline2) + '</span>';
+    setText(document.querySelector('.hero-left .subcopy'), h.subcopy);
+
+    var ctaRow = document.querySelector('.hero-left .cta-row');
+    if (ctaRow) {
+      var pri = ctaRow.querySelector('.btn-primary');
+      var sec = ctaRow.querySelector('.btn-secondary');
+      if (pri) { pri.textContent = h.ctaPrimaryLabel; pri.setAttribute('href', h.ctaPrimaryLink); }
+      if (sec) { sec.textContent = h.ctaSecondaryLabel; sec.setAttribute('href', h.ctaSecondaryLink); }
+    }
+
+    var ratingImg = document.querySelector('.rating-icons-img');
+    if (ratingImg) ratingImg.src = h.ratingIcons;
+    setText(document.querySelector('.rating-number'), h.ratingNumber);
+    setText(document.querySelector('.rating-label'), h.ratingLabel);
+
+    var tp = document.querySelector('.team-photo');
+    if (tp) { tp.src = h.teamPhoto; tp.alt = s.brandName; }
+    var ht = document.querySelector('.hero-texture');
+    if (ht) ht.style.backgroundImage = "url('" + h.heroTexture + "')";
+
+    // Hero services card
+    var sc = document.querySelector('.services-card');
+    if (sc) {
+      sc.innerHTML = h.heroServices.map(function (it) {
+        return '<div class="service-item"><span class="service-icon"><img src="' + esc(it.icon) + '" loading="lazy" /></span><span>' + safeHTML(it.label) + '</span></div>';
+      }).join('');
+    }
+
+    // Trust row
+    var tr = document.querySelector('.trust-row');
+    if (tr) {
+      tr.innerHTML = h.trustRow.map(function (t) {
+        return '<div class="trust-item"><span class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><span><div class="t-title">' + esc(t.title) + '</div><div class="t-sub">' + esc(t.sub) + '</div></span></div>';
+      }).join('');
+    }
+
+    // Trusted logos
+    var tlh = document.querySelector('.trusted-logos-head');
+    if (tlh) {
+      tlh.innerHTML = '<span class="eyebrow">' + esc(c.trusted.eyebrow) + '</span><h3 class="trusted-logos-title">' + esc(c.trusted.title) + '</h3>';
+    }
+    var lm = document.querySelector('.logo-marquee');
+    if (lm) {
+      var logosHtml = c.trusted.logos.map(function (l) {
+        return '<div class="logo-item"><img src="' + esc(l.src) + '" alt="' + esc(l.alt) + '" loading="lazy" /></div>';
+      }).join('');
+      lm.innerHTML = '<div class="logo-track" aria-hidden="false">' + logosHtml + '</div><div class="logo-track" aria-hidden="true">' + logosHtml + '</div>';
+      // re-init marquee
+      if (global.RGTInitTrusted) global.RGTInitTrusted();
+    }
+
+    // Services section
+    renderSectionHead('#services .section-head', c.services.eyebrow, c.services.title, c.services.sub);
+    var sg = document.querySelector('#services .grid-4');
+    if (sg) {
+      sg.innerHTML = c.services.items.map(function (it) {
+        var feats = it.features.map(function (f) {
+          return '<li>' + ICONS.check + esc(f) + '</li>';
+        }).join('');
+        return '<div class="service-card"><div class="icon-badge"><img src="' + esc(it.icon) + '" alt="' + esc(it.title) + ' icon" loading="lazy" /></div><h3>' + esc(it.title) + '</h3><ul>' + feats + '</ul><div class="service-more-btn"><a href="#" class="btn btn-outline btn-sm"><span class="label">See More</span>' + ICONS.arrow + '</a></div></div>';
+      }).join('');
+      // re-attach see-more swallow
+      document.querySelectorAll('#services .service-more-btn a').forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); });
+      });
+      // re-observe reveals
+      observeReveals('#services .service-card');
+    }
+
+    // Solutions / Featured projects
+    renderSectionHead('#solutions .section-head', c.solutions.eyebrow, c.solutions.title, c.solutions.sub);
+    var sol = document.querySelector('#solutions .grid-4');
+    if (sol) {
+      sol.innerHTML = c.solutions.items.map(function (it, i) {
+        return '<div class="solution-card reveal" style="--d:' + (i * 0.1) + 's"><div class="sc-image"><div class="sc-glow" aria-hidden="true"></div><img src="' + esc(it.image) + '" alt="' + esc(it.title) + '" loading="lazy" /></div><div class="sc-panel"><div class="sc-info"><span class="sc-tag">' + esc(it.tag) + '</span><h3>' + esc(it.title) + '</h3></div><a href="' + esc(it.link) + '" class="sc-action" aria-label="View ' + esc(it.title) + ' project">' + ICONS.arrow + '</a></div></div>';
+      }).join('');
+      document.querySelectorAll('#solutions .sc-action').forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); });
+      });
+      observeReveals('#solutions .solution-card');
+    }
+
+    // Showcase
+    renderSectionHead('#showcase .section-head', c.showcase.eyebrow, c.showcase.title, c.showcase.sub);
+    var showImg = document.querySelector('.mockup-frame img');
+    if (showImg) showImg.src = c.showcase.image;
+
+    // Why choose us
+    renderSectionHead('#why-choose-us .section-head', c.whyChooseUs.eyebrow, c.whyChooseUs.title, c.whyChooseUs.sub);
+    var whyImg = document.querySelector('.why-left img');
+    if (whyImg) whyImg.src = c.whyChooseUs.image;
+    var lisg = document.querySelector('.lis-grid');
+    if (lisg) {
+      lisg.innerHTML = c.whyChooseUs.items.map(function (it) {
+        return '<div class="lis-card"><div class="lis-tab"><span class="lis-tab-num">' + esc(it.num) + '</span></div><div class="lis-content"><h4>' + esc(it.title) + '</h4><p>' + esc(it.desc) + '</p></div></div>';
+      }).join('');
+    }
+
+    // Process
+    renderSectionHead('#process .section-head', c.process.eyebrow, c.process.title, c.process.sub);
+    var pf = document.querySelector('#process .process-flow');
+    if (pf) {
+      pf.innerHTML = c.process.steps.map(function (st) {
+        return '<div class="process-node" style="--num-color:' + esc(st.color) + '"><div class="process-num">' + esc(st.num) + '</div><div class="process-card"><h3 class="process-title">' + esc(st.title) + '</h3><p class="process-desc">' + esc(st.desc) + '</p><div class="process-icon"><img src="' + esc(st.icon) + '" alt="' + esc(st.title) + ' icon" loading="lazy" /></div></div></div>';
+      }).join('');
+    }
+
+    // Testimonials
+    renderSectionHead('#testimonials .section-head', c.testimonials.eyebrow, c.testimonials.title, c.testimonials.sub);
+    var tt = document.getElementById('testimonialTrack');
+    if (tt) {
+      tt.innerHTML = c.testimonials.items.map(function (t) {
+        var stars = '<span>★</span>'.repeat(5);
+        var cls = t.blue ? 't-card t-card--blue' : 't-card';
+        return '<div class="' + cls + '"><div class="t-avatar-wrap"><img class="t-avatar-img" src="' + esc(t.avatar) + '" alt="' + esc(t.name) + '" loading="lazy" /></div><div class="t-stars">' + stars + '</div><h4 class="t-name">' + esc(t.name) + '</h4><div class="t-role">' + esc(t.role) + '</div><div class="t-quote">' + ICONS.quote + '</div><p class="t-text">' + esc(t.text) + '</p></div>';
+      }).join('');
+      if (global.RGTInitTestimonials) global.RGTInitTestimonials();
+    }
+
+    // Portal
+    var pc = document.querySelector('.portal-copy');
+    if (pc) {
+      pc.querySelector('.eyebrow').textContent = c.portal.eyebrow;
+      pc.querySelector('h2').textContent = c.portal.title;
+      pc.querySelector('p').textContent = c.portal.paragraph;
+      var pf2 = pc.querySelector('.portal-features');
+      if (pf2) {
+        pf2.innerHTML = c.portal.features.map(function (f) {
+          return '<div class="pf-item">' + ICONS.check + esc(f) + '</div>';
+        }).join('');
+      }
+      var pbtn = pc.querySelector('.cta-row .btn');
+      if (pbtn) { pbtn.textContent = c.portal.buttonLabel; pbtn.setAttribute('href', c.portal.buttonLink); }
+    }
+    var pimg = document.querySelector('.portal-image img');
+    if (pimg) pimg.src = c.portal.image;
+
+    // Contact
+    renderSectionHead('#contact .section-head', c.contact.eyebrow, c.contact.title, c.contact.sub);
+    var ci = document.querySelector('.contact-info');
+    if (ci) {
+      ci.innerHTML = c.contact.items.map(function (it) {
+        return '<div class="contact-info-item"><span class="icon-wrap">' + svg(it.icon) + '</span><div><h4>' + esc(it.label) + '</h4><p>' + esc(it.value) + '</p></div></div>';
+      }).join('') + '<div class="contact-social"><a href="' + esc(s.facebook) + '" aria-label="Facebook">' + ICONS.fb + '</a><a href="' + esc(s.instagram) + '" aria-label="Instagram">' + ICONS.ig + '</a><a href="' + esc(s.youtube) + '" aria-label="YouTube">' + ICONS.yt + '</a><a href="' + esc(s.tumblr) + '" aria-label="Tumblr">' + ICONS.tu + '</a></div>';
+    }
+    var cf = document.querySelector('.contact-form');
+    if (cf) {
+      cf.setAttribute('action', c.contact.formAction);
+      var cfh = cf.querySelector('h3'); if (cfh) cfh.textContent = c.contact.formHeading;
+      var cfp = cf.querySelector('p'); if (cfp) cfp.textContent = c.contact.formIntro;
+    }
+
+    // Footer
+    renderFooter(c);
+  }
+
+  function renderSectionHead(sel, eyebrow, title, sub) {
+    var sh = document.querySelector(sel);
+    if (!sh) return;
+    sh.innerHTML = '<span class="eyebrow">' + esc(eyebrow) + '</span><h2 class="section-title">' + esc(title) + '</h2><p class="section-sub">' + esc(sub) + '</p>';
+  }
+
+  function renderFooter(c) {
+    var s = c.settings;
+    var fb = document.querySelector('.footer-brand');
+    if (fb) {
+      var p = fb.querySelector('p'); if (p) p.textContent = c.footer.brandDesc;
+      var fs = fb.querySelector('.footer-social');
+      if (fs) {
+        fs.innerHTML = '<a href="' + esc(s.facebook) + '" aria-label="Facebook">' + ICONS.fb + '</a><a href="' + esc(s.instagram) + '" aria-label="Instagram">' + ICONS.ig + '</a><a href="' + esc(s.youtube) + '" aria-label="YouTube">' + ICONS.yt + '</a><a href="' + esc(s.tumblr) + '" aria-label="Tumblr">' + ICONS.tu + '</a>';
+      }
+    }
+    var cols = document.querySelectorAll('.footer-col');
+    if (cols[0]) {
+      cols[0].innerHTML = '<h5>' + esc(c.footer.companyCol.title) + '</h5><ul>' + c.footer.companyCol.links.map(function (l) {
+        return '<li><a href="' + esc(l.href) + '">' + esc(l.label) + '</a></li>';
+      }).join('') + '</ul>';
+    }
+    if (cols[1]) {
+      cols[1].innerHTML = '<h5>' + esc(c.footer.exploreCol.title) + '</h5><ul>' + c.footer.exploreCol.links.map(function (l) {
+        return '<li><a href="' + esc(l.href) + '">' + esc(l.label) + '</a></li>';
+      }).join('') + '</ul>';
+    }
+    if (cols[2]) {
+      cols[2].innerHTML = '<h5>' + esc(c.footer.contactCol.title) + '</h5><ul class="footer-contact">' + c.footer.contactCol.lines.map(function (l) {
+        return '<li>' + svg(l.icon) + esc(l.text) + '</li>';
+      }).join('') + '</ul>';
+    }
+    var fbBottom = document.querySelector('.footer-bottom');
+    if (fbBottom) {
+      fbBottom.innerHTML = '<span>© <span id="year"></span> ' + esc(c.footer.copyright1) + '</span><span>' + esc(c.footer.copyright2) + '</span>';
+      var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
+    }
+  }
+
+  /* ---------- PORTFOLIO PAGE RENDER ---------- */
+  function renderPortfolio(c) {
+    var s = c.settings, p = c.portfolio;
+
+    // Utility bar + nav (same as home)
+    var ub = document.querySelector('.utility-bar');
+    if (ub) {
+      var ul = ub.querySelector('.utility-left');
+      if (ul) {
+        ul.innerHTML =
+          '<a class="utility-item" href="' + esc(s.phoneHref) + '">' + svg('phone') + '<span>' + esc(s.phone) + '</span></a>' +
+          '<a class="utility-item" href="' + esc(s.emailHref) + '">' + svg('email') + '<span>' + esc(s.email) + '</span></a>' +
+          '<span class="utility-item">' + svg('clock') + '<span>' + esc(s.hours) + '</span></span>' +
+          '<span class="utility-item">' + svg('pin') + '<span>' + esc(s.address) + '</span></span>';
+      }
+      var us = ub.querySelector('.utility-social');
+      if (us) {
+        us.innerHTML = '<a href="' + esc(s.facebook) + '" aria-label="Facebook">' + ICONS.fb + '</a><a href="' + esc(s.instagram) + '" aria-label="Instagram">' + ICONS.ig + '</a><a href="' + esc(s.youtube) + '" aria-label="YouTube">' + ICONS.yt + '</a><a href="' + esc(s.tumblr) + '" aria-label="Tumblr">' + ICONS.tu + '</a>';
+      }
+    }
+    document.querySelectorAll('.logo-image').forEach(function (img) { img.src = s.logo; img.alt = s.brandName; });
+
+    // Hero
+    setText(document.querySelector('.hero--portfolio .headline'), p.heroHeadline);
+    setText(document.querySelector('.hero--portfolio .subcopy'), p.heroSubcopy);
+    var hcta = document.querySelector('.hero--portfolio .hero-cta .btn');
+    if (hcta) {
+      var span = hcta.querySelector('span'); if (span) span.textContent = p.heroCtaLabel;
+    }
+
+    // Section head
+    renderSectionHead('#portfolio .section-head', p.sectionEyebrow, p.sectionTitle, p.sectionSub);
+
+    // Tabs
+    var tabs = document.getElementById('portTabs');
+    if (tabs) {
+      tabs.innerHTML = '<span class="svc-tab-indicator" id="portTabIndicator" aria-hidden="true"></span>' +
+        p.tabs.map(function (t, i) {
+          return '<button type="button" class="svc-tab' + (i === 0 ? ' is-active' : '') + '" data-svc="' + esc(t.key) + '">' + esc(t.label) + '</button>';
+        }).join('');
+    }
+
+    // Empty state
+    var pe = document.getElementById('portEmpty');
+    if (pe) {
+      pe.innerHTML = '<h3>' + esc(p.emptyHeading) + '</h3><p>' + esc(p.emptyText) + '</p><a class="btn btn-block-ink" href="contact.html"><span>' + esc(p.emptyCtaLabel) + '</span>' + ICONS.arrow + '</a>';
+    }
+
+    // Projects
+    var pl = document.getElementById('portList');
+    if (pl) {
+      pl.innerHTML = p.projects.map(function (pr, i) {
+        var altClass = (i % 2 === 1) ? ' alt' : '';
+        var feats = pr.features.map(function (f) {
+          return '<li>' + ICONS.check + esc(f) + '</li>';
+        }).join('');
+        return '<div class="port-section' + altClass + ' reveal" data-categories="' + esc(pr.categories) + '"><div class="wrap port-grid"><div class="port-text"><span class="port-index">' + esc(pr.indexLabel) + '</span><h3 class="port-title">' + esc(pr.title) + '</h3><p class="port-desc">' + esc(pr.desc) + '</p><ul class="port-examples">' + feats + '</ul><a class="btn btn-block-ink port-cta" href="contact.html"><span>' + esc(pr.ctaLabel) + '</span>' + ICONS.arrow + '</a></div><div class="port-media"><img src="' + esc(pr.image) + '" alt="' + esc(pr.title) + '" loading="lazy" /></div></div></div>';
+      }).join('');
+    }
+
+    // CTA banner
+    var cb = document.querySelector('.port-cta-banner');
+    if (cb) {
+      cb.innerHTML = '<h2>' + esc(p.ctaBanner.title) + '</h2><p>' + esc(p.ctaBanner.text) + '</p><div class="port-cta-actions"><a class="btn btn-secondary" href="' + esc(p.ctaBanner.primaryLink) + '">' + esc(p.ctaBanner.primaryLabel) + '</a><a class="btn btn-outline" href="' + esc(p.ctaBanner.secondaryLink) + '">' + esc(p.ctaBanner.secondaryLabel) + '</a></div>';
+    }
+
+    // Footer
+    renderFooter(c);
+
+    // Re-init portfolio filter logic
+    if (global.RGTInitPortfolioFilter) global.RGTInitPortfolioFilter();
+    observeReveals('#portList .port-section');
+  }
+
+  /* ---------- Reveal observer helper ---------- */
+  function observeReveals(selector) {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll(selector).forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll(selector).forEach(function (el) { obs.observe(el); });
+  }
+
+  global.RGTRender = {
+    renderHome: renderHome,
+    renderPortfolio: renderPortfolio,
+    observeReveals: observeReveals,
+    ICONS: ICONS
+  };
+
+})(window);
+
+</script>
+
+<!-- site-runtime.js : Site runtime glue (initial render + live subscription; no-op on dashboard page) -->
+<script>
+/* =====================================================================
+   Rare Grade Tech — Site Runtime glue
+   Exposes re-init functions for marquees / portfolio filter so that
+   render.js can re-initialise them after a live content update.
+   Also performs the initial render + subscribes to live updates.
+   ===================================================================== */
+(function (global) {
+  'use strict';
+
+  function isHome() { return !!document.querySelector('.hero#home, #home.hero, section.hero#home') || document.body.getAttribute('data-page') === 'home'; }
+  function isPortfolio() { return document.body.getAttribute('data-page') === 'portfolio' || !!document.querySelector('.hero--portfolio'); }
+
+  // ---- Trusted logos marquee (extracted from inline script, re-initable) ----
+  global.RGTInitTrusted = function () {
+    var marquee = document.querySelector('#trusted-logos .logo-marquee, .trusted-logos .logo-marquee');
+    if (!marquee) return;
+    var tracks = marquee.querySelectorAll('.logo-track');
+    if (!tracks.length) return;
+    var firstTrack = tracks[0];
+    if (tracks.length > 1) { for (var i = 1; i < tracks.length; i++) tracks[i].remove(); }
+    var track = marquee.querySelector('.logo-track');
+    if (!track) return;
+    track.id = 'trustedTrack';
+    marquee.id = 'trustedMarquee';
+    var originalItems = Array.from(track.children);
+    if (!originalItems.length) return;
+    for (var k = 0; k < 2; k++) {
+      originalItems.forEach(function (item) {
+        var clone = item.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      });
+    }
+    var x = 0, baseSpeed = 0.8, currentSpeed = baseSpeed, targetSpeed = baseSpeed;
+    var isHovering = false, rafId = null, halfWidth = 0, isDragging = false, startX = 0, startTranslate = 0;
+    function calcHalf() {
+      var w = 0;
+      for (var i = 0; i < originalItems.length; i++) {
+        var el = track.children[i]; if (!el) continue;
+        w += el.getBoundingClientRect().width + 72;
+      }
+      halfWidth = w;
+    }
+    var easeOut = 0.02, easeIn = 0.05;
+    function animate() {
+      var lerp = (targetSpeed < currentSpeed) ? easeOut : easeIn;
+      currentSpeed += (targetSpeed - currentSpeed) * lerp;
+      if (Math.abs(targetSpeed - currentSpeed) < 0.01) { if (targetSpeed === 0) currentSpeed = Math.max(0, currentSpeed - 0.01); }
+      if (!isDragging) { x -= currentSpeed; if (Math.abs(x) >= halfWidth) x = 0; track.style.transform = 'translate3d(' + x + 'px,0,0)'; }
+      rafId = requestAnimationFrame(animate);
+    }
+    marquee.addEventListener('mouseenter', function () { isHovering = true; targetSpeed = 0; });
+    marquee.addEventListener('mouseleave', function () { isHovering = false; if (!isDragging) targetSpeed = baseSpeed; });
+    marquee.addEventListener('mousedown', function (e) { isDragging = true; startX = e.clientX; startTranslate = x; marquee.style.cursor = 'grabbing'; targetSpeed = 0; });
+    window.addEventListener('mousemove', function (e) { if (!isDragging) return; x = startTranslate + (e.clientX - startX); track.style.transform = 'translate3d(' + x + 'px,0,0)'; });
+    window.addEventListener('mouseup', function () { if (!isDragging) return; isDragging = false; marquee.style.cursor = 'grab'; if (x > 0) x = 0; if (Math.abs(x) >= halfWidth) x = x % halfWidth; if (!isHovering) targetSpeed = baseSpeed; });
+    marquee.addEventListener('touchstart', function (e) { isDragging = true; startX = e.touches[0].clientX; startTranslate = x; targetSpeed = 0; }, { passive: true });
+    window.addEventListener('touchmove', function (e) { if (!isDragging) return; x = startTranslate + (e.touches[0].clientX - startX); track.style.transform = 'translate3d(' + x + 'px,0,0)'; }, { passive: true });
+    window.addEventListener('touchend', function () { if (!isDragging) return; isDragging = false; if (!isHovering) targetSpeed = baseSpeed; if (x > 0) x = 0; if (Math.abs(x) >= halfWidth) x = x % halfWidth; });
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { if (entry.isIntersecting) { if (!rafId) animate(); } else { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } } });
+    }, { threshold: 0.1 });
+    observer.observe(marquee);
+    window.addEventListener('resize', calcHalf);
+    window.addEventListener('load', calcHalf);
+    calcHalf(); animate();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { baseSpeed = 0.3; targetSpeed = baseSpeed; currentSpeed = baseSpeed; }
+  };
+
+  // ---- Testimonials marquee (re-initable) ----
+  global.RGTInitTestimonials = function () {
+    var marquee = document.getElementById('testimonialMarquee');
+    var track = document.getElementById('testimonialTrack');
+    if (!marquee || !track) return;
+    var originalCards = Array.from(track.children);
+    if (!originalCards.length) return;
+    for (var i = 0; i < 2; i++) {
+      originalCards.forEach(function (card) {
+        var clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      });
+    }
+    var x = 0, baseSpeed = 0.6, currentSpeed = baseSpeed, targetSpeed = baseSpeed;
+    var isHovering = false, rafId = null, halfWidth = 0, isDragging = false, startX = 0, startTranslate = 0;
+    function calcHalf() {
+      var w = 0;
+      for (var i = 0; i < originalCards.length; i++) {
+        var el = track.children[i]; if (el) w += el.getBoundingClientRect().width + 28;
+      }
+      halfWidth = w;
+    }
+    var easeOut = 0.02, easeIn = 0.05;
+    function animate() {
+      var lerp = (targetSpeed < currentSpeed) ? easeOut : easeIn;
+      currentSpeed += (targetSpeed - currentSpeed) * lerp;
+      if (Math.abs(targetSpeed - currentSpeed) < 0.01) { if (targetSpeed === 0) currentSpeed = Math.max(0, currentSpeed - 0.01); }
+      if (!isDragging) { x -= currentSpeed; if (Math.abs(x) >= halfWidth) x = 0; track.style.transform = 'translate3d(' + x + 'px,0,0)'; }
+      rafId = requestAnimationFrame(animate);
+    }
+    marquee.addEventListener('mouseenter', function () { isHovering = true; targetSpeed = 0; });
+    marquee.addEventListener('mouseleave', function () { isHovering = false; if (!isDragging) targetSpeed = baseSpeed; });
+    marquee.addEventListener('mousedown', function (e) { isDragging = true; startX = e.clientX; startTranslate = x; marquee.style.cursor = 'grabbing'; targetSpeed = 0; });
+    window.addEventListener('mousemove', function (e) { if (!isDragging) return; x = startTranslate + (e.clientX - startX); track.style.transform = 'translate3d(' + x + 'px,0,0)'; });
+    window.addEventListener('mouseup', function () { if (!isDragging) return; isDragging = false; marquee.style.cursor = 'grab'; if (x > 0) x = 0; if (Math.abs(x) >= halfWidth) x = x % halfWidth; if (!isHovering) targetSpeed = baseSpeed; });
+    marquee.addEventListener('touchstart', function (e) { isDragging = true; startX = e.touches[0].clientX; startTranslate = x; targetSpeed = 0; }, { passive: true });
+    window.addEventListener('touchmove', function (e) { if (!isDragging) return; x = startTranslate + (e.touches[0].clientX - startX); track.style.transform = 'translate3d(' + x + 'px,0,0)'; }, { passive: true });
+    window.addEventListener('touchend', function () { if (!isDragging) return; isDragging = false; if (!isHovering) targetSpeed = baseSpeed; if (x > 0) x = 0; if (Math.abs(x) >= halfWidth) x = x % halfWidth; });
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { if (entry.isIntersecting) { if (!rafId) animate(); } else { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } } });
+    }, { threshold: 0.1 });
+    observer.observe(marquee);
+    window.addEventListener('resize', calcHalf);
+    window.addEventListener('load', calcHalf);
+    calcHalf(); animate();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { baseSpeed = 0.25; targetSpeed = baseSpeed; currentSpeed = baseSpeed; }
+  };
+
+  // ---- Portfolio filter (re-initable) ----
+  global.RGTInitPortfolioFilter = function () {
+    var wrap = document.getElementById('portTabs');
+    var indicator = document.getElementById('portTabIndicator');
+    var tabs = Array.from(document.querySelectorAll('#portTabs .svc-tab'));
+    var sections = Array.from(document.querySelectorAll('.port-section'));
+    var emptyState = document.getElementById('portEmpty');
+    if (!tabs.length) return;
+
+    function moveIndicator(btn) {
+      if (!indicator || !wrap || !btn) return;
+      var wrapRect = wrap.getBoundingClientRect();
+      var btnRect = btn.getBoundingClientRect();
+      indicator.style.width = btnRect.width + 'px';
+      indicator.style.height = btnRect.height + 'px';
+      indicator.style.transform = 'translate(' + (btnRect.left - wrapRect.left) + 'px,' + (btnRect.top - wrapRect.top) + 'px)';
+    }
+    function applyFilter(key) {
+      tabs.forEach(function (t) { t.classList.toggle('is-active', t.dataset.svc === key); });
+      var visibleCount = 0;
+      sections.forEach(function (sec) {
+        var cats = (sec.dataset.categories || '').split(' ');
+        var show = key === 'all' || cats.includes(key);
+        sec.classList.toggle('is-hidden', !show);
+        if (show) visibleCount++;
+      });
+      if (emptyState) emptyState.classList.toggle('is-visible', visibleCount === 0);
+      var activeTab = document.querySelector('#portTabs .svc-tab[data-svc="' + key + '"]');
+      moveIndicator(activeTab);
+    }
+    tabs.forEach(function (t) { t.addEventListener('click', function () { applyFilter(t.dataset.svc); }); });
+    var initialActive = document.querySelector('#portTabs .svc-tab.is-active') || tabs[0];
+    moveIndicator(initialActive);
+    requestAnimationFrame(function () { wrap.classList.add('is-ready'); });
+    window.addEventListener('resize', function () {
+      var current = document.querySelector('#portTabs .svc-tab.is-active') || tabs[0];
+      moveIndicator(current);
+    });
+  };
+
+  // ---- Initial render + live subscription ----
+  function doRender() {
+    var c = global.RGTContent.getContent();
+    if (isHome()) global.RGTRender.renderHome(c);
+    if (isPortfolio()) global.RGTRender.renderPortfolio(c);
+  }
+
+  function init() {
+    doRender();
+    // subscribe to live updates from the dashboard
+    global.RGTContent.subscribe(function (content) {
+      if (isHome()) global.RGTRender.renderHome(content);
+      if (isPortfolio()) global.RGTRender.renderPortfolio(content);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})(window);
+
+</script>
+
+<!-- dash.js : Admin dashboard application logic -->
+<script>
+/* =====================================================================
+   Rare Grade Tech — Admin Dashboard Engine
+   ---------------------------------------------------------------------
+   - Login gate (password from settings.adminPassword)
+   - Sidebar nav + section editors for every editable content group
+   - Every save → RGTContent.saveContent() → localStorage + BroadcastChannel
+     → public pages (home.html / portfolio.html) update in real-time
+   ===================================================================== */
+
+(function () {
+  'use strict';
+
+  var C = null;            // current working content (deep clone of getContent)
+  var NAV = [];            // navigation model
+  var currentSection = '';
+  var dirty = false;
+
+  /* ---------- small helpers ---------- */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function val(el) { return el ? el.value : ''; }
+  function setVal(el, v) { if (el) el.value = (v == null ? '' : v); }
+
+  function toast(msg) {
+    var t = $('#toast');
+    $('#toast-text').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  /* ---------- SVG icons for nav + buttons ---------- */
+  var IC = {
+    settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+    hero: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>',
+    services: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>',
+    projects: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+    why: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>',
+    process: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+    testimonials: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>',
+    portal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>',
+    contact: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 7-10 5L2 7"/></svg>',
+    footer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>',
+    portfolio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M3 5v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+    up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
+    down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+    add: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>',
+    del: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>'
+  };
+
+  /* =====================================================================
+     NAVIGATION MODEL
+     ===================================================================== */
+  NAV = [
+    { group: 'General' },
+    { key: 'settings', label: 'Site Settings', icon: IC.settings },
+    { key: 'hero', label: 'Home Hero', icon: IC.hero },
+    { key: 'trusted', label: 'Trusted Logos', icon: IC.services },
+    { group: 'Home Sections' },
+    { key: 'services', label: 'Services', icon: IC.services },
+    { key: 'solutions', label: 'Featured Projects', icon: IC.projects },
+    { key: 'showcase', label: 'Showcase', icon: IC.hero },
+    { key: 'whyChooseUs', label: 'Why Choose Us', icon: IC.why },
+    { key: 'process', label: 'Our Process', icon: IC.process },
+    { key: 'testimonials', label: 'Testimonials', icon: IC.testimonials },
+    { key: 'portal', label: 'Client Portal', icon: IC.portal },
+    { key: 'contact', label: 'Contact', icon: IC.contact },
+    { key: 'footer', label: 'Footer', icon: IC.footer },
+    { group: 'Portfolio Page' },
+    { key: 'portfolio', label: 'Portfolio Content', icon: IC.portfolio }
+  ];
+
+  /* =====================================================================
+     LOGIN
+     ===================================================================== */
+  function initLogin() {
+    var gate = $('#login-gate');
+    var dash = $('#dashboard');
+    var form = $('#login-form');
+    var err = $('#login-error');
+
+    // auto-login if session flag present
+    try {
+      if (sessionStorage.getItem('rgt_admin_auth') === '1') {
+        openDashboard();
+        return;
+      }
+    } catch (e) {}
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var pw = $('#login-pass').value;
+      var correct = C.settings.adminPassword;
+      if (pw === correct) {
+        err.textContent = '';
+        try { sessionStorage.setItem('rgt_admin_auth', '1'); } catch (e) {}
+        openDashboard();
+      } else {
+        err.textContent = 'Incorrect password. Please try again.';
+        $('#login-pass').value = '';
+      }
+    });
+  }
+
+  function openDashboard() {
+    $('#login-gate').style.display = 'none';
+    $('#dashboard').classList.add('open');
+    buildSidebar();
+    showSection(NAV[1].key);
+    initGlobalControls();
+  }
+
+  function logout() {
+    try { sessionStorage.removeItem('rgt_admin_auth'); } catch (e) {}
+    location.reload();
+  }
+
+  /* =====================================================================
+     SIDEBAR
+     ===================================================================== */
+  function buildSidebar() {
+    var sb = $('#sidebar');
+    var html = '';
+    var lastGroup = '';
+    NAV.forEach(function (item) {
+      if (item.group) {
+        html += '<div class="nav-section-label">' + esc(item.group) + '</div>';
+        return;
+      }
+      html += '<div class="nav-item" data-key="' + item.key + '"><span class="ni-icon">' + item.icon + '</span><span>' + esc(item.label) + '</span></div>';
+    });
+    sb.innerHTML = html;
+    $all('.nav-item', sb).forEach(function (el) {
+      el.addEventListener('click', function () {
+        showSection(el.getAttribute('data-key'));
+        // close mobile sidebar
+        $('#sidebar').classList.remove('open');
+        $('#sb-backdrop').classList.remove('open');
+      });
+    });
+  }
+
+  function setActiveNav(key) {
+    $all('.nav-item').forEach(function (el) {
+      el.classList.toggle('active', el.getAttribute('data-key') === key);
+    });
+  }
+
+  /* =====================================================================
+     SECTION ROUTER
+     ===================================================================== */
+  function showSection(key) {
+    currentSection = key;
+    setActiveNav(key);
+    var main = $('#main');
+    var label = '';
+    NAV.forEach(function (n) { if (n.key === key) label = n.label; });
+    var html = '<div class="page-head"><div class="eyebrow">Content Editor</div><h1>' + esc(label) + '</h1><p id="sec-desc"></p></div><div id="editor-area"></div>';
+    main.innerHTML = html;
+
+    var area = $('#editor-area');
+    var desc = $('#sec-desc');
+    var builders = {
+      settings: buildSettings, hero: buildHero, trusted: buildTrusted,
+      services: buildServices, solutions: buildSolutions, showcase: buildShowcase,
+      whyChooseUs: buildWhy, process: buildProcess, testimonials: buildTestimonials,
+      portal: buildPortal, contact: buildContact, footer: buildFooter,
+      portfolio: buildPortfolio
+    };
+    if (builders[key]) {
+      builders[key](area, desc);
+    }
+    // observe reveals
+    $all('.reveal', main).forEach(function (el) {
+      var io = new IntersectionObserver(function (ents) {
+        ents.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold: 0.12 });
+      io.observe(el);
+    });
+    attachSaveBar(main);
+  }
+
+  /* =====================================================================
+     SHARED EDITOR UTILITIES
+     ===================================================================== */
+  function sectionHead(area, title, desc) {
+    var card = document.createElement('div');
+    card.className = 'card reveal';
+    card.innerHTML = '<div class="card-title">' + esc(title) + '</div><div class="card-desc">' + esc(desc) + '</div><div class="card-body"></div>';
+    area.appendChild(card);
+    return card;
+  }
+
+  // text input field
+  function field(label, value, key, opts) {
+    opts = opts || {};
+    var ph = opts.placeholder ? ' placeholder="' + esc(opts.placeholder) + '"' : '';
+    var hint = opts.hint ? '<div class="hint">' + esc(opts.hint) + '</div>' : '';
+    var multi = opts.multiline;
+    var inp = multi
+      ? '<textarea data-k="' + esc(key) + '"' + ph + '>' + esc(value) + '</textarea>'
+      : '<input type="text" data-k="' + esc(key) + '" value="' + esc(value) + '"' + ph + ' />';
+    return '<div class="efield"><label>' + esc(label) + '</label>' + inp + hint + '</div>';
+  }
+
+  // image field with preview
+  function imgField(label, value, key) {
+    var prev = value ? '<img src="' + esc(value) + '" alt=""/>' : '<span class="ph">No image</span>';
+    return '<div class="efield with-img"><div class="img-prev">' + prev + '</div><div class="img-input"><label>' + esc(label) + '</label><input type="text" data-k="' + esc(key) + '" value="' + esc(value) + '" placeholder="https://..." /><div class="hint">Paste an image URL. Preview updates as you type.</div></div></div>';
+  }
+
+  // bind a flat group of data-k fields back into an object
+  function bindGroup(cardBody, obj) {
+    $all('[data-k]', cardBody).forEach(function (el) {
+      el.addEventListener('input', function () {
+        obj[el.getAttribute('data-k')] = el.value;
+        markDirty();
+        // live image preview update
+        if (el.tagName === 'INPUT' && el.closest('.with-img')) {
+          var prev = el.closest('.with-img').querySelector('.img-prev');
+          var v = el.value.trim();
+          prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
+        }
+      });
+    });
+  }
+
+  function markDirty() {
+    dirty = true;
+    var st = $('#save-status');
+    if (st) {
+      st.className = 'status dirty';
+      st.querySelector('.status-text').textContent = 'Unsaved changes';
+    }
+  }
+  function markSaved() {
+    dirty = false;
+    var st = $('#save-status');
+    if (st) {
+      st.className = 'status saved';
+      st.querySelector('.status-text').textContent = 'All changes published';
+    }
+  }
+
+  /* ---------- repeatable list helpers ---------- */
+  function repItemWrap(title, badge) {
+    return '<div class="rep-item"><div class="rep-head"><div class="rep-title">' + esc(title) + ' ' + (badge ? '<span class="rep-badge">' + esc(badge) + '</span>' : '') + '</div><div class="rep-actions"></div></div><div class="rep-body"></div></div>';
+  }
+  function repActions(idx, total) {
+    var h = '';
+    h += '<div class="icon-btn" data-act="up"' + (idx === 0 ? ' style="opacity:.35;pointer-events:none"' : '') + '>' + IC.up + '</div>';
+    h += '<div class="icon-btn" data-act="down"' + (idx === total - 1 ? ' style="opacity:.35;pointer-events:none"' : '') + '>' + IC.down + '</div>';
+    h += '<div class="icon-btn danger" data-act="del">' + IC.trash + '</div>';
+    return h;
+  }
+
+  function moveItem(arr, from, to) {
+    if (to < 0 || to >= arr.length) return;
+    var it = arr.splice(from, 1)[0];
+    arr.splice(to, 0, it);
+  }
+
+  // features list editor (array of strings)
+  function featuresEditor(features) {
+    var h = '<div class="efield"><label>Features</label><div class="features-list">';
+    features.forEach(function (f, i) {
+      h += '<div class="feature-row" data-fi="' + i + '"><input type="text" value="' + esc(f) + '" /><div class="icon-btn danger" data-fdel>' + IC.del + '</div></div>';
+    });
+    h += '</div><div class="add-feature" data-fadd>' + IC.add + ' <span>Add feature</span></div></div>';
+    return h;
+  }
+
+  function bindFeatures(el, arr, onChange) {
+    var list = el.querySelector('.features-list');
+    function refresh() {
+      arr.length = 0;
+      $all('.feature-row input', list).forEach(function (inp) { arr.push(inp.value); });
+      onChange();
+    }
+    $all('.feature-row input', list).forEach(function (inp) {
+      inp.addEventListener('input', refresh);
+    });
+    $all('[data-fdel]', list).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.closest('.feature-row').remove();
+        refresh();
+        markDirty();
+      });
+    });
+    el.querySelector('[data-fadd]').addEventListener('click', function () {
+      var row = document.createElement('div');
+      row.className = 'feature-row';
+      row.innerHTML = '<input type="text" value="" placeholder="New feature..." /><div class="icon-btn danger" data-fdel>' + IC.del + '</div>';
+      list.appendChild(row);
+      row.querySelector('input').addEventListener('input', refresh);
+      row.querySelector('[data-fdel]').addEventListener('click', function () {
+        row.remove(); refresh(); markDirty();
+      });
+      row.querySelector('input').focus();
+      markDirty();
+    });
+  }
+
+  /* =====================================================================
+     SECTION BUILDERS
+     ===================================================================== */
+
+  function buildSettings(area, desc) {
+    desc.textContent = 'Global brand details, contact info and admin password. These appear across the entire site.';
+    var s = C.settings;
+    var card = sectionHead(area, 'Brand & Identity', 'Logo, brand name and tagline shown in the header and footer.');
+    var body = card.querySelector('.card-body');
+    body.innerHTML =
+      imgField('Logo URL', s.logo, 'logo') +
+      '<div class="grid-2">' + field('Brand Name', s.brandName, 'brandName') + field('Tagline', s.tagline, 'tagline') + '</div>';
+    bindGroup(body, s);
+
+    var card2 = sectionHead(area, 'Contact Information', 'Phone, email, address and business hours shown in the utility bar, contact section and footer.');
+    var b2 = card2.querySelector('.card-body');
+    b2.innerHTML =
+      '<div class="grid-2">' +
+      field('Phone (display)', s.phone, 'phone') + field('Phone Link (tel:)', s.phoneHref, 'phoneHref', { hint: 'e.g. tel:+27615270749' }) +
+      field('Email (display)', s.email, 'email') + field('Email Link (mailto:)', s.emailHref, 'emailHref', { hint: 'e.g. mailto:info@raregradetech.com' }) +
+      '</div>' +
+      field('Business Hours', s.hours, 'hours') +
+      field('Address (short)', s.address, 'address') +
+      field('Address (full)', s.addressFull, 'addressFull');
+    bindGroup(b2, s);
+
+    var card3 = sectionHead(area, 'Social Media', 'Links for the social icons in the utility bar and footer.');
+    var b3 = card3.querySelector('.card-body');
+    b3.innerHTML =
+      '<div class="grid-2">' +
+      field('Facebook URL', s.facebook, 'facebook') + field('Instagram URL', s.instagram, 'instagram') +
+      field('YouTube URL', s.youtube, 'youtube') + field('Tumblr URL', s.tumblr, 'tumblr') +
+      field('Footer Email', s.footerEmail, 'footerEmail') +
+      '</div>';
+    bindGroup(b3, s);
+
+    var card4 = sectionHead(area, 'Security', 'Change the admin password used to access this dashboard.');
+    var b4 = card4.querySelector('.card-body');
+    b4.innerHTML = field('Admin Password', s.adminPassword, 'adminPassword', { hint: 'You will need this to log in next time.' });
+    bindGroup(b4, s);
+  }
+
+  function buildHero(area, desc) {
+    desc.textContent = 'The main hero banner on the homepage — headline, copy, buttons, rating and the floating service labels.';
+    var h = C.hero;
+    var card = sectionHead(area, 'Hero Content', 'Headline, supporting copy and call-to-action buttons.');
+    var body = card.querySelector('.card-body');
+    body.innerHTML =
+      field('Badge', h.badge, 'badge') +
+      '<div class="grid-2">' + field('Headline Line 1', h.headline1, 'headline1') + field('Headline Line 2', h.headline2, 'headline2') + '</div>' +
+      field('Sub Copy', h.subcopy, 'subcopy', { multiline: true }) +
+      '<div class="grid-2">' +
+      field('Primary Button Label', h.ctaPrimaryLabel, 'ctaPrimaryLabel') + field('Primary Button Link', h.ctaPrimaryLink, 'ctaPrimaryLink') +
+      field('Secondary Button Label', h.ctaSecondaryLabel, 'ctaSecondaryLabel') + field('Secondary Button Link', h.ctaSecondaryLink, 'ctaSecondaryLink') +
+      '</div>';
+    bindGroup(body, h);
+
+    var card2 = sectionHead(area, 'Rating & Social Proof', 'Star rating image, number and review count.');
+    var b2 = card2.querySelector('.card-body');
+    b2.innerHTML =
+      '<div class="grid-3">' +
+      imgField('Rating Icons Image', h.ratingIcons, 'ratingIcons') + field('Rating Number', h.ratingNumber, 'ratingNumber') + field('Rating Label', h.ratingLabel, 'ratingLabel') +
+      '</div>';
+    bindGroup(b2, h);
+
+    var card3 = sectionHead(area, 'Hero Images', 'Team photo and background texture.');
+    var b3 = card3.querySelector('.card-body');
+    b3.innerHTML =
+      '<div class="grid-2">' + imgField('Team Photo', h.teamPhoto, 'teamPhoto') + imgField('Hero Texture', h.heroTexture, 'heroTexture') + '</div>';
+    bindGroup(b3, h);
+
+    var card4 = sectionHead(area, 'Trust Row', 'The three trust points below the hero copy.');
+    buildRepList(card4, h.trustRow, ['title', 'sub'], ['Title', 'Sub Title'], function (it) { return it.title || 'Item'; });
+    var card5 = sectionHead(area, 'Hero Service Labels', 'The floating service pills on the hero image. Use &lt;br&gt; for line breaks.');
+    buildRepListImg(card5, h.heroServices, ['icon', 'label'], ['Icon URL', 'Label'], function (it) { return (it.label || '').replace(/<br>/g, ' / ') || 'Label'; });
+  }
+
+  function buildTrusted(area, desc) {
+    desc.textContent = 'The "Trusted By" strip showing client/partner logos.';
+    var t = C.trusted;
+    var card = sectionHead(area, 'Section Heading', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="grid-2">' + field('Eyebrow', t.eyebrow, 'eyebrow') + field('Title', t.title, 'title') + '</div>';
+    bindGroup(body, t);
+    var card2 = sectionHead(area, 'Logos', 'Add or remove trusted-by logos.');
+    buildRepListImg(card2, t.logos, ['src', 'alt'], ['Logo URL', 'Alt Text'], function (it) { return it.alt || 'Logo'; });
+  }
+
+  function buildServices(area, desc) {
+    desc.textContent = 'The six service cards in the "What We Do" section — icon, title and feature list.';
+    var s = C.services;
+    var card = sectionHead(area, 'Section Heading', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="grid-2">' + field('Eyebrow', s.eyebrow, 'eyebrow') + field('Title', s.title, 'title') + '</div>' + field('Sub Copy', s.sub, 'sub', { multiline: true });
+    bindGroup(body, s);
+
+    var card2 = sectionHead(area, 'Service Cards', 'Each card shows an icon, a title and a list of features.');
+    buildRepListImgFeatures(card2, s.items, ['icon', 'title'], ['Icon URL', 'Title'], function (it) { return it.title || 'Service'; });
+  }
+
+  function buildSolutions(area, desc) {
+    desc.textContent = 'The "A Few Of Our Recent Builds" featured projects strip on the homepage.';
+    var s = C.solutions;
+    var card = sectionHead(area, 'Section Heading', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="grid-2">' + field('Eyebrow', s.eyebrow, 'eyebrow') + field('Title', s.title, 'title') + '</div>' + field('Sub Copy', s.sub, 'sub', { multiline: true });
+    bindGroup(body, s);
+    var card2 = sectionHead(area, 'Featured Projects', 'Each project shows a tag, title, image and link.');
+    buildRepListImg(card2, s.items, ['image', 'tag', 'title', 'link'], ['Image URL', 'Tag', 'Title', 'Link'], function (it) { return it.title || 'Project'; });
+  }
+
+  function buildShowcase(area, desc) {
+    desc.textContent = 'The "Interfaces Built To Perform" design & UI showcase section.';
+    var s = C.showcase;
+    var card = sectionHead(area, 'Showcase Content', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML =
+      '<div class="grid-2">' + field('Eyebrow', s.eyebrow, 'eyebrow') + field('Title', s.title, 'title') + '</div>' +
+      field('Sub Copy', s.sub, 'sub', { multiline: true }) +
+      imgField('Showcase Image', s.image, 'image');
+    bindGroup(body, s);
+  }
+
+  function buildWhy(area, desc) {
+    desc.textContent = 'The "Why Choose Us" section with numbered feature items and an image.';
+    var w = C.whyChooseUs;
+    var card = sectionHead(area, 'Section Heading', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="grid-2">' + field('Eyebrow', w.eyebrow, 'eyebrow') + field('Title', w.title, 'title') + '</div>' + field('Sub Copy', w.sub, 'sub', { multiline: true }) + imgField('Side Image', w.image, 'image');
+    bindGroup(body, w);
+    var card2 = sectionHead(area, 'Why Choose Us Items', 'Six numbered items, each with a number, title and description.');
+    buildRepList(card2, w.items, ['num', 'title', 'desc'], ['Number', 'Title', 'Description (multiline)'], function (it) { return (it.num || '') + ' ' + (it.title || 'Item'); }, { multilineKeys: ['desc'] });
+  }
+
+  function buildProcess(area, desc) {
+    desc.textContent = 'The "Our Process" section — six steps, each with a number, title, description, icon and accent color.';
+    var p = C.process;
+    var card = sectionHead(area, 'Section Heading', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="grid-2">' + field('Eyebrow', p.eyebrow, 'eyebrow') + field('Title', p.title, 'title') + '</div>' + field('Sub Copy', p.sub, 'sub', { multiline: true });
+    bindGroup(body, p);
+    var card2 = sectionHead(area, 'Process Steps', 'Each step has a number, title, description, icon image and accent color.');
+    buildRepListImg(card2, p.steps, ['num', 'title', 'desc', 'icon', 'color'], ['Number', 'Title', 'Description', 'Icon URL', 'Color (hex)'], function (it) { return (it.num || '') + ' ' + (it.title || 'Step'); }, { multilineKeys: ['desc'] });
+  }
+
+  function buildTestimonials(area, desc) {
+    desc.textContent = 'The "What Our Clients Say" testimonial section.';
+    var t = C.testimonials;
+    var card = sectionHead(area, 'Section Heading', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="grid-2">' + field('Eyebrow', t.eyebrow, 'eyebrow') + field('Title', t.title, 'title') + '</div>' + field('Sub Copy', t.sub, 'sub', { multiline: true });
+    bindGroup(body, t);
+    var card2 = sectionHead(area, 'Testimonials', 'Each testimonial has an avatar, name, role, quote text and a blue-variant toggle.');
+    buildRepListTestimonials(card2, t.items, function (it) { return it.name || 'Client'; });
+  }
+
+  function buildPortal(area, desc) {
+    desc.textContent = 'The "Client Portal" section promoting the dashboard sign-up.';
+    var p = C.portal;
+    var card = sectionHead(area, 'Portal Content', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML =
+      '<div class="grid-2">' + field('Eyebrow', p.eyebrow, 'eyebrow') + field('Title', p.title, 'title') + '</div>' +
+      field('Paragraph', p.paragraph, 'paragraph', { multiline: true }) +
+      imgField('Portal Image', p.image, 'image') +
+      '<div class="grid-2">' + field('Button Label', p.buttonLabel, 'buttonLabel') + field('Button Link', p.buttonLink, 'buttonLink') + '</div>';
+    bindGroup(body, p);
+    var card2 = sectionHead(area, 'Portal Features', 'The bullet-point feature list.');
+    buildSimpleFeatures(card2, p.features);
+  }
+
+  function buildContact(area, desc) {
+    desc.textContent = 'The contact section — info items, form heading and the "Get In Touch" block.';
+    var c = C.contact;
+    var card = sectionHead(area, 'Section Heading', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="grid-2">' + field('Eyebrow', c.eyebrow, 'eyebrow') + field('Title', c.title, 'title') + '</div>' + field('Sub Copy', c.sub, 'sub', { multiline: true });
+    bindGroup(body, c);
+    var card2 = sectionHead(area, 'Contact Info Items', 'Each item has an icon type, label and value.');
+    buildRepListContact(card2, c.items, function (it) { return it.label || 'Item'; });
+    var card3 = sectionHead(area, 'Contact Form', 'The heading and intro above the contact form.');
+    var b3 = card3.querySelector('.card-body');
+    b3.innerHTML = field('Form Heading', c.formHeading, 'formHeading') + field('Form Intro', c.formIntro, 'formIntro', { multiline: true }) + field('Form Action (mailto:)', c.formAction, 'formAction', { hint: 'Where the form submits.' });
+    bindGroup(b3, c);
+  }
+
+  function buildFooter(area, desc) {
+    desc.textContent = 'The site footer — brand description, link columns, contact info and copyright.';
+    var f = C.footer;
+    var card = sectionHead(area, 'Brand & Copyright', '');
+    var body = card.querySelector('.card-body');
+    body.innerHTML = field('Brand Description', f.brandDesc, 'brandDesc', { multiline: true }) + '<div class="grid-2">' + field('Copyright Line 1', f.copyright1, 'copyright1') + field('Copyright Line 2', f.copyright2, 'copyright2') + '</div>';
+    bindGroup(body, f);
+    var card2 = sectionHead(area, 'Company Column', '');
+    buildFooterLinks(card2, f.companyCol);
+    var card3 = sectionHead(area, 'Explore Column', '');
+    buildFooterLinks(card3, f.exploreCol);
+    var card4 = sectionHead(area, 'Contact Info Column', 'Each line has an icon type and text.');
+    buildRepListContactLines(card4, f.contactCol);
+  }
+
+  function buildPortfolio(area, desc) {
+    desc.textContent = 'The portfolio page — hero, section heading, filter tabs, project cards and the CTA banner.';
+    var p = C.portfolio;
+    var card = sectionHead(area, 'Portfolio Hero', 'The hero banner on the portfolio page.');
+    var body = card.querySelector('.card-body');
+    body.innerHTML =
+      field('Hero Headline', p.heroHeadline, 'heroHeadline') +
+      field('Hero Sub Copy', p.heroSubcopy, 'heroSubcopy', { multiline: true }) +
+      field('Hero CTA Label', p.heroCtaLabel, 'heroCtaLabel');
+    bindGroup(body, p);
+
+    var card2 = sectionHead(area, 'Selected Work Section', 'The heading above the project grid and filter tabs.');
+    var b2 = card2.querySelector('.card-body');
+    b2.innerHTML = '<div class="grid-2">' + field('Eyebrow', p.sectionEyebrow, 'sectionEyebrow') + field('Title', p.sectionTitle, 'sectionTitle') + '</div>' + field('Sub Copy', p.sectionSub, 'sectionSub', { multiline: true });
+    bindGroup(b2, p);
+
+    var card3 = sectionHead(area, 'Empty State', 'Shown when no projects match the selected filter.');
+    var b3 = card3.querySelector('.card-body');
+    b3.innerHTML = field('Empty Heading', p.emptyHeading, 'emptyHeading') + field('Empty Text', p.emptyText, 'emptyText', { multiline: true }) + field('Empty CTA Label', p.emptyCtaLabel, 'emptyCtaLabel');
+    bindGroup(b3, p);
+
+    var card4 = sectionHead(area, 'Filter Tabs', 'The category filter buttons. Each tab has a key (used by projects) and a display label.');
+    buildRepList(card4, p.tabs, ['key', 'label'], ['Key', 'Label'], function (it) { return it.label || 'Tab'; });
+
+    var card5 = sectionHead(area, 'Portfolio Projects', 'Each project has an index label, title, description, category tags, features, CTA and image.');
+    buildRepListProjects(card5, p.projects, function (it) { return it.title || 'Project'; });
+
+    var card6 = sectionHead(area, 'CTA Banner', 'The call-to-action banner at the bottom of the portfolio page.');
+    var b6 = card6.querySelector('.card-body');
+    b6.innerHTML =
+      field('Title', p.ctaBanner.title, 'title', { multiline: false }) + field('Text', p.ctaBanner.text, 'text', { multiline: true }) +
+      '<div class="grid-2">' + field('Primary Button Label', p.ctaBanner.primaryLabel, 'primaryLabel') + field('Primary Button Link', p.ctaBanner.primaryLink, 'primaryLink') +
+      field('Secondary Button Label', p.ctaBanner.secondaryLabel, 'secondaryLabel') + field('Secondary Button Link', p.ctaBanner.secondaryLink, 'secondaryLink') + '</div>';
+    bindGroup(b6, p.ctaBanner);
+  }
+
+  /* =====================================================================
+     REPEATABLE LIST BUILDERS (generic)
+     ===================================================================== */
+
+  // Generic: array of objects with text fields (+ optional multiline)
+  function buildRepList(card, arr, keys, labels, titleFn, opts) {
+    opts = opts || {};
+    var multilineKeys = opts.multilineKeys || [];
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add new item</span></div>';
+    var list = body.querySelector('.rep-list');
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(titleFn(it, i), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var fieldsHtml = '';
+        keys.forEach(function (k, ki) {
+          var isMulti = multilineKeys.indexOf(k) !== -1;
+          fieldsHtml += field(labels[ki], it[k], k, { multiline: isMulti });
+        });
+        // split into grid if 2 fields
+        if (keys.length === 2) {
+          rb.innerHTML = '<div class="grid-2">' + fieldsHtml + '</div>';
+        } else if (keys.length > 2) {
+          // pair first two, rest full width
+          if (keys.length >= 2 && !multilineKeys.length) {
+            var first2 = '<div class="grid-2">' + field(labels[0], it[keys[0]], keys[0]) + field(labels[1], it[keys[1]], keys[1]) + '</div>';
+            var rest = '';
+            for (var r = 2; r < keys.length; r++) {
+              rest += field(labels[r], it[keys[r]], keys[r], { multiline: multilineKeys.indexOf(keys[r]) !== -1 });
+            }
+            rb.innerHTML = first2 + rest;
+          } else {
+            rb.innerHTML = fieldsHtml;
+          }
+        } else {
+          rb.innerHTML = fieldsHtml;
+        }
+        list.appendChild(rep);
+        // bind fields
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            it[el.getAttribute('data-k')] = el.value;
+            markDirty();
+            // update title live
+            rep.querySelector('.rep-title').firstChild.textContent = titleFn(it, i) + ' ';
+          });
+        });
+        // bind actions
+        bindRepActions(rep, arr, i, render, titleFn);
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      var newObj = {};
+      keys.forEach(function (k) { newObj[k] = ''; });
+      arr.push(newObj);
+      markDirty();
+      render();
+      // scroll to new item
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // With image field (first field is image)
+  function buildRepListImg(card, arr, keys, labels, titleFn, opts) {
+    opts = opts || {};
+    var multilineKeys = opts.multilineKeys || [];
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add new item</span></div>';
+    var list = body.querySelector('.rep-list');
+    var imgKey = keys[0];
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(titleFn(it, i), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var html = imgField(labels[0], it[imgKey], imgKey);
+        // remaining text fields
+        var restKeys = keys.slice(1);
+        if (restKeys.length >= 2) {
+          var pair = '<div class="grid-2">' + field(labels[1], it[restKeys[0]], restKeys[0]) + field(labels[2], it[restKeys[1]], restKeys[1]) + '</div>';
+          html += pair;
+          for (var r = 2; r < restKeys.length; r++) {
+            html += field(labels[r + 1], it[restKeys[r]], restKeys[r], { multiline: multilineKeys.indexOf(restKeys[r]) !== -1 });
+          }
+        } else if (restKeys.length === 1) {
+          html += field(labels[1], it[restKeys[0]], restKeys[0], { multiline: multilineKeys.indexOf(restKeys[0]) !== -1 });
+        }
+        rb.innerHTML = html;
+        list.appendChild(rep);
+        // bind
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            var k = el.getAttribute('data-k');
+            it[k] = el.value;
+            markDirty();
+            if (k === imgKey && el.tagName === 'INPUT') {
+              var prev = el.closest('.with-img').querySelector('.img-prev');
+              var v = el.value.trim();
+              prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
+            }
+            rep.querySelector('.rep-title').firstChild.textContent = titleFn(it, i) + ' ';
+          });
+        });
+        bindRepActions(rep, arr, i, render, titleFn);
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      var newObj = {};
+      keys.forEach(function (k) { newObj[k] = ''; });
+      arr.push(newObj);
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Image + text fields + features list
+  function buildRepListImgFeatures(card, arr, keys, labels, titleFn) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add new service</span></div>';
+    var list = body.querySelector('.rep-list');
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(titleFn(it, i), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var html = imgField(labels[0], it.icon, 'icon');
+        html += '<div class="grid-2">' + field(labels[1], it.title, 'title') + '</div>';
+        html = html.replace('<div class="grid-2">' + field(labels[1], it.title, 'title') + '</div>', field('Title', it.title, 'title'));
+        html += featuresEditor(it.features || []);
+        rb.innerHTML = html;
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            var k = el.getAttribute('data-k');
+            it[k] = el.value;
+            markDirty();
+            if (k === 'icon' && el.tagName === 'INPUT') {
+              var prev = el.closest('.with-img').querySelector('.img-prev');
+              var v = el.value.trim();
+              prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
+            }
+            rep.querySelector('.rep-title').firstChild.textContent = titleFn(it, i) + ' ';
+          });
+        });
+        bindFeatures(rb, it.features, markDirty);
+        bindRepActions(rep, arr, i, render, titleFn);
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ icon: '', title: '', features: [] });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Testimonials (avatar image + text + blue toggle)
+  function buildRepListTestimonials(card, arr, titleFn) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add testimonial</span></div>';
+    var list = body.querySelector('.rep-list');
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(titleFn(it, i), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var html = imgField('Avatar URL', it.avatar, 'avatar');
+        html += '<div class="grid-2">' + field('Name', it.name, 'name') + field('Role', it.role, 'role') + '</div>';
+        html += field('Quote Text', it.text, 'text', { multiline: true });
+        html += '<div class="efield"><label>Blue Variant</label><select data-k="blue"><option value="false"' + (!it.blue ? ' selected' : '') + '>No (light card)</option><option value="true"' + (it.blue ? ' selected' : '') + '>Yes (blue card)</option></select><div class="hint">Use the blue background style for this card.</div></div>';
+        rb.innerHTML = html;
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            var k = el.getAttribute('data-k');
+            var v = el.value;
+            if (k === 'blue') v = (v === 'true');
+            it[k] = v;
+            markDirty();
+            if (k === 'avatar' && el.tagName === 'INPUT') {
+              var prev = el.closest('.with-img').querySelector('.img-prev');
+              var pv = el.value.trim();
+              prev.innerHTML = pv ? '<img src="' + esc(pv) + '" alt=""/>' : '<span class="ph">No image</span>';
+            }
+            rep.querySelector('.rep-title').firstChild.textContent = titleFn(it, i) + ' ';
+          });
+          if (el.tagName === 'SELECT') {
+            el.addEventListener('change', function () {
+              var k2 = el.getAttribute('data-k');
+              it[k2] = (el.value === 'true');
+              markDirty();
+            });
+          }
+        });
+        bindRepActions(rep, arr, i, render, titleFn);
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ avatar: '', name: '', role: '', text: '', blue: false });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Contact info items (icon select + label + value)
+  function buildRepListContact(card, arr, titleFn) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add info item</span></div>';
+    var list = body.querySelector('.rep-list');
+    var icons = ['phone', 'email', 'pin', 'clock'];
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(titleFn(it, i), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var opts = icons.map(function (ic) { return '<option value="' + ic + '"' + (it.icon === ic ? ' selected' : '') + '>' + ic + '</option>'; }).join('');
+        rb.innerHTML = '<div class="grid-3">' +
+          '<div class="efield"><label>Icon</label><select data-k="icon">' + opts + '</select></div>' +
+          field('Label', it.label, 'label') + field('Value', it.value, 'value') +
+          '</div>';
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () { it[el.getAttribute('data-k')] = el.value; markDirty(); rep.querySelector('.rep-title').firstChild.textContent = titleFn(it, i) + ' '; });
+          if (el.tagName === 'SELECT') el.addEventListener('change', function () { it[el.getAttribute('data-k')] = el.value; markDirty(); });
+        });
+        bindRepActions(rep, arr, i, render, titleFn);
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ icon: 'phone', label: '', value: '' });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Footer contact column (title + lines with icon+text)
+  function buildRepListContactLines(card, colObj) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = field('Column Title', colObj.title, 'title') + '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add line</span></div>';
+    var list = body.querySelector('.rep-list');
+    var arr = colObj.lines;
+    var icons = ['pin', 'clock', 'phone', 'email'];
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap('Line ' + (i + 1), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var opts = icons.map(function (ic) { return '<option value="' + ic + '"' + (it.icon === ic ? ' selected' : '') + '>' + ic + '</option>'; }).join('');
+        rb.innerHTML = '<div class="grid-3"><div class="efield"><label>Icon</label><select data-k="icon">' + opts + '</select></div>' + '<div class="efield" style="grid-column:span 2">' + field('Text', it.text, 'text') + '</div></div>';
+        rb.querySelector('.rep-body') || (rb.innerHTML = rb.innerHTML); // ensure
+        // re-fix: simpler approach
+        rb.innerHTML = '<div class="efield"><label>Icon</label><select data-k="icon">' + opts + '</select></div>' + field('Text', it.text, 'text');
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () { it[el.getAttribute('data-k')] = el.value; markDirty(); });
+          if (el.tagName === 'SELECT') el.addEventListener('change', function () { it[el.getAttribute('data-k')] = el.value; markDirty(); });
+        });
+        bindRepActions(rep, arr, i, render, function () { return 'Line ' + (i + 1); });
+      });
+    }
+    // bind title field
+    $all('[data-k]', body).forEach(function (el) {
+      if (el === body.querySelector('[data-k="title"]')) {
+        el.addEventListener('input', function () { colObj.title = el.value; markDirty(); });
+      }
+    });
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ icon: 'phone', text: '' });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Footer links column (title + array of {label, href})
+  function buildFooterLinks(card, colObj) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = field('Column Title', colObj.title, 'title') + '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add link</span></div>';
+    var list = body.querySelector('.rep-list');
+    var arr = colObj.links;
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(it.label || ('Link ' + (i + 1)), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        rb.innerHTML = '<div class="grid-2">' + field('Label', it.label, 'label') + field('Link (href)', it.href, 'href') + '</div>';
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            it[el.getAttribute('data-k')] = el.value;
+            markDirty();
+            rep.querySelector('.rep-title').firstChild.textContent = (it.label || ('Link ' + (i + 1))) + ' ';
+          });
+        });
+        bindRepActions(rep, arr, i, render, function () { return it.label || ('Link ' + (i + 1)); });
+      });
+    }
+    // bind title
+    var titleEl = body.querySelector('[data-k="title"]');
+    if (titleEl) titleEl.addEventListener('input', function () { colObj.title = titleEl.value; markDirty(); });
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ label: '', href: '#' });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Simple features list (array of strings) — for portal features
+  function buildSimpleFeatures(card, arr) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = featuresEditor(arr);
+    bindFeatures(body, arr, markDirty);
+  }
+
+  // Portfolio projects (complex: indexLabel, title, desc, categories, tags, features, cta, image)
+  function buildRepListProjects(card, arr, titleFn) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add project</span></div>';
+    var list = body.querySelector('.rep-list');
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(titleFn(it, i), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var html = '';
+        html += field('Index Label', it.indexLabel, 'indexLabel', { hint: 'e.g. 01 — Web & Mobile Apps' });
+        html += field('Title', it.title, 'title');
+        html += field('Description', it.desc, 'desc', { multiline: true });
+        html += field('Category Tags (space-separated keys)', it.categories, 'categories', { hint: 'Must match tab keys, e.g. "web-mobile design"' });
+        html += featuresEditor(it.features || []);
+        html += '<div class="grid-2">' + field('CTA Label', it.ctaLabel, 'ctaLabel') + '</div>';
+        html = html.replace('<div class="grid-2">' + field('CTA Label', it.ctaLabel, 'ctaLabel') + '</div>', field('CTA Label', it.ctaLabel, 'ctaLabel'));
+        html += imgField('Project Image', it.image, 'image');
+        rb.innerHTML = html;
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            var k = el.getAttribute('data-k');
+            it[k] = el.value;
+            markDirty();
+            if (k === 'image' && el.tagName === 'INPUT') {
+              var prev = el.closest('.with-img').querySelector('.img-prev');
+              var v = el.value.trim();
+              prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
+            }
+            rep.querySelector('.rep-title').firstChild.textContent = titleFn(it, i) + ' ';
+          });
+        });
+        bindFeatures(rb, it.features, markDirty);
+        bindRepActions(rep, arr, i, render, titleFn);
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ indexLabel: '', title: '', desc: '', tags: [], categories: '', features: [], ctaLabel: '', image: '' });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  /* ---------- rep actions (up/down/delete) ---------- */
+  function bindRepActions(rep, arr, idx, render, titleFn) {
+    $all('[data-act]', rep).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var act = btn.getAttribute('data-act');
+        if (act === 'del') {
+          if (confirm('Delete this item?')) {
+            arr.splice(idx, 1);
+            markDirty();
+            render();
+          }
+        } else if (act === 'up') {
+          moveItem(arr, idx, idx - 1);
+          markDirty();
+          render();
+        } else if (act === 'down') {
+          moveItem(arr, idx, idx + 1);
+          markDirty();
+          render();
+        }
+      });
+    });
+  }
+
+  /* =====================================================================
+     SAVE BAR
+     ===================================================================== */
+  function attachSaveBar(main) {
+    // remove old
+    var old = $('#save-bar');
+    if (old) old.remove();
+    var bar = document.createElement('div');
+    bar.id = 'save-bar';
+    bar.className = 'save-bar';
+    bar.innerHTML = '<div class="status saved" id="save-status"><span class="dot"></span><span class="status-text">All changes published</span></div><div class="actions"><button class="btn btn-ghost btn-sm" id="reset-btn">Reset to Defaults</button><button class="btn btn-primary btn-sm" id="publish-btn">Publish Changes →</button></div>';
+    main.appendChild(bar);
+    $('#publish-btn').addEventListener('click', publish);
+    $('#reset-btn').addEventListener('click', function () {
+      if (confirm('Reset ALL content back to the original defaults? This cannot be undone.')) {
+        C = RGTContent.resetContent();
+        toast('Content reset to defaults');
+        showSection(currentSection);
+        markSaved();
+      }
+    });
+    // initial status
+    if (dirty) markDirty(); else markSaved();
+  }
+
+  function publish() {
+    RGTContent.saveContent(C);
+    markSaved();
+    toast('Changes published — live on site ✓');
+    // reload preview if open
+    var pv = $('#preview-frame');
+    if (pv && pv.src !== 'about:blank') {
+      pv.src = pv.src;
+    }
+  }
+
+  /* =====================================================================
+     GLOBAL CONTROLS (preview, logout, mobile menu)
+     ===================================================================== */
+  function initGlobalControls() {
+    $('#logout-btn').addEventListener('click', logout);
+    $('#open-site-btn').setAttribute('href', location.pathname.replace(/dash[^/]*\.html$/, 'home.html').replace(/[^/]*\.html$/, 'home.html'));
+
+    // mobile menu
+    $('#menu-toggle').addEventListener('click', function () {
+      $('#sidebar').classList.toggle('open');
+      $('#sb-backdrop').classList.toggle('open');
+    });
+    $('#sb-backdrop').addEventListener('click', function () {
+      $('#sidebar').classList.remove('open');
+      $('#sb-backdrop').classList.remove('open');
+    });
+
+    // preview
+    $('#preview-fab').addEventListener('click', openPreview);
+    $('#preview-close').addEventListener('click', closePreview);
+    $all('.preview-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        $all('.preview-tab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        $('#preview-frame').src = tab.getAttribute('data-pv');
+      });
+    });
+
+    // keyboard: Ctrl/Cmd+S to publish
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        publish();
+      }
+    });
+  }
+
+  function openPreview() {
+    var active = $('.preview-tab.active');
+    var page = active ? active.getAttribute('data-pv') : 'home.html';
+    $('#preview-frame').src = page;
+    $('#preview-overlay').classList.add('open');
+  }
+  function closePreview() {
+    $('#preview-overlay').classList.remove('open');
+    $('#preview-frame').src = 'about:blank';
+  }
+
+  /* =====================================================================
+     INIT
+     ===================================================================== */
+  function init() {
+    C = RGTContent.getContent();
+    initLogin();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+
+</script>
 </body>
 </html>
