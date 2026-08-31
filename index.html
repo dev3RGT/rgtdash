@@ -259,6 +259,7 @@
   .feature-row input{flex:1;}
   .add-feature{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--blue-700);cursor:pointer;padding:6px 4px;}
   .add-feature:hover{color:var(--blue-accent);}
+  .add-feature svg{width:14px;height:14px;flex:none;}
 
   /* popular-toggle + nested package lists (services page editor) */
   .toggle-row{display:flex;align-items:center;gap:10px;margin-top:6px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink-600);}
@@ -266,16 +267,18 @@
   .toggle-row:hover{color:var(--ink-900);}
   .pkg-list{display:flex;flex-direction:column;gap:14px;margin:6px 0 10px;padding-left:14px;border-left:2px solid var(--card-line);}
   .pkg-list .rep-item{background:rgba(59,76,255,.03);}
-  .sub-add{border-radius:12px;padding:11px;font-size:13px;margin-top:6px;}
+  .sub-add{border-radius:10px;padding:9px;font-size:12.5px;margin-top:6px;}
+  .sub-add svg{width:13px;height:13px;}
   .rep-badge{background:var(--blue-700);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:999px;margin-left:6px;}
 
   .add-btn{
-    display:flex;align-items:center;justify-content:center;gap:8px;
-    width:100%;padding:14px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    width:100%;padding:10px;border-radius:12px;
     border:2px dashed var(--card-line);background:transparent;
-    color:var(--ink-600);font-size:14px;font-weight:600;cursor:pointer;
+    color:var(--ink-600);font-size:13px;font-weight:600;cursor:pointer;
     transition:all .2s ease;
   }
+  .add-btn svg{width:15px;height:15px;flex:none;}
   .add-btn:hover{border-color:var(--blue-accent);color:var(--blue-700);background:rgba(59,76,255,.04);}
 
   /* ============ SAVE BAR ============ */
@@ -2175,7 +2178,7 @@
      ===================================================================== */
   function sectionHead(area, title, desc) {
     var card = document.createElement('div');
-    card.className = 'card reveal';
+    card.className = 'card';
     card.innerHTML = '<div class="card-title">' + esc(title) + '</div><div class="card-desc">' + esc(desc) + '</div><div class="card-body"></div>';
     area.appendChild(card);
     return card;
@@ -2709,7 +2712,7 @@
             ph += field('Tier Name', pk.tier, 'tier');
             ph += field('Description', pk.desc, 'desc', { multiline: true });
             ph += '<div class="grid-2">' + field('Amount', pk.amount, 'amount', { hint: 'e.g. R15,000' }) + field('Period', pk.period, 'period', { hint: 'e.g. once-off / per device / / month' }) + '</div>';
-            ph += '<div class="grid-2">' + field('Badge Text', pk.badge, 'badge', { hint: 'Leave blank unless this is the highlighted package.' }) + '</div>';
+            ph += field('Badge Text', pk.badge, 'badge', { hint: 'Leave blank unless this is the highlighted package.' });
             ph += featuresEditor(pk.features || []);
             ph += '<label class="toggle-row"><input type="checkbox" data-k="popular"' + (pk.popular ? ' checked' : '') + ' /><span>Mark as "Most Popular" (highlighted card)</span></label>';
             prb.innerHTML = ph;
