@@ -166,7 +166,18 @@
   }
   .sidebar::-webkit-scrollbar{width:6px;}
   .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:6px;}
-  .nav-section-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);padding:14px 12px 8px;}
+  .nav-section-label{
+    font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);
+    padding:14px 12px 8px;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    cursor:pointer;user-select:none;transition:color .2s ease;
+  }
+  .nav-section-label:hover{color:var(--text-dim);}
+  .nav-section-label .ni-chevron{width:13px;height:13px;flex:none;color:var(--text-faint);transition:transform .25s ease;}
+  .nav-section-label.is-collapsed .ni-chevron{transform:rotate(-90deg);}
+  .nav-group{display:grid;grid-template-rows:1fr;transition:grid-template-rows .28s ease;}
+  .nav-group.is-collapsed{grid-template-rows:0fr;}
+  .nav-group-inner{overflow:hidden;min-height:0;display:flex;flex-direction:column;}
   .nav-item{
     display:flex;align-items:center;gap:12px;
     padding:11px 14px;border-radius:14px;
@@ -422,22 +433,61 @@
 <div id="toast"><span class="td"></span><span id="toast-text">Saved</span></div>
 
 <!-- ===================== INLINE SCRIPTS (combined) ===================== -->
-<!-- content.js : Shared content layer (data model + localStorage + BroadcastChannel real-time sync) -->
+<!-- Firebase (Realtime Database) — powers live sync between the admin dashboard and the public site -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+
+<!-- content.js : Shared content layer (data model + Firebase Realtime Database sync, localStorage cache) -->
 <script>
 /* =====================================================================
    Rare Grade Tech — Shared Content Layer
    ---------------------------------------------------------------------
    - DEFAULT_CONTENT: the exact content currently baked into the site
-   - getContent(): returns saved content merged with defaults
-   - saveContent(): persists + broadcasts (real-time sync across tabs)
-   - BroadcastChannel + storage event = instant live updates on open pages
+   - getContent(): returns the current content (in-memory, synchronous)
+   - saveContent(): writes to Firebase Realtime Database — every open
+     dashboard AND every open public page picks it up live, on any
+     device, the moment it is published. localStorage is kept only as
+     a fast local cache for the very first paint / offline fallback.
+   - subscribe(cb): cb fires whenever content changes, from ANY source
+     (this tab's own publish, another admin/device, Firebase itself).
    ===================================================================== */
 
 (function (global) {
   'use strict';
 
   var STORAGE_KEY = 'rgt_content_v1';
-  var CHANNEL = 'rgt_content_channel';
+
+  /* ---------------------------------------------------------------------
+     FIREBASE SETUP — required for real-time cross-device sync
+     1. https://console.firebase.google.com -> create/open a project
+     2. Build -> Realtime Database -> Create Database (start in test
+        mode, then lock it down — see rules below)
+     3. Project settings (gear icon) -> General -> "Your apps" -> Web
+        app -> copy the config object and paste it in below
+     4. Realtime Database -> Rules, set:
+          {
+            "rules": {
+              "rgt_content_v1": {
+                ".read": true,
+                ".write": true
+              }
+            }
+          }
+        That is open for now so publishing works immediately. The
+        dashboard password below is only a client-side check, so
+        tighten these rules to Firebase Auth-gated writes before
+        relying on this in production.
+     --------------------------------------------------------------------- */
+  var firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  var DB_PATH = 'rgt_content_v1';
 
   var DEFAULT_CONTENT = {
     _version: 1,
@@ -732,55 +782,86 @@
     return (override === undefined) ? base : override;
   }
 
-  function getContent() {
+  /* ---------- local cache: instant first paint + offline fallback ---------- */
+  function readCache() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
-      var parsed = JSON.parse(raw);
-      return deepMerge(DEFAULT_CONTENT, parsed);
-    } catch (e) {
-      return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function writeCache(content) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(content)); } catch (e) {}
+  }
+
+  var current = deepMerge(DEFAULT_CONTENT, readCache() || {});
+  var listeners = [];
+
+  function notify(content) {
+    for (var i = 0; i < listeners.length; i++) {
+      try { listeners[i](content); } catch (e) {}
     }
+  }
+
+  /* ---------- Firebase: live source of truth ---------- */
+  var db = null;
+  var firebaseReady = firebaseConfig.apiKey !== 'YOUR_API_KEY';
+  try {
+    if (global.firebase && firebaseReady) {
+      global.firebase.initializeApp(firebaseConfig);
+      db = global.firebase.database();
+      db.ref(DB_PATH).on('value', function (snap) {
+        var v = snap.val();
+        if (v) {
+          current = deepMerge(DEFAULT_CONTENT, v);
+          writeCache(current);
+          notify(current);
+        }
+      }, function (err) {
+        console.warn('RGTContent: Firebase read blocked — check your database rules.', err);
+      });
+    } else if (!firebaseReady) {
+      console.warn('RGTContent: firebaseConfig is still a placeholder — running in local-only mode (changes will NOT sync to other devices). See content.js.');
+    }
+  } catch (e) {
+    console.warn('RGTContent: Firebase unavailable, running in local-only mode.', e);
+  }
+
+  function getContent() {
+    return JSON.parse(JSON.stringify(current));
   }
 
   function saveContent(content) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
-    } catch (e) {}
-    broadcast(content);
+    current = deepMerge(DEFAULT_CONTENT, content);
+    writeCache(current);
+    if (db) {
+      db.ref(DB_PATH).set(content).catch(function (err) {
+        console.error('RGTContent: publish failed — check your Firebase config/rules.', err);
+      });
+      // Firebase's own listener above fires immediately on this tab too
+      // (local echo) and will call notify() with the published content.
+    } else {
+      notify(current); // no Firebase configured yet — still update this tab
+    }
   }
 
   function resetContent() {
-    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
     var c = JSON.parse(JSON.stringify(DEFAULT_CONTENT));
-    broadcast(c);
+    current = c;
+    writeCache(c);
+    if (db) {
+      db.ref(DB_PATH).set(c).catch(function (err) {
+        console.error('RGTContent: reset failed to publish — check your Firebase config/rules.', err);
+      });
+    } else {
+      notify(c);
+    }
     return c;
   }
 
-  var channel = null;
-  try { channel = new BroadcastChannel(CHANNEL); } catch (e) {}
-
-  function broadcast(content) {
-    if (channel) {
-      try { channel.postMessage({ type: 'rgt-update', content: content }); } catch (e) {}
-    }
-    // storage event also fires for other tabs automatically
-  }
-
-  // Subscribe to live updates. callback(content) called on any change.
+  // Subscribe to live updates. callback(content) called on any change —
+  // from this tab's own publish, or from Firebase (another admin/device).
   function subscribe(callback) {
-    if (channel) {
-      channel.onmessage = function (ev) {
-        if (ev.data && ev.data.type === 'rgt-update') {
-          callback(ev.data.content);
-        }
-      };
-    }
-    window.addEventListener('storage', function (ev) {
-      if (ev.key === STORAGE_KEY) {
-        try { callback(JSON.parse(ev.newValue)); } catch (e) {}
-      }
-    });
+    listeners.push(callback);
   }
 
   global.RGTContent = {
@@ -1368,7 +1449,7 @@
    ---------------------------------------------------------------------
    - Login gate (password from settings.adminPassword)
    - Sidebar nav + section editors for every editable content group
-   - Every save → RGTContent.saveContent() → localStorage + BroadcastChannel
+   - Every save → RGTContent.saveContent() → Firebase Realtime Database
      → public pages (home.html / portfolio.html) update in real-time
    ===================================================================== */
 
@@ -1476,6 +1557,14 @@
     buildSidebar();
     showSection(NAV[1].key);
     initGlobalControls();
+    // Keep the working draft in sync with Firebase until the admin
+    // starts editing — protects against a slow first load overwriting
+    // live data that another admin/device already published.
+    RGTContent.subscribe(function (content) {
+      if (dirty) return;
+      C = clone(content);
+      if (currentSection) showSection(currentSection);
+    });
   }
 
   function logout() {
@@ -1486,17 +1575,35 @@
   /* =====================================================================
      SIDEBAR
      ===================================================================== */
+  var SIDEBAR_COLLAPSE_KEY = 'rgt_sidebar_collapsed';
+  function getCollapsedGroups() {
+    try { return JSON.parse(sessionStorage.getItem(SIDEBAR_COLLAPSE_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function setGroupCollapsed(group, collapsed) {
+    var list = getCollapsedGroups();
+    var idx = list.indexOf(group);
+    if (collapsed && idx === -1) list.push(group);
+    if (!collapsed && idx !== -1) list.splice(idx, 1);
+    try { sessionStorage.setItem(SIDEBAR_COLLAPSE_KEY, JSON.stringify(list)); } catch (e) {}
+  }
+
   function buildSidebar() {
     var sb = $('#sidebar');
     var html = '';
-    var lastGroup = '';
+    var collapsed = getCollapsedGroups();
+    var groupOpen = false;
     NAV.forEach(function (item) {
       if (item.group) {
-        html += '<div class="nav-section-label">' + esc(item.group) + '</div>';
+        if (groupOpen) html += '</div></div>';
+        var isCollapsed = collapsed.indexOf(item.group) !== -1;
+        html += '<div class="nav-section-label' + (isCollapsed ? ' is-collapsed' : '') + '" data-group="' + esc(item.group) + '"><span>' + esc(item.group) + '</span><span class="ni-chevron">' + IC.down + '</span></div>';
+        html += '<div class="nav-group' + (isCollapsed ? ' is-collapsed' : '') + '" data-group-items="' + esc(item.group) + '"><div class="nav-group-inner">';
+        groupOpen = true;
         return;
       }
       html += '<div class="nav-item" data-key="' + item.key + '"><span class="ni-icon">' + item.icon + '</span><span>' + esc(item.label) + '</span></div>';
     });
+    if (groupOpen) html += '</div></div>';
     sb.innerHTML = html;
     $all('.nav-item', sb).forEach(function (el) {
       el.addEventListener('click', function () {
@@ -1504,6 +1611,16 @@
         // close mobile sidebar
         $('#sidebar').classList.remove('open');
         $('#sb-backdrop').classList.remove('open');
+      });
+    });
+    $all('.nav-section-label', sb).forEach(function (label) {
+      label.addEventListener('click', function () {
+        var group = label.getAttribute('data-group');
+        var wrap = sb.querySelector('.nav-group[data-group-items="' + group + '"]');
+        if (!wrap) return;
+        var nowCollapsed = wrap.classList.toggle('is-collapsed');
+        label.classList.toggle('is-collapsed', nowCollapsed);
+        setGroupCollapsed(group, nowCollapsed);
       });
     });
   }
