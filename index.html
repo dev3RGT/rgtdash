@@ -281,6 +281,132 @@
   .add-btn svg{width:15px;height:15px;flex:none;}
   .add-btn:hover{border-color:var(--blue-accent);color:var(--blue-700);background:rgba(59,76,255,.04);}
 
+  /* ============ UPLOAD FIELD (direct file -> data URI) ============ */
+  .efield.with-upload{display:flex;gap:14px;align-items:flex-start;}
+  .efield.with-upload .img-prev{
+    width:84px;height:84px;flex:none;border-radius:12px;
+    background:var(--surface);border:1px solid var(--card-line);
+    overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .efield.with-upload .img-prev img{width:100%;height:100%;object-fit:cover;}
+  .efield.with-upload .img-prev .ph{color:var(--ink-400);font-size:10px;text-align:center;padding:4px;}
+  .efield.with-upload .img-prev .up-loading{position:absolute;inset:0;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--blue-700);}
+  .efield.with-upload .upload-input{flex:1;}
+  .dropzone{
+    border:2px dashed var(--card-line);border-radius:12px;background:var(--surface);
+    padding:14px;text-align:center;cursor:pointer;transition:all .2s ease;position:relative;
+  }
+  .dropzone:hover{border-color:var(--blue-accent);background:rgba(59,76,255,.04);}
+  .dropzone.drag-over{border-color:var(--blue-700);background:rgba(59,76,255,.10);}
+  .dropzone .dz-inner{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink-600);}
+  .dropzone .dz-icon{width:30px;height:30px;color:var(--blue-700);}
+  .dropzone .dz-icon svg{width:100%;height:100%;}
+  .dropzone .dz-label{font-size:13px;font-weight:600;color:var(--ink-900);}
+  .dropzone .dz-hint{font-size:11px;color:var(--ink-400);font-weight:500;}
+  .dropzone .dz-url-toggle{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--blue-700);margin-top:4px;cursor:pointer;text-decoration:underline;}
+  .dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+  .upload-url-row{display:flex;gap:8px;margin-top:8px;}
+  .upload-url-row input{flex:1;}
+  .upload-url-row .url-apply{flex:none;padding:10px 14px;border-radius:12px;background:var(--blue-700);color:#fff;font-size:12px;font-weight:700;border:none;cursor:pointer;}
+  .upload-url-row .url-apply:hover{background:var(--blue-accent);}
+
+  /* ============ STORE OVERVIEW DASHBOARD ============ */
+  .ov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+  @media(max-width:1100px){.ov-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.ov-grid{grid-template-columns:1fr;}}
+  .stat-card{
+    background:var(--surface-alt);border:1px solid var(--card-line);border-radius:var(--radius-m);
+    padding:20px 22px;box-shadow:0 2px 12px rgba(9,11,37,.04);position:relative;overflow:hidden;
+    transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(9,11,37,.10);}
+  .stat-card .sc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px;}
+  .stat-card .sc-icon{
+    width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none;
+    background:rgba(59,76,255,.10);color:var(--blue-700);
+  }
+  .stat-card .sc-icon svg{width:22px;height:22px;}
+  .stat-card.sc-green .sc-icon{background:rgba(34,197,94,.12);color:#16a34a;}
+  .stat-card.sc-amber .sc-icon{background:rgba(245,158,11,.14);color:#d97706;}
+  .stat-card.sc-red .sc-icon{background:rgba(224,49,49,.10);color:#e03131;}
+  .stat-card.sc-purple .sc-icon{background:rgba(139,92,246,.12);color:#7c3aed;}
+  .stat-card .sc-trend{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;flex:none;}
+  .stat-card .sc-trend.up{background:rgba(34,197,94,.14);color:#16a34a;}
+  .stat-card .sc-trend.down{background:rgba(224,49,49,.12);color:#e03131;}
+  .stat-card .sc-trend.flat{background:rgba(134,136,160,.14);color:var(--ink-600);}
+  .stat-card .sc-value{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;line-height:1;color:var(--ink-900);margin:0 0 6px;letter-spacing:-.02em;}
+  .stat-card .sc-label{font-size:12.5px;font-weight:600;color:var(--ink-600);margin:0;}
+
+  .ov-row{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:20px;}
+  @media(max-width:920px){.ov-row{grid-template-columns:1fr;}}
+  .ov-chart-card{background:var(--surface-alt);border:1px solid var(--card-line);border-radius:var(--radius-m);padding:24px 26px;box-shadow:0 2px 12px rgba(9,11,37,.04);}
+  .ov-chart-card .ovc-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .ov-chart-card .ovc-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:var(--ink-900);margin:0;}
+  .ov-chart-card .ovc-sub{font-size:12px;color:var(--ink-400);font-weight:500;margin:2px 0 0;}
+  .ov-chart-card .ovc-legend{display:flex;gap:14px;flex-wrap:wrap;}
+  .ov-chart-card .ovc-legend .lg{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--ink-600);}
+  .ov-chart-card .ovc-legend .lg .dot{width:9px;height:9px;border-radius:3px;}
+  .ov-bars{display:flex;align-items:flex-end;gap:6px;height:180px;padding-top:10px;}
+  .ov-bars .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;}
+  .ov-bars .bar-wrap{width:100%;max-width:38px;height:140px;display:flex;align-items:flex-end;}
+  .ov-bars .bar{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--blue-accent),var(--blue-700));min-height:3px;transition:height .4s cubic-bezier(.16,.84,.44,1);position:relative;}
+  .ov-bars .bar.low{background:linear-gradient(180deg,#fbbf24,#d97706);}
+  .ov-bars .bar.out{background:linear-gradient(180deg,#fca5a5,#e03131);}
+  .ov-bars .bar:hover{filter:brightness(1.08);}
+  .ov-bars .bar-label{font-size:9.5px;color:var(--ink-400);font-weight:600;text-align:center;max-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;}
+  .ov-bars .bar-val{font-size:10px;font-weight:700;color:var(--ink-900);}
+
+  .ov-side{display:flex;flex-direction:column;gap:16px;}
+  .ov-ring-card{background:var(--surface-alt);border:1px solid var(--card-line);border-radius:var(--radius-m);padding:24px 26px;box-shadow:0 2px 12px rgba(9,11,37,.04);text-align:center;}
+  .ov-ring-card .ovrc-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--ink-900);margin:0 0 4px;}
+  .ov-ring-card .ovrc-sub{font-size:11.5px;color:var(--ink-400);font-weight:500;margin:0 0 16px;}
+  .ov-ring{position:relative;width:150px;height:150px;margin:0 auto 14px;}
+  .ov-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .ov-ring .ring-bg{fill:none;stroke:var(--card-line);stroke-width:12;}
+  .ov-ring .ring-fg{fill:none;stroke:url(#ringGrad);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.16,.84,.44,1);}
+  .ov-ring .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ov-ring .ring-pct{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:var(--ink-900);line-height:1;}
+  .ov-ring .ring-cap{font-size:10px;font-weight:600;color:var(--ink-400);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;}
+  .ov-ring-meta{display:flex;justify-content:space-around;gap:8px;}
+  .ov-ring-meta .m{display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .ov-ring-meta .m .mv{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--ink-900);}
+  .ov-ring-meta .m .ml{font-size:10.5px;color:var(--ink-400);font-weight:600;}
+
+  .ov-promo{
+    background:linear-gradient(120deg,#1118F5 0%,#3B4CFF 45%,#7c3aed 100%);
+    border-radius:var(--radius-m);padding:22px 24px;color:#fff;position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 10px 30px rgba(17,24,245,.30);
+  }
+  .ov-promo::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.10);}
+  .ov-promo .ovp-text{position:relative;z-index:2;}
+  .ov-promo .ovp-title{font-family:'Montserrat',sans-serif;font-style:italic;font-weight:800;font-size:20px;margin:0 0 4px;line-height:1.1;}
+  .ov-promo .ovp-sub{font-size:12.5px;color:rgba(255,255,255,.85);margin:0;max-width:240px;line-height:1.45;}
+  .ov-promo .ovp-btn{
+    position:relative;z-index:2;flex:none;background:#22c55e;color:#fff;font-weight:700;font-size:13px;
+    padding:11px 18px;border-radius:999px;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(34,197,94,.40);transition:transform .2s ease;
+  }
+  .ov-promo .ovp-btn:hover{transform:translateY(-2px);}
+
+  .ov-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+  .ov-tab{
+    padding:9px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;
+    background:var(--surface-alt);border:1px solid var(--card-line);color:var(--ink-600);transition:all .18s ease;
+  }
+  .ov-tab:hover{color:var(--blue-700);border-color:var(--blue-accent);}
+  .ov-tab.active{background:var(--blue-700);color:#fff;border-color:var(--blue-accent);}
+
+  /* carousel slide rows */
+  .car-slide-row{display:flex;gap:14px;align-items:flex-start;}
+  .car-slide-row .csr-media{flex:none;}
+  .car-slide-row .csr-fields{flex:1;}
+  .car-slide-thumb{width:120px;height:80px;border-radius:10px;overflow:hidden;border:1px solid var(--card-line);background:var(--surface);display:flex;align-items:center;justify-content:center;}
+  .car-slide-thumb img{width:100%;height:100%;object-fit:cover;}
+  .car-slide-thumb .ph{font-size:10px;color:var(--ink-400);}
+  .car-preview-strip{display:flex;gap:10px;margin-bottom:14px;overflow-x:auto;padding-bottom:6px;}
+  .car-preview-strip .cps-item{flex:none;width:140px;border-radius:12px;overflow:hidden;border:1px solid var(--card-line);background:var(--surface);position:relative;}
+  .car-preview-strip .cps-item img{width:100%;height:88px;object-fit:cover;display:block;}
+  .car-preview-strip .cps-item .cps-idx{position:absolute;top:6px;left:6px;background:rgba(5,6,11,.7);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;}
+
   /* ============ SAVE BAR ============ */
   .save-bar{
     position:sticky;bottom:0;z-index:30;
@@ -996,6 +1122,26 @@
       eyebrow: 'Our Store',
       title: 'Gadgets & Software, Sourced For You',
       sub: "Genuine devices and licensed software, sourced and supported end-to-end.",
+      carousels: {
+        wide: {
+          label: 'Wide Banner (70%)',
+          autoAdvance: true,
+          interval: 30,
+          slides: [
+            { image: 'https://i.postimg.cc/jjm9pVkH/macbookpro.png', link: 'contact.html', alt: 'MacBook Pro promotion' },
+            { image: 'https://i.postimg.cc/x1H9xRdy/ads.png', link: '#products', alt: 'Rare Grade Tech Store promotion' }
+          ]
+        },
+        narrow: {
+          label: 'Narrow Banner (30%)',
+          autoAdvance: true,
+          interval: 30,
+          slides: [
+            { image: 'https://i.postimg.cc/x1H9xRdy/ads.png', link: '#products', alt: 'Rare Grade Tech Store promotion' },
+            { image: 'https://i.postimg.cc/jjm9pVkH/macbookpro.png', link: 'contact.html', alt: 'MacBook Pro promotion' }
+          ]
+        }
+      },
       products: [
         {
           id: 'iphone-16',
@@ -2080,7 +2226,16 @@
     up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
     down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
     add: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>',
-    del: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>'
+    del: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>',
+    upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>',
+    box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>',
+    alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></svg>',
+    tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
+    layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>',
+    image: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>',
+    coins: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18M7 6h1v4M16.71 13.88l.7.71-2.82 2.82"/></svg>',
+    arrowRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
   };
 
   /* =====================================================================
@@ -2284,6 +2439,100 @@
   function imgField(label, value, key) {
     var prev = value ? '<img src="' + esc(value) + '" alt=""/>' : '<span class="ph">No image</span>';
     return '<div class="efield with-img"><div class="img-prev">' + prev + '</div><div class="img-input"><label>' + esc(label) + '</label><input type="text" data-k="' + esc(key) + '" value="' + esc(value) + '" placeholder="https://..." /><div class="hint">Paste an image URL. Preview updates as you type.</div></div></div>';
+  }
+
+  // upload field with direct file -> base64 data URI (no external link needed).
+  // opts: { aspect: 'wide'|'square'|'tall', allowUrl: true, hint: '' }
+  function uploadField(label, value, key, opts) {
+    opts = opts || {};
+    var prev = value ? '<img src="' + esc(value) + '" alt=""/>' : '<span class="ph">No image</span>';
+    var hint = opts.hint ? '<div class="hint">' + esc(opts.hint) + '</div>' : '';
+    var allowUrl = opts.allowUrl !== false;
+    var html =
+      '<div class="efield with-upload" data-upload="' + esc(key) + '">' +
+        '<div class="img-prev">' + prev + '<span class="up-loading" style="display:none">Reading…</span></div>' +
+        '<div class="upload-input">' +
+          '<label>' + esc(label) + '</label>' +
+          '<div class="dropzone" data-dz>' +
+            '<div class="dz-inner">' +
+              '<span class="dz-icon">' + IC.upload + '</span>' +
+              '<span class="dz-label">Click to upload or drag & drop</span>' +
+              '<span class="dz-hint">PNG, JPG, WEBP, GIF, SVG — stored inline</span>' +
+              (allowUrl ? '<span class="dz-url-toggle" data-url-toggle>…or paste a URL instead</span>' : '') +
+            '</div>' +
+            '<input type="file" accept="image/*" data-file />' +
+          '</div>' +
+          '<div class="upload-url-row" data-url-row style="display:none">' +
+            '<input type="text" data-url-input placeholder="https://image-url..." value="' + esc(value || '') + '" />' +
+            '<button type="button" class="url-apply" data-url-apply>Use URL</button>' +
+          '</div>' +
+          hint +
+        '</div>' +
+      '</div>';
+    return html;
+  }
+
+  // bind an uploadField group: handles file -> dataURI, url paste, preview.
+  // onSet(value) called whenever the value changes.
+  function bindUploadField(root, onSet) {
+    var dz = root.querySelector('[data-dz]');
+    var fileInput = root.querySelector('[data-file]');
+    var prevBox = root.querySelector('.img-prev');
+    var loading = root.querySelector('.up-loading');
+    var urlToggle = root.querySelector('[data-url-toggle]');
+    var urlRow = root.querySelector('[data-url-row]');
+    var urlInput = root.querySelector('[data-url-input]');
+    var urlApply = root.querySelector('[data-url-apply]');
+
+    function setPrev(v) {
+      prevBox.innerHTML = (v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>') + '<span class="up-loading" style="display:none">Reading…</span>';
+    }
+
+    function readFile(file) {
+      if (!file || !/^image\//i.test(file.type)) return;
+      loading = root.querySelector('.up-loading');
+      if (loading) loading.style.display = 'flex';
+      var reader = new FileReader();
+      reader.onload = function () {
+        var dataUri = reader.result;
+        setPrev(dataUri);
+        onSet(dataUri);
+        if (loading) loading.style.display = 'none';
+      };
+      reader.onerror = function () {
+        if (loading) loading.style.display = 'none';
+        toast('Could not read that image file.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    if (fileInput) fileInput.addEventListener('change', function (e) {
+      readFile(e.target.files && e.target.files[0]);
+      e.target.value = '';
+    });
+    if (dz) {
+      ['dragenter', 'dragover'].forEach(function (ev) {
+        dz.addEventListener(ev, function (e) { e.preventDefault(); dz.classList.add('drag-over'); });
+      });
+      ['dragleave', 'drop'].forEach(function (ev) {
+        dz.addEventListener(ev, function (e) { e.preventDefault(); dz.classList.remove('drag-over'); });
+      });
+      dz.addEventListener('drop', function (e) {
+        var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        readFile(f);
+      });
+    }
+    if (urlToggle) urlToggle.addEventListener('click', function () {
+      if (urlRow) { urlRow.style.display = 'flex'; urlInput.focus(); }
+    });
+    if (urlApply) urlApply.addEventListener('click', function () {
+      var v = (urlInput.value || '').trim();
+      setPrev(v);
+      onSet(v);
+    });
+    if (urlInput) urlInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); urlApply && urlApply.click(); }
+    });
   }
 
   // select / dropdown field. options: array of {value,label} OR array of strings.
@@ -3295,15 +3544,288 @@
      All changes publish live to the public store page in real time.
      ===================================================================== */
   function buildStore(area, desc) {
-    desc.textContent = 'Full control of the online store \u2014 add and edit products, update stock levels, manage brands, categories and conditions. Every change publishes live to store.html in real time.';
+    desc.textContent = 'Full overview of your store \u2014 live stock & inventory stats, hero carousel management, products, brands, categories and conditions. Every change publishes live to store.html in real time.';
     var st = C.store;
+
+    /* ensure carousels exist (back-compat with older saved content) */
+    if (!st.carousels) st.carousels = {};
+    if (!st.carousels.wide) st.carousels.wide = { label: 'Wide Banner (70%)', autoAdvance: true, interval: 30, slides: [] };
+    if (!st.carousels.narrow) st.carousels.narrow = { label: 'Narrow Banner (30%)', autoAdvance: true, interval: 30, slides: [] };
+    if (!st.carousels.wide.slides) st.carousels.wide.slides = [];
+    if (!st.carousels.narrow.slides) st.carousels.narrow.slides = [];
 
     /* ---------- helper: brand / category / condition option lists ---------- */
     function brandOpts() { return st.brands.map(function (b) { return { value: b.key, label: b.label || b.key }; }); }
     function catOpts() { return st.categories.map(function (c) { return { value: c.key, label: c.label || c.key }; }); }
     function condOpts() { return st.conditions.map(function (c) { return { value: c.key, label: c.label || c.key }; }); }
 
-    /* ---------- Card 1: Store settings ---------- */
+    /* ===========================================================
+       SECTION 1 \u2014 STORE OVERVIEW (KPI dashboard, inspired by Flex)
+       =========================================================== */
+    function computeStats() {
+      var products = st.products || [];
+      var total = products.length;
+      var inStock = 0, outStock = 0, lowStock = 0, totalUnits = 0, totalValue = 0;
+      products.forEach(function (p) {
+        var s = parseInt(p.stock, 10) || 0;
+        var price = parseInt(p.price, 10) || 0;
+        totalUnits += s;
+        totalValue += s * price;
+        if (s <= 0) outStock++;
+        else { inStock++; if (s <= 3) lowStock++; }
+      });
+      var inStockPct = total ? Math.round((inStock / total) * 100) : 0;
+      return {
+        total: total, inStock: inStock, outStock: outStock, lowStock: lowStock,
+        totalUnits: totalUnits, totalValue: totalValue, inStockPct: inStockPct,
+        brands: (st.brands || []).length, categories: (st.categories || []).length,
+        conditions: (st.conditions || []).length,
+        wideSlides: (st.carousels.wide.slides || []).length,
+        narrowSlides: (st.carousels.narrow.slides || []).length
+      };
+    }
+
+    function fmtPrice(n) {
+      n = parseInt(n, 10) || 0;
+      return 'R' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+    function fmtShort(n) {
+      n = parseInt(n, 10) || 0;
+      if (n >= 1000000) return (n / 1000000).toFixed(n >= 10000000 ? 0 : 1).replace(/\.0$/, '') + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, '') + 'k';
+      return String(n);
+    }
+
+    function buildOverview() {
+      var s = computeStats();
+
+      /* ---- KPI stat cards ---- */
+      var cards = [
+        { cls: '', icon: IC.box, label: 'Total Products', value: String(s.total), trend: s.total ? 'up' : 'flat', trendText: s.brands + ' brands' },
+        { cls: 'sc-green', icon: IC.check, label: 'In Stock', value: String(s.inStock), trend: 'up', trendText: s.inStockPct + '% avail' },
+        { cls: 'sc-red', icon: IC.alert, label: 'Out of Stock', value: String(s.outStock), trend: s.outStock ? 'down' : 'flat', trendText: s.outStock ? 'needs restock' : 'all good' },
+        { cls: 'sc-amber', icon: IC.alert, label: 'Low Stock (\u22643)', value: String(s.lowStock), trend: s.lowStock ? 'down' : 'flat', trendText: s.lowStock ? 'watch these' : 'none' },
+        { cls: 'sc-purple', icon: IC.coins, label: 'Inventory Value', value: fmtShort(s.totalValue), trend: 'up', trendText: fmtPrice(s.totalValue) },
+        { cls: '', icon: IC.layers, label: 'Units in Stock', value: fmtShort(s.totalUnits), trend: 'flat', trendText: 'across ' + s.total + ' items' },
+        { cls: '', icon: IC.tag, label: 'Brands', value: String(s.brands), trend: 'flat', trendText: 'filter tiles' },
+        { cls: '', icon: IC.services, label: 'Categories', value: String(s.categories), trend: 'flat', trendText: 'filter pills' }
+      ];
+      var cardsHtml = '<div class="ov-grid">' + cards.map(function (c) {
+        return '<div class="stat-card ' + c.cls + '">' +
+          '<div class="sc-top"><span class="sc-icon">' + c.icon + '</span>' +
+          '<span class="sc-trend ' + c.trend + '">' + esc(c.trendText) + '</span></div>' +
+          '<div class="sc-value">' + esc(c.value) + '</div>' +
+          '<div class="sc-label">' + esc(c.label) + '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+      area.insertAdjacentHTML('beforeend', cardsHtml);
+
+      /* ---- chart row: stock-per-product bar chart + conversion ring + promo ---- */
+      var rowWrap = document.createElement('div');
+      rowWrap.className = 'ov-row';
+
+      /* bar chart */
+      var chartCard = document.createElement('div');
+      chartCard.className = 'ov-chart-card';
+      var bars = (st.products || []).slice().sort(function (a, b) {
+        return (parseInt(a.order, 10) || 0) - (parseInt(b.order, 10) || 0);
+      }).slice(0, 14);
+      var maxStock = 1;
+      bars.forEach(function (p) { var v = parseInt(p.stock, 10) || 0; if (v > maxStock) maxStock = v; });
+      var barsHtml = bars.map(function (p) {
+        var v = parseInt(p.stock, 10) || 0;
+        var pct = maxStock ? Math.max(2, Math.round((v / maxStock) * 100)) : 2;
+        var cls = v <= 0 ? 'out' : (v <= 3 ? 'low' : '');
+        var name = (p.name || 'Product').replace(/^iPhone\s*/i, '').replace(/\s*l\s.*$/i, '').trim() || 'Product';
+        if (name.length > 12) name = name.slice(0, 11) + '\u2026';
+        return '<div class="bar-col"><div class="bar-wrap"><div class="bar ' + cls + '" style="height:' + pct + '%" title="' + esc(p.name || '') + ' \u2014 ' + v + ' in stock"></div></div>' +
+          '<div class="bar-val">' + v + '</div><div class="bar-label" title="' + esc(p.name || '') + '">' + esc(name) + '</div></div>';
+      }).join('');
+      if (!bars.length) barsHtml = '<div style="margin:auto;color:var(--ink-400);font-size:13px;font-weight:600;">No products yet \u2014 add some below.</div>';
+      chartCard.innerHTML =
+        '<div class="ovc-head"><div><div class="ovc-title">Stock by Product</div><div class="ovc-sub">Live unit counts \u2014 top ' + bars.length + ' by featured order</div></div>' +
+        '<div class="ovc-legend"><span class="lg"><span class="dot" style="background:var(--blue-700)"></span>In stock</span>' +
+        '<span class="lg"><span class="dot" style="background:#d97706"></span>Low (\u22643)</span>' +
+        '<span class="lg"><span class="dot" style="background:#e03131"></span>Out</span></div></div>' +
+        '<div class="ov-bars">' + barsHtml + '</div>';
+      rowWrap.appendChild(chartCard);
+
+      /* side column: ring + promo */
+      var side = document.createElement('div');
+      side.className = 'ov-side';
+
+      var ringCard = document.createElement('div');
+      ringCard.className = 'ov-ring-card';
+      var circ = 2 * Math.PI * 60; // r=60
+      var dashOffset = circ * (1 - s.inStockPct / 100);
+      ringCard.innerHTML =
+        '<div class="ovrc-title">Stock Health</div><div class="ovrc-sub">Share of products available</div>' +
+        '<div class="ov-ring">' +
+          '<svg viewBox="0 0 150 150"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">' +
+          '<stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#1118F5"/></linearGradient></defs>' +
+          '<circle class="ring-bg" cx="75" cy="75" r="60"/>' +
+          '<circle class="ring-fg" cx="75" cy="75" r="60" stroke-dasharray="' + circ.toFixed(2) + '" stroke-dashoffset="' + dashOffset.toFixed(2) + '"/>' +
+          '</svg>' +
+          '<div class="ring-center"><div class="ring-pct">' + s.inStockPct + '%</div><div class="ring-cap">Available</div></div>' +
+        '</div>' +
+        '<div class="ov-ring-meta">' +
+          '<div class="m"><div class="mv">' + s.inStock + '</div><div class="ml">In stock</div></div>' +
+          '<div class="m"><div class="mv">' + s.outStock + '</div><div class="ml">Out</div></div>' +
+          '<div class="m"><div class="mv">' + s.lowStock + '</div><div class="ml">Low</div></div>' +
+        '</div>';
+      side.appendChild(ringCard);
+
+      var promo = document.createElement('div');
+      promo.className = 'ov-promo';
+      promo.innerHTML =
+        '<div class="ovp-text"><div class="ovp-title">Storefront Hero</div>' +
+        '<div class="ovp-sub">Manage the two auto-advancing ad carousels on store.html \u2014 upload slides, set links and reorder them below.</div></div>' +
+        '<button type="button" class="ovp-btn" data-jump-carousel>Manage Carousels ' + IC.arrowRight + '</button>';
+      side.appendChild(promo);
+
+      rowWrap.appendChild(side);
+      area.appendChild(rowWrap);
+
+      /* promo jump button -> scroll to carousel card */
+      var jumpBtn = promo.querySelector('[data-jump-carousel]');
+      if (jumpBtn) jumpBtn.addEventListener('click', function () {
+        var target = area.querySelector('#storeCarouselsCard');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+    buildOverview();
+
+    /* ===========================================================
+       SECTION 2 \u2014 CAROUSEL MANAGER
+       Two carousels: wide (A, 70%) and narrow (B, 30%).
+       Each slide: direct image upload, link, alt text.
+       =========================================================== */
+    var cCar = sectionHead(area, 'Hero Carousel Manager', 'Control the two auto-advancing ad carousels shown at the top of store.html. Upload slide images directly (no external links needed), set a click-through link and alt text, then reorder or remove slides. Changes publish live.');
+    cCar.id = 'storeCarouselsCard';
+    var bCar = cCar.querySelector('.card-body');
+
+    function carouselEditor(groupKey, group) {
+      var wrap = document.createElement('div');
+      wrap.className = 'carousel-editor';
+      var head = document.createElement('div');
+      head.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--card-line);';
+      var labelTxt = group.label || groupKey;
+      var slides = group.slides;
+      head.innerHTML =
+        '<div style="display:flex;align-items:center;gap:10px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--blue-700);"></span>' +
+        '<span style="font-family:\'Space Grotesk\',sans-serif;font-weight:700;font-size:14px;color:var(--ink-900);">' + esc(labelTxt) + '</span>' +
+        '<span class="rep-badge">' + slides.length + ' slide' + (slides.length === 1 ? '' : 's') + '</span></div>' +
+        '<div style="display:flex;align-items:center;gap:10px;">' +
+          '<label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink-600);cursor:pointer;"><input type="checkbox" data-auto ' + (group.autoAdvance ? 'checked' : '') + ' style="width:16px;height:16px;accent-color:var(--blue-700);"> Auto-advance</label>' +
+          '<label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink-600);">Every <input type="number" data-interval value="' + (parseInt(group.interval, 10) || 30) + '" min="3" max="120" style="width:60px;padding:6px 8px;border-radius:8px;border:1px solid var(--card-line);font-size:12px;">s</label>' +
+        '</div>';
+      wrap.appendChild(head);
+
+      /* live preview strip */
+      var strip = document.createElement('div');
+      strip.className = 'car-preview-strip';
+      function renderStrip() {
+        strip.innerHTML = '';
+        slides.forEach(function (sl, i) {
+          var item = document.createElement('div');
+          item.className = 'cps-item';
+          item.innerHTML = '<span class="cps-idx">' + (i + 1) + '</span>' + (sl.image ? '<img src="' + esc(sl.image) + '" alt=""/>' : '<div style="height:88px;display:flex;align-items:center;justify-content:center;color:var(--ink-400);font-size:10px;">No image</div>');
+          strip.appendChild(item);
+        });
+        if (!slides.length) strip.innerHTML = '<div style="color:var(--ink-400);font-size:12px;font-weight:600;padding:10px;">No slides yet \u2014 add one below.</div>';
+      }
+      renderStrip();
+      wrap.appendChild(strip);
+
+      var list = document.createElement('div');
+      list.className = 'rep-list';
+      list.style.marginBottom = '10px';
+      wrap.appendChild(list);
+
+      function slideTitleFn(it, i) {
+        return 'Slide ' + (i + 1) + (it.alt ? ' \u2014 ' + it.alt : '');
+      }
+
+      function renderSlides() {
+        list.innerHTML = '';
+        renderStrip();
+        slides.forEach(function (it, i) {
+          var tmp = document.createElement('div');
+          tmp.innerHTML = repItemWrap(slideTitleFn(it, i), '#' + (i + 1));
+          var rep = tmp.firstChild;
+          rep.querySelector('.rep-actions').innerHTML = repActions(i, slides.length);
+          var rb = rep.querySelector('.rep-body');
+
+          var thumbPrev = it.image ? '<img src="' + esc(it.image) + '" alt=""/>' : '<span class="ph">No image</span>';
+          rb.innerHTML =
+            '<div class="car-slide-row">' +
+              '<div class="csr-media"><div class="car-slide-thumb">' + thumbPrev + '</div></div>' +
+              '<div class="csr-fields">' +
+                uploadField('Slide Image', it.image, 'image', { hint: 'Upload the banner image directly. Wide ~1200\u00d7500px works best for the wide carousel; ~600\u00d7800px for narrow.' }) +
+                field('Click-through Link', it.link, 'link', { hint: 'Where the slide goes when clicked, e.g. contact.html or #products' }) +
+                field('Alt Text', it.alt, 'alt', { hint: 'Short description for accessibility & SEO.' }) +
+              '</div>' +
+            '</div>';
+
+          /* bind upload field */
+          var upRoot = rb.querySelector('[data-upload="image"]');
+          if (upRoot) bindUploadField(upRoot, function (val) {
+            it.image = val;
+            markDirty();
+            var thumb = rb.querySelector('.car-slide-thumb');
+            if (thumb) thumb.innerHTML = val ? '<img src="' + esc(val) + '" alt=""/>' : '<span class="ph">No image</span>';
+            renderStrip();
+            rep.querySelector('.rep-title').firstChild.textContent = slideTitleFn(it, i) + ' ';
+          });
+
+          /* bind text fields */
+          $all('[data-k]', rb).forEach(function (el) {
+            var handler = function () {
+              var k = el.getAttribute('data-k');
+              it[k] = el.value;
+              markDirty();
+              if (k === 'alt') rep.querySelector('.rep-title').firstChild.textContent = slideTitleFn(it, i) + ' ';
+            };
+            el.addEventListener('input', handler);
+          });
+
+          bindRepActions(rep, slides, i, renderSlides, function () { return slideTitleFn(it, i); });
+          list.appendChild(rep);
+        });
+      }
+      renderSlides();
+
+      /* auto-advance + interval bindings */
+      var autoChk = head.querySelector('[data-auto]');
+      var intInp = head.querySelector('[data-interval]');
+      if (autoChk) autoChk.addEventListener('change', function () { group.autoAdvance = autoChk.checked; markDirty(); });
+      if (intInp) intInp.addEventListener('input', function () { group.interval = parseInt(intInp.value, 10) || 30; markDirty(); });
+
+      /* add slide button */
+      var addBtn = document.createElement('div');
+      addBtn.className = 'add-btn';
+      addBtn.innerHTML = IC.add + ' <span>Add new slide to ' + esc(labelTxt) + '</span>';
+      addBtn.addEventListener('click', function () {
+        slides.push({ image: '', link: '#products', alt: '' });
+        markDirty();
+        renderSlides();
+        var last = list.lastChild;
+        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+      wrap.appendChild(addBtn);
+
+      return wrap;
+    }
+
+    bCar.appendChild(carouselEditor('wide', st.carousels.wide));
+    var spacer = document.createElement('div');
+    spacer.style.height = '16px';
+    bCar.appendChild(spacer);
+    bCar.appendChild(carouselEditor('narrow', st.carousels.narrow));
+
+    /* ===========================================================
+       SECTION 3 \u2014 STORE SETTINGS
+       =========================================================== */
     var cSettings = sectionHead(area, 'Store Settings', 'Store page heading, price range, software tab and tab labels.');
     var bS = cSettings.querySelector('.card-body');
     bS.innerHTML =
@@ -3312,18 +3834,19 @@
       '<div class="grid-2">' + numField('Price Slider Max (R)', st.priceMax, 'priceMax', { hint: 'Maximum value of the price filter slider.' }) +
       selectField('Software Tab', st.softwareEnabled ? 'on' : 'off', 'softwareEnabled', [{ value: 'off', label: 'Hidden (show "coming soon")' }, { value: 'on', label: 'Enabled (show software products)' }], { hint: 'Toggle the "Software Products" tab.' }) + '</div>';
     bindGroup(bS, st);
-    // softwareEnabled is a boolean toggle stored as string -> normalise
     var swSel = bS.querySelector('[data-k="softwareEnabled"]');
     if (swSel) swSel.addEventListener('change', function () { st.softwareEnabled = (swSel.value === 'on'); markDirty(); });
 
-    /* ---------- Card 2: Products ---------- */
-    var cProducts = sectionHead(area, 'Products', 'Add, edit, reorder or remove products. Each product has a name, price, brand, category, condition, stock count, image, spec badges and a detail-page link. Stock = 0 marks a product as out of stock.');
+    /* ===========================================================
+       SECTION 4 \u2014 PRODUCTS  (image = direct upload)
+       =========================================================== */
+    var cProducts = sectionHead(area, 'Products', 'Add, edit, reorder or remove products. Each product has a name, price, brand, category, condition, stock count, image (direct upload), spec badges and a detail-page link. Stock = 0 marks a product as out of stock.');
     var bP = cProducts.querySelector('.card-body');
     bP.innerHTML = '<div class="rep-list" id="storeProductsList"></div><div class="add-btn" data-add-product>' + IC.add + ' <span>Add new product</span></div>';
     var pList = bP.querySelector('#storeProductsList');
 
     function productTitleFn(it) {
-      var stockBadge = (parseInt(it.stock, 10) <= 0) ? ' <span class="rep-badge" style="background:#e03131">Out of stock</span>' : (it.name ? '' : '');
+      var stockBadge = (parseInt(it.stock, 10) <= 0) ? ' <span class="rep-badge" style="background:#e03131">Out of stock</span>' : '';
       return (it.name || 'New product') + stockBadge;
     }
 
@@ -3337,7 +3860,7 @@
         var rb = rep.querySelector('.rep-body');
 
         rb.innerHTML =
-          imgField('Product Image URL', it.image, 'image') +
+          uploadField('Product Image', it.image, 'image', { hint: 'Upload the product photo directly. Square or portrait images work best on product cards.' }) +
           field('Product Name', it.name, 'name') +
           '<div class="grid-3">' +
             numField('Price (R)', it.price, 'price', { min: 0, step: 1 }) +
@@ -3358,7 +3881,14 @@
             numField('Added Order', it.added, 'added', { min: 0, hint: 'Used for Newest / Oldest sorting.' }) +
           '</div>';
 
-        // bind text/number/select/image fields
+        /* bind upload field for product image */
+        var upRoot = rb.querySelector('[data-upload="image"]');
+        if (upRoot) bindUploadField(upRoot, function (val) {
+          it.image = val;
+          markDirty();
+        });
+
+        /* bind text/number/select fields */
         $all('[data-k]', rb).forEach(function (el) {
           var handler = function () {
             var k = el.getAttribute('data-k');
@@ -3370,13 +3900,6 @@
               it[k] = el.value;
             }
             markDirty();
-            // live image preview
-            if (k === 'image' && el.tagName === 'INPUT') {
-              var prev = el.closest('.with-img').querySelector('.img-prev');
-              var v = el.value.trim();
-              prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
-            }
-            // live title + stock badge update
             rep.querySelector('.rep-title').innerHTML = productTitleFn(it) + ' <span class="rep-badge">#' + (i + 1) + '</span>';
           };
           el.addEventListener('input', handler);
@@ -3394,28 +3917,24 @@
       st.products.forEach(function (p) { if ((parseInt(p.added, 10) || 0) > maxAdded) maxAdded = parseInt(p.added, 10); });
       var slug = 'product-' + Date.now().toString(36);
       st.products.push({
-        id: slug,
-        name: '',
-        price: 0,
+        id: slug, name: '', price: 0,
         brand: st.brands.length ? st.brands[0].key : '',
         category: st.categories.length ? st.categories[0].key : '',
         condition: st.conditions.length ? st.conditions[0].key : '',
-        stock: 0,
-        image: '',
-        specs: [],
+        stock: 0, image: '', specs: [],
         href: 'product.html?id=' + slug,
-        order: st.products.length + 1,
-        added: maxAdded + 1
+        order: st.products.length + 1, added: maxAdded + 1
       });
       markDirty();
       renderProducts();
-      // refresh brand/category/condition dropdowns are already rebuilt in renderProducts
       var last = pList.lastChild;
       if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
-    /* ---------- Card 3: Brands ---------- */
-    var cBrands = sectionHead(area, 'Brands', 'The brand filter tiles along the top of the store. Each brand has a key (used by products), a label and an icon (inline SVG markup OR an image URL).');
+    /* ===========================================================
+       SECTION 5 \u2014 BRANDS  (icon = direct upload)
+       =========================================================== */
+    var cBrands = sectionHead(area, 'Brands', 'The brand filter tiles along the top of the store. Each brand has a key (used by products), a label and an icon (direct upload OR inline SVG markup).');
     var bBrands = cBrands.querySelector('.card-body');
     bBrands.innerHTML = '<div class="rep-list" id="storeBrandsList"></div><div class="add-btn" data-add-brand>' + IC.add + ' <span>Add new brand</span></div>';
     var brandList = bBrands.querySelector('#storeBrandsList');
@@ -3429,17 +3948,30 @@
         var rep = wrap.firstChild;
         rep.querySelector('.rep-actions').innerHTML = repActions(i, st.brands.length);
         var rb = rep.querySelector('.rep-body');
-        rb.innerHTML =
-          '<div class="grid-2">' + field('Brand Key', it.key, 'key', { hint: 'Unique id, e.g. "apple". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
-          selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Image URL' }]) +
-          field(it.iconType === 'img' ? 'Icon Image URL' : 'Icon SVG markup', it.icon, 'icon', { multiline: it.iconType !== 'img', hint: it.iconType === 'img' ? 'Paste an image URL.' : 'Paste the full <svg>...</svg> markup.' });
+
+        var isImg = it.iconType === 'img';
+        if (isImg) {
+          rb.innerHTML =
+            '<div class="grid-2">' + field('Brand Key', it.key, 'key', { hint: 'Unique id, e.g. "apple". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
+            selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Uploaded image / URL' }]) +
+            uploadField('Brand Icon', it.icon, 'icon', { hint: 'Upload a logo image directly (PNG with transparency works best).' });
+        } else {
+          rb.innerHTML =
+            '<div class="grid-2">' + field('Brand Key', it.key, 'key', { hint: 'Unique id, e.g. "apple". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
+            selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Uploaded image / URL' }]) +
+            field('Icon SVG markup', it.icon, 'icon', { multiline: true, hint: 'Paste the full <svg>...</svg> markup.' });
+        }
+
+        /* bind upload (only when img type) */
+        var upRoot = rb.querySelector('[data-upload="icon"]');
+        if (upRoot) bindUploadField(upRoot, function (val) { it.icon = val; markDirty(); });
+
         $all('[data-k]', rb).forEach(function (el) {
           var handler = function () {
             var k = el.getAttribute('data-k');
             it[k] = el.value;
             markDirty();
             if (k === 'iconType') {
-              // re-render this row so the icon field label/hint/multiline updates
               renderBrands();
             } else {
               rep.querySelector('.rep-title').firstChild.textContent = brandTitleFn(it) + ' ';
@@ -3457,13 +3989,15 @@
       st.brands.push({ key: 'brand-' + Date.now().toString(36), label: '', iconType: 'svg', icon: '' });
       markDirty();
       renderBrands();
-      renderProducts(); // refresh product brand dropdowns
+      renderProducts();
       var last = brandList.lastChild;
       if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
-    /* ---------- Card 4: Categories ---------- */
-    var cCats = sectionHead(area, 'Categories', 'The category filter pills under the brand row. Each category has a key (used by products), a label and an icon (inline SVG markup OR an image URL / data-URI).');
+    /* ===========================================================
+       SECTION 6 \u2014 CATEGORIES  (icon = direct upload)
+       =========================================================== */
+    var cCats = sectionHead(area, 'Categories', 'The category filter pills under the brand row. Each category has a key (used by products), a label and an icon (direct upload OR inline SVG markup).');
     var bCats = cCats.querySelector('.card-body');
     bCats.innerHTML = '<div class="rep-list" id="storeCatsList"></div><div class="add-btn" data-add-cat>' + IC.add + ' <span>Add new category</span></div>';
     var catList = bCats.querySelector('#storeCatsList');
@@ -3477,10 +4011,23 @@
         var rep = wrap.firstChild;
         rep.querySelector('.rep-actions').innerHTML = repActions(i, st.categories.length);
         var rb = rep.querySelector('.rep-body');
-        rb.innerHTML =
-          '<div class="grid-2">' + field('Category Key', it.key, 'key', { hint: 'Unique id, e.g. "iphone". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
-          selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Image URL / data-URI' }]) +
-          field(it.iconType === 'img' ? 'Icon Image URL' : 'Icon SVG markup', it.icon, 'icon', { multiline: it.iconType !== 'img', hint: it.iconType === 'img' ? 'Paste an image URL or data-URI.' : 'Paste the full <svg>...</svg> markup.' });
+
+        var isImg = it.iconType === 'img';
+        if (isImg) {
+          rb.innerHTML =
+            '<div class="grid-2">' + field('Category Key', it.key, 'key', { hint: 'Unique id, e.g. "iphone". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
+            selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Uploaded image / URL' }]) +
+            uploadField('Category Icon', it.icon, 'icon', { hint: 'Upload an icon image directly.' });
+        } else {
+          rb.innerHTML =
+            '<div class="grid-2">' + field('Category Key', it.key, 'key', { hint: 'Unique id, e.g. "iphone". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
+            selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Uploaded image / URL' }]) +
+            field('Icon SVG markup', it.icon, 'icon', { multiline: true, hint: 'Paste the full <svg>...</svg> markup.' });
+        }
+
+        var upRoot = rb.querySelector('[data-upload="icon"]');
+        if (upRoot) bindUploadField(upRoot, function (val) { it.icon = val; markDirty(); });
+
         $all('[data-k]', rb).forEach(function (el) {
           var handler = function () {
             var k = el.getAttribute('data-k');
@@ -3509,7 +4056,9 @@
       if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
-    /* ---------- Card 5: Conditions ---------- */
+    /* ===========================================================
+       SECTION 7 \u2014 CONDITIONS
+       =========================================================== */
     var cConds = sectionHead(area, 'Conditions', 'The condition badges shown on product cards (e.g. Brand New, Pre-Owned). Each has a key (used by products) and a display label.');
     var bConds = cConds.querySelector('.card-body');
     bConds.innerHTML = '<div class="rep-list" id="storeCondsList"></div><div class="add-btn" data-add-cond>' + IC.add + ' <span>Add new condition</span></div>';
