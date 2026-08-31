@@ -259,7 +259,15 @@
   .feature-row input{flex:1;}
   .add-feature{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--blue-700);cursor:pointer;padding:6px 4px;}
   .add-feature:hover{color:var(--blue-accent);}
-  .add-feature svg{width:16px;height:16px;flex:none;}
+
+  /* popular-toggle + nested package lists (services page editor) */
+  .toggle-row{display:flex;align-items:center;gap:10px;margin-top:6px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink-600);}
+  .toggle-row input{width:18px;height:18px;accent-color:var(--blue-700);cursor:pointer;}
+  .toggle-row:hover{color:var(--ink-900);}
+  .pkg-list{display:flex;flex-direction:column;gap:14px;margin:6px 0 10px;padding-left:14px;border-left:2px solid var(--card-line);}
+  .pkg-list .rep-item{background:rgba(59,76,255,.03);}
+  .sub-add{border-radius:12px;padding:11px;font-size:13px;margin-top:6px;}
+  .rep-badge{background:var(--blue-700);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:999px;margin-left:6px;}
 
   .add-btn{
     display:flex;align-items:center;justify-content:center;gap:8px;
@@ -269,7 +277,6 @@
     transition:all .2s ease;
   }
   .add-btn:hover{border-color:var(--blue-accent);color:var(--blue-700);background:rgba(59,76,255,.04);}
-  .add-btn svg{width:16px;height:16px;flex:none;}
 
   /* ============ SAVE BAR ============ */
   .save-bar{
@@ -760,6 +767,222 @@
         secondaryLabel: 'View Our Services',
         secondaryLink: 'services.html'
       }
+    },
+
+    /* ===== Services Page ===== */
+    servicesPage: {
+      hero: {
+        headline: 'OUR SERVICES',
+        subcopy: "Software, web & mobile apps, AI automation, IT support and design — see exactly what each service includes, then explore our packages and pricing below.",
+        ctaLabel: 'Explore Our Services'
+      },
+      servicesSection: {
+        eyebrow: 'What We Do',
+        title: 'Our Services',
+        sub: 'Six service lines, one team. Tap a service below to see exactly what it includes.',
+        panels: [
+          {
+            key: 'software',
+            tabLabel: 'Software Solutions',
+            eyebrow: 'Software Solutions',
+            title: 'Custom Software Built Around Your Business',
+            desc: "We build software specifically around how your business actually runs — not an off-the-shelf tool you have to bend your workflow around. We map out your current process, then build a system that automates the repetitive parts and keeps everything organised in one place.",
+            examples: [
+              'A booking & scheduling system that manages appointments automatically',
+              'An internal stock or inventory tracker for a shop or warehouse',
+              'A staff system for logging hours, leave and payroll info',
+              'A custom dashboard pulling your sales, stock and customer data into one screen'
+            ],
+            image: 'https://i.postimg.cc/zDtTg9PX/dashmock.png'
+          },
+          {
+            key: 'web-mobile',
+            tabLabel: 'Web & Mobile Apps',
+            eyebrow: 'Web & Mobile Apps',
+            title: 'Websites & Apps Your Customers Actually Use',
+            desc: "We design and build the websites and apps your customers interact with every day — from a simple business website to a full mobile app with logins, payments and notifications. Everything is mobile-responsive and built to load fast and look sharp on any device.",
+            examples: [
+              'A business website with an online booking or contact form',
+              'An e-commerce store where customers can browse, add to cart and pay online',
+              'A mobile app for iOS & Android with accounts and push notifications',
+              'A client portal where customers log in and track orders or projects'
+            ],
+            image: 'https://i.postimg.cc/Qxv4pBn5/1bus.png'
+          },
+          {
+            key: 'ai',
+            tabLabel: 'AI Automation & Integrations',
+            eyebrow: 'AI Automation & Integrations',
+            title: 'AI That Actually Saves You Time',
+            desc: "We connect the tools you already use and add AI where it genuinely saves you time — not as a gimmick. Think automatic replies, smart data sorting, and systems that talk to each other instead of you copying information between apps by hand.",
+            examples: [
+              'An AI chatbot on your website or WhatsApp that answers common customer questions',
+              'Automatically syncing new orders from your website into your accounting software',
+              'AI data capture that reads documents or invoices and fills in the details for you',
+              'Connecting your CRM, email and calendar so a new lead triggers a follow-up automatically'
+            ],
+            image: 'https://i.postimg.cc/JzznCSYk/aiinter.png'
+          },
+          {
+            key: 'pc-repair',
+            tabLabel: 'PC Repair',
+            eyebrow: 'PC Repair',
+            title: 'Hands-On Repairs, Diagnosed Properly First',
+            desc: "We diagnose and repair desktops and laptops — from hardware faults to a machine that's simply become too slow to use. We identify the actual problem before quoting, so you're never paying to replace parts that didn't need replacing.",
+            examples: [
+              "Fixing a laptop or PC that won't boot or keeps crashing",
+              'Replacing a broken screen, keyboard or failing hard drive',
+              'Removing viruses or malware and restoring a slow PC to full speed',
+              'Data recovery from a damaged or corrupted drive'
+            ],
+            image: 'https://i.postimg.cc/w38m4Qdp/pc.png'
+          },
+          {
+            key: 'it-support',
+            tabLabel: 'IT Support & Maintenance',
+            eyebrow: 'IT Support & Maintenance',
+            title: 'Ongoing Care So Small Issues Never Become Downtime',
+            desc: "Ongoing support for your business's computers, network and systems so small issues get caught before they cause downtime. This is a plan-based service — we monitor, maintain and respond, rather than only showing up once something's already broken.",
+            examples: [
+              'Monthly monitoring and maintenance of office computers and network',
+              'Setting up and securing a new office Wi-Fi or network',
+              'Regular data backups so you never lose important files',
+              'Fast remote or on-site support when something goes wrong'
+            ],
+            image: 'https://i.postimg.cc/wBf1ZwjH/5.png'
+          },
+          {
+            key: 'design',
+            tabLabel: 'Graphic Design',
+            eyebrow: 'Graphic Design',
+            title: 'A Visual Identity That Matches The Work You Do',
+            desc: "Visual identity and marketing material that makes your business look as professional as the work you do — from your logo to everything you post and print. Built to stay consistent across every touchpoint with your name on it.",
+            examples: [
+              'Logo design and a full brand colour & font palette',
+              'Social media templates for posts, stories and ads',
+              'Business cards, flyers and signage',
+              'A brand guidelines document so your look stays consistent everywhere'
+            ],
+            image: 'https://i.postimg.cc/hPbk1jr2/shop.png'
+          }
+        ]
+      },
+      pricingSection: {
+        eyebrow: 'Pricing',
+        title: 'Simple, Transparent Packages',
+        sub: "Choose a service below to see its pricing packages. Every package can be tailored to your project's scope.",
+        panels: [
+          {
+            key: 'software',
+            tabLabel: 'Software Solutions',
+            packages: [
+              { tier: 'Starter', desc: 'A focused tool or internal system to automate one part of your business.', amount: 'R15,000', period: 'once-off', features: ['Single-module system', 'Cloud-based hosting', 'Basic user roles', '30 days support'], badge: '', popular: false },
+              { tier: 'Growth', desc: 'A tailored, multi-module system built around your workflow.', amount: 'R35,000', period: 'once-off', features: ['Multi-module system', 'Third-party integrations', 'Custom user permissions', '90 days support'], badge: 'Most Popular', popular: true },
+              { tier: 'Enterprise', desc: 'A full custom platform with automation across your business.', amount: 'From R65,000', period: 'once-off', features: ['Full platform build', 'Advanced automations', 'Dedicated project lead', 'Ongoing support plan'], badge: '', popular: false }
+            ]
+          },
+          {
+            key: 'web-mobile',
+            tabLabel: 'Web & Mobile Apps',
+            packages: [
+              { tier: 'Starter Website', desc: 'A clean, mobile-responsive website to get your business online.', amount: 'R8,000', period: 'once-off', features: ['Up to 5 pages', 'Mobile-responsive design', 'Contact form', '30 days support'], badge: '', popular: false },
+              { tier: 'Business Website', desc: 'A full-featured site built to convert visitors into customers.', amount: 'R18,000', period: 'once-off', features: ['Up to 12 pages', 'Custom UI/UX design', 'CMS & booking/e-commerce', '90 days support'], badge: 'Most Popular', popular: true },
+              { tier: 'Mobile App', desc: 'A native or cross-platform app for iOS and Android.', amount: 'From R45,000', period: 'once-off', features: ['iOS & Android build', 'Backend & API integration', 'App store submission', 'Ongoing support plan'], badge: '', popular: false }
+            ]
+          },
+          {
+            key: 'ai',
+            tabLabel: 'AI Automation',
+            packages: [
+              { tier: 'Automation Starter', desc: 'Automate a single repetitive task or workflow.', amount: 'R12,000', period: 'once-off', features: ['One automated workflow', 'Single API integration', 'Basic reporting', '30 days support'], badge: '', popular: false },
+              { tier: 'Growth', desc: 'An AI-powered chatbot or assistant plus connected workflows.', amount: 'R28,000', period: 'once-off', features: ['AI chatbot / assistant', 'Multiple integrations', 'Data syncing & pipelines', '90 days support'], badge: 'Most Popular', popular: true },
+              { tier: 'Custom AI Build', desc: 'A bespoke AI-powered tool built around your data and processes.', amount: 'From R60,000', period: 'once-off', features: ['Custom AI-powered tool', 'End-to-end automation', 'Dedicated project lead', 'Ongoing support plan'], badge: '', popular: false }
+            ]
+          },
+          {
+            key: 'pc-repair',
+            tabLabel: 'PC Repair',
+            packages: [
+              { tier: 'Diagnostic & Basic Repair', desc: 'Fault-finding and a straightforward fix for common issues.', amount: 'R450', period: 'per device', features: ['Full diagnostic', 'Software troubleshooting', 'Virus & malware removal', '7 day workmanship guarantee'], badge: '', popular: false },
+              { tier: 'Standard Repair', desc: 'Hardware repair or screen replacement, parts included.', amount: 'R950', period: 'per device', features: ['Hardware repair', 'Screen replacement', 'System optimisation', '30 day workmanship guarantee'], badge: 'Most Popular', popular: true },
+              { tier: 'Full Service & Upgrade', desc: 'Deep clean, component upgrade and performance tuning.', amount: 'From R1,800', period: 'per device', features: ['System upgrades', 'Full internal service', 'Data backup included', '60 day workmanship guarantee'], badge: '', popular: false }
+            ]
+          },
+          {
+            key: 'it-support',
+            tabLabel: 'IT Support',
+            packages: [
+              { tier: 'Basic Care', desc: 'Essential monitoring and support for a small office.', amount: 'R1,200', period: '/ month', features: ['Network monitoring', 'Remote support', 'Monthly backups', 'Business hours support'], badge: '', popular: false },
+              { tier: 'Business', desc: 'Proactive support and security for growing teams.', amount: 'R2,800', period: '/ month', features: ['Network setup & monitoring', 'Data backup & recovery', 'Cybersecurity essentials', 'Remote & on-site support'], badge: 'Most Popular', popular: true },
+              { tier: 'Enterprise', desc: 'Full-scale support with a dedicated response plan.', amount: 'From R5,500', period: '/ month', features: ['Preventative maintenance plans', 'Priority on-site response', 'Advanced security stack', 'Dedicated account manager'], badge: '', popular: false }
+            ]
+          },
+          {
+            key: 'design',
+            tabLabel: 'Graphic Design',
+            packages: [
+              { tier: 'Essentials', desc: 'A simple logo and starter brand assets.', amount: 'R2,500', period: 'once-off', features: ['Logo design', 'Colour & font palette', 'Social media kit', '2 rounds of revisions'], badge: '', popular: false },
+              { tier: 'Brand Package', desc: 'A full brand identity across digital and print.', amount: 'R6,500', period: 'once-off', features: ['Brand identity', 'Digital marketing assets', 'Signage & typography', '4 rounds of revisions'], badge: 'Most Popular', popular: true },
+              { tier: 'Full Identity Suite', desc: 'Complete creative direction across every touchpoint.', amount: 'From R12,000', period: 'once-off', features: ['Creative direction', 'Full print material set', 'Brand guidelines document', 'Unlimited revisions'], badge: '', popular: false }
+            ]
+          }
+        ]
+      },
+      customizeSection: {
+        eyebrow: 'Make It Yours',
+        title: 'Build A Package Around Your Goals',
+        sub: "Start with a package, then tell us what you need adjusted. We'll shape the scope, features and support around your next move.",
+        leftEyebrow: 'Flexible By Design',
+        leftTitle: 'Your project is not one-size-fits-all.',
+        leftDesc: "Choose a starting point and share the details that matter. Our team will turn your brief into a clear recommendation and tailored quote.",
+        points: [
+          'Scope the right features for your budget.',
+          'Add support, integrations or extra revisions.',
+          'Receive a clear quote before work begins.'
+        ],
+        formTitle: 'Customize your package',
+        formIntro: "Give us a quick snapshot and we'll help you choose the best fit.",
+        submitLabel: 'Request a Quote',
+        packageOptions: ['Software Solutions', 'Web & Mobile Apps', 'AI Automation', 'PC Repair', 'IT Support', 'Graphic Design'],
+        budgetOptions: ['Help me choose', 'Under R10,000', 'R10,000 – R25,000', 'R25,000 – R50,000', 'R50,000+'],
+        notesPlaceholder: 'Tell us about your goals, features, timeline or support needs...'
+      },
+      processSection: {
+        eyebrow: 'How We Work',
+        title: 'Your Journey When You Choose A Package',
+        sub: 'A clear, collaborative process from first conversation to launch — and beyond.',
+        steps: [
+          { num: '01', title: 'Discovery', desc: 'We learn about your business, goals, and project requirements to set a clear direction.', icon: 'https://i.postimg.cc/x1n2LcrV/discover.png', color: '#1118F5' },
+          { num: '02', title: 'Planning', desc: 'We define the strategy, timeline, and project roadmap for smooth execution.', icon: 'https://i.postimg.cc/TYrxyn40/p.png', color: '#0D12A0' },
+          { num: '03', title: 'Design', desc: 'We create intuitive, user-friendly, and modern interfaces that match your brand.', icon: 'https://i.postimg.cc/bNX8Nm3v/desi.png', color: '#3B4CFF' },
+          { num: '04', title: 'Development', desc: 'We build secure, scalable, and high-performance solutions with modern tech.', icon: 'https://i.postimg.cc/5NmGdgrT/dev.png', color: '#0404d8' },
+          { num: '05', title: 'Deployment', desc: 'We test, launch, and configure your solution for real-world success.', icon: 'https://i.postimg.cc/Zqq2bNN2/deployment.png', color: '#020084' },
+          { num: '06', title: 'Support', desc: 'We provide ongoing maintenance, updates, and technical support after launch.', icon: 'https://i.postimg.cc/ZKkc7NKg/support.png', color: '#0A0E5A' }
+        ]
+      },
+      faqSection: {
+        eyebrow: 'Questions, Answered',
+        title: 'Frequently Asked Questions',
+        sub: 'Everything you need to know before choosing a package or requesting a tailored quote.',
+        items: [
+          { q: 'How long does a project take?', a: "Most projects take between two and twelve weeks, depending on the package, scope and feedback turnaround. We'll confirm a realistic timeline before work begins." },
+          { q: 'Do you offer refunds?', a: "Because work is tailored and delivery begins after approval, refunds are assessed according to the agreed project terms. We'll make the scope and payment milestones clear upfront." },
+          { q: 'How many revisions are included?', a: 'Each package includes a defined number of revision rounds. Additional revisions can be added to a custom quote when your project needs them.' },
+          { q: 'Can I upgrade my package?', a: "Yes. Packages can be upgraded as your needs grow. We'll review the remaining scope and recommend the most practical next step." },
+          { q: 'Do you offer payment plans?', a: 'Payment plans are available for qualifying projects and are agreed before kickoff. Ask about milestones when you request your quote.' },
+          { q: 'Do you provide ongoing support?', a: 'Yes. Support options range from the included post-launch period to ongoing maintenance and support plans tailored to your needs.' },
+          { q: 'What happens after I purchase?', a: "We'll confirm your requirements, schedule a discovery session, finalise the project plan and begin the first phase with clear next steps." },
+          { q: 'Are hosting and domain included?', a: "Hosting and domain registration depend on the package and project requirements. We'll state all recurring costs clearly in your quote before approval." }
+        ]
+      },
+      ctaBanner: {
+        title: 'Ready To Get Started?',
+        text: "Let's turn your idea into something people remember.",
+        primaryLabel: 'Get a Quote',
+        primaryLink: 'contact.html',
+        secondaryLabel: 'Start a Project',
+        secondaryLink: 'contact.html'
+      }
     }
   };
 
@@ -1248,9 +1471,175 @@
     document.querySelectorAll(selector).forEach(function (el) { obs.observe(el); });
   }
 
+  /* ---------- SERVICES PAGE RENDER ---------- */
+  function renderServicesPage(c) {
+    var s = c.settings, sp = c.servicesPage;
+    if (!sp) return;
+
+    // Utility bar + nav (shared chrome)
+    var ub = document.querySelector('.utility-bar');
+    if (ub) {
+      var ul = ub.querySelector('.utility-left');
+      if (ul) {
+        ul.innerHTML =
+          '<a class="utility-item" href="' + esc(s.phoneHref) + '">' + svg('phone') + '<span>' + esc(s.phone) + '</span></a>' +
+          '<a class="utility-item" href="' + esc(s.emailHref) + '">' + svg('email') + '<span>' + esc(s.email) + '</span></a>' +
+          '<span class="utility-item">' + svg('clock') + '<span>' + esc(s.hours) + '</span></span>' +
+          '<span class="utility-item">' + svg('pin') + '<span>' + esc(s.address) + '</span></span>';
+      }
+      var us = ub.querySelector('.utility-social');
+      if (us) {
+        us.innerHTML = '<a href="' + esc(s.facebook) + '" aria-label="Facebook">' + ICONS.fb + '</a><a href="' + esc(s.instagram) + '" aria-label="Instagram">' + ICONS.ig + '</a><a href="' + esc(s.youtube) + '" aria-label="YouTube">' + ICONS.yt + '</a><a href="' + esc(s.tumblr) + '" aria-label="Tumblr">' + ICONS.tu + '</a>';
+      }
+    }
+    document.querySelectorAll('.logo-image').forEach(function (img) { img.src = s.logo; img.alt = s.brandName; });
+
+    // Hero
+    setText(document.querySelector('.hero--services .headline'), sp.hero.headline);
+    setText(document.querySelector('.hero--services .subcopy'), sp.hero.subcopy);
+    var hctaSpan = document.querySelector('.hero--services .hero-cta .btn span');
+    if (hctaSpan) hctaSpan.textContent = sp.hero.ctaLabel;
+
+    // Services section heading
+    renderSectionHead('#services .section-head', sp.servicesSection.eyebrow, sp.servicesSection.title, sp.servicesSection.sub);
+
+    // Services tabs
+    var svcTabs = document.getElementById('svcTabs');
+    if (svcTabs) {
+      svcTabs.innerHTML = '<span class="svc-tab-indicator" id="svcTabIndicator" aria-hidden="true"></span>' +
+        sp.servicesSection.panels.map(function (p, i) {
+          return '<button type="button" class="svc-tab' + (i === 0 ? ' is-active' : '') + '" data-svc="' + esc(p.key) + '">' + esc(p.tabLabel) + '</button>';
+        }).join('');
+    }
+
+    // Services panels
+    var svcPanels = document.getElementById('svcPanels');
+    if (svcPanels) {
+      svcPanels.innerHTML = sp.servicesSection.panels.map(function (p, i) {
+        var ex = (p.examples || []).map(function (e) {
+          return '<li>' + ICONS.check + esc(e) + '</li>';
+        }).join('');
+        return '<div class="svc-panel' + (i === 0 ? ' is-active' : '') + ' reveal" data-svc-panel="' + esc(p.key) + '">' +
+          '<div class="svc-grid"><div class="svc-text">' +
+          '<span class="eyebrow">' + esc(p.eyebrow) + '</span>' +
+          '<h3 class="svc-title">' + esc(p.title) + '</h3>' +
+          '<p class="svc-desc">' + esc(p.desc) + '</p>' +
+          '<ul class="svc-examples">' + ex + '</ul>' +
+          '<a class="btn btn-outline btn-sm svc-cta" data-target-filter="' + esc(p.key) + '" href="#pricing">See Pricing &amp; Packages</a>' +
+          '</div><div class="svc-media"><img src="' + esc(p.image) + '" alt="' + esc(p.title) + ' example mockup" loading="lazy" /></div></div></div>';
+      }).join('');
+    }
+
+    // Pricing section heading
+    renderSectionHead('#pricing .section-head', sp.pricingSection.eyebrow, sp.pricingSection.title, sp.pricingSection.sub);
+
+    // Pricing filters
+    var pfWrap = document.getElementById('pricingFilters');
+    if (pfWrap) {
+      pfWrap.innerHTML = '<span class="pricing-filter-indicator" id="pricingFilterIndicator" aria-hidden="true"></span>' +
+        sp.pricingSection.panels.map(function (p, i) {
+          return '<button type="button" class="pricing-filter' + (i === 0 ? ' is-active' : '') + '" data-filter="' + esc(p.key) + '">' + esc(p.tabLabel) + '</button>';
+        }).join('');
+    }
+
+    // Pricing panels
+    var pfPanels = document.getElementById('pricingPanels');
+    if (pfPanels) {
+      pfPanels.innerHTML = sp.pricingSection.panels.map(function (p, i) {
+        var cards = (p.packages || []).map(function (pk) {
+          var feats = (pk.features || []).map(function (f) {
+            return '<li>' + ICONS.check + esc(f) + '</li>';
+          }).join('');
+          return '<div class="price-card' + (pk.popular ? ' is-popular' : '') + '">' +
+            (pk.popular && pk.badge ? '<span class="price-badge">' + esc(pk.badge) + '</span>' : '') +
+            '<h3 class="price-tier">' + esc(pk.tier) + '</h3>' +
+            '<p class="price-desc">' + esc(pk.desc) + '</p>' +
+            '<div class="price-amount"><span class="amount">' + esc(pk.amount) + '</span><span class="period">' + esc(pk.period) + '</span></div>' +
+            '<ul class="price-features">' + feats + '</ul>' +
+            '<div class="price-cta"><a class="btn btn-outline" href="contact.html">Get Started</a></div></div>';
+        }).join('');
+        return '<div class="pricing-panel' + (i === 0 ? ' is-active' : '') + '" data-panel="' + esc(p.key) + '"><div class="pricing-grid">' + cards + '</div></div>';
+      }).join('');
+    }
+
+    // Customise section
+    renderSectionHead('#customize .section-head', sp.customizeSection.eyebrow, sp.customizeSection.title, sp.customizeSection.sub);
+    var czCopy = document.querySelector('#customize .customize-copy');
+    if (czCopy) {
+      var pts = (sp.customizeSection.points || []).map(function (pt) {
+        return '<div class="customize-point">' + ICONS.check + '<span>' + esc(pt) + '</span></div>';
+      }).join('');
+      czCopy.innerHTML =
+        '<span class="eyebrow">' + esc(sp.customizeSection.leftEyebrow) + '</span>' +
+        '<h3>' + esc(sp.customizeSection.leftTitle) + '</h3>' +
+        '<p>' + esc(sp.customizeSection.leftDesc) + '</p>' +
+        '<div class="customize-points">' + pts + '</div>';
+    }
+    var czForm = document.querySelector('#customize .customize-form');
+    if (czForm) {
+      var pkgOpts = (sp.customizeSection.packageOptions || []).map(function (o) {
+        return '<option>' + esc(o) + '</option>';
+      }).join('');
+      var budOpts = (sp.customizeSection.budgetOptions || []).map(function (o) {
+        return '<option>' + esc(o) + '</option>';
+      }).join('');
+      czForm.innerHTML =
+        '<h3>' + esc(sp.customizeSection.formTitle) + '</h3>' +
+        '<p>' + esc(sp.customizeSection.formIntro) + '</p>' +
+        '<div class="customize-fields">' +
+          '<div class="customize-field"><label for="package-type">Starting package</label><select id="package-type" name="package">' + pkgOpts + '</select></div>' +
+          '<div class="customize-field"><label for="budget">Estimated budget</label><select id="budget" name="budget">' + budOpts + '</select></div>' +
+          '<div class="customize-field full"><label for="project-notes">What would you like to include?</label><textarea id="project-notes" name="notes" placeholder="' + esc(sp.customizeSection.notesPlaceholder) + '"></textarea></div>' +
+        '</div>' +
+        '<button class="btn btn-block-ink customize-submit" type="submit">' + esc(sp.customizeSection.submitLabel) + ' ' + ICONS.arrow + '</button>';
+    }
+
+    // Process section
+    renderSectionHead('#process .section-head', sp.processSection.eyebrow, sp.processSection.title, sp.processSection.sub);
+    var pfFlow = document.querySelector('#process .process-flow');
+    if (pfFlow) {
+      pfFlow.innerHTML = (sp.processSection.steps || []).map(function (st) {
+        return '<div class="process-node" style="--num-color:' + esc(st.color) + '">' +
+          '<div class="process-num">' + esc(st.num) + '</div>' +
+          '<div class="process-card"><h3 class="process-title">' + esc(st.title) + '</h3>' +
+          '<p class="process-desc">' + esc(st.desc) + '</p>' +
+          '<div class="process-icon"><img src="' + esc(st.icon) + '" alt="' + esc(st.title) + ' icon" loading="lazy" /></div></div></div>';
+      }).join('');
+    }
+
+    // FAQ section
+    renderSectionHead('#faq .section-head', sp.faqSection.eyebrow, sp.faqSection.title, sp.faqSection.sub);
+    var faqList = document.querySelector('#faq .faq-list');
+    if (faqList) {
+      faqList.innerHTML = (sp.faqSection.items || []).map(function (it) {
+        return '<details class="faq-item"><summary>' + esc(it.q) + '</summary><div class="faq-answer">' + esc(it.a) + '</div></details>';
+      }).join('');
+    }
+
+    // Final CTA banner
+    var ctaBanner = document.querySelector('#start-project .pricing-cta-banner');
+    if (ctaBanner) {
+      ctaBanner.innerHTML =
+        '<h2>' + esc(sp.ctaBanner.title) + '</h2>' +
+        '<p>' + esc(sp.ctaBanner.text) + '</p>' +
+        '<div class="pricing-cta-actions">' +
+          '<a class="btn btn-secondary" href="' + esc(sp.ctaBanner.primaryLink) + '">' + esc(sp.ctaBanner.primaryLabel) + ' ' + ICONS.arrow + '</a>' +
+          '<a class="btn btn-outline" href="' + esc(sp.ctaBanner.secondaryLink) + '">' + esc(sp.ctaBanner.secondaryLabel) + '</a>' +
+        '</div>';
+    }
+
+    // Footer
+    renderFooter(c);
+
+    // Re-initialise the interactive tab / filter logic after a live update
+    if (global.RGTInitServicesTabs) global.RGTInitServicesTabs();
+    observeReveals('#svcPanels .svc-panel');
+  }
+
   global.RGTRender = {
     renderHome: renderHome,
     renderPortfolio: renderPortfolio,
+    renderServicesPage: renderServicesPage,
     observeReveals: observeReveals,
     ICONS: ICONS
   };
@@ -1272,6 +1661,7 @@
 
   function isHome() { return !!document.querySelector('.hero#home, #home.hero, section.hero#home') || document.body.getAttribute('data-page') === 'home'; }
   function isPortfolio() { return document.body.getAttribute('data-page') === 'portfolio' || !!document.querySelector('.hero--portfolio'); }
+  function isServices() { return document.body.getAttribute('data-page') === 'services' || !!document.querySelector('.hero--services'); }
 
   // ---- Trusted logos marquee (extracted from inline script, re-initable) ----
   global.RGTInitTrusted = function () {
@@ -1419,11 +1809,119 @@
     });
   };
 
+  // ---- Services page: service tabs + pricing filters (re-initable) ----
+  global.RGTInitServicesTabs = function () {
+    // ---- Service tabs (#svcTabs) ----
+    (function svcTabsInit() {
+      var wrap = document.getElementById('svcTabs');
+      var indicator = document.getElementById('svcTabIndicator');
+      var tabs = Array.from(document.querySelectorAll('.svc-tab'));
+      var panels = document.querySelectorAll('.svc-panel');
+      if (!tabs.length || !wrap) return;
+
+      var order = tabs.map(function (t) { return t.getAttribute('data-svc'); });
+      var activeNow = document.querySelector('.svc-tab.is-active');
+      var currentIndex = Math.max(0, order.indexOf(activeNow ? activeNow.getAttribute('data-svc') : order[0]));
+
+      function moveIndicator(btn) {
+        if (!indicator || !wrap || !btn) return;
+        var wrapRect = wrap.getBoundingClientRect();
+        var btnRect = btn.getBoundingClientRect();
+        indicator.style.width = btnRect.width + 'px';
+        indicator.style.height = btnRect.height + 'px';
+        indicator.style.transform = 'translate(' + (btnRect.left - wrapRect.left) + 'px,' + (btnRect.top - wrapRect.top) + 'px)';
+      }
+      function activate(key) {
+        var newIndex = order.indexOf(key);
+        if (newIndex === -1) return;
+        var dir = newIndex > currentIndex ? 1 : (newIndex < currentIndex ? -1 : 0);
+        currentIndex = newIndex;
+        tabs.forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-svc') === key); });
+        panels.forEach(function (p) {
+          var isTarget = p.getAttribute('data-svc-panel') === key;
+          if (isTarget) p.style.setProperty('--slide-x', (dir < 0 ? -64 : 64) + 'px');
+          p.classList.toggle('is-active', isTarget);
+        });
+        var activeTab = document.querySelector('.svc-tab[data-svc="' + key + '"]');
+        moveIndicator(activeTab);
+      }
+      tabs.forEach(function (t) { t.addEventListener('click', function () { activate(t.getAttribute('data-svc')); }); });
+      var initialActive = document.querySelector('.svc-tab.is-active') || tabs[0];
+      moveIndicator(initialActive);
+      wrap.classList.remove('is-ready');
+      requestAnimationFrame(function () { wrap.classList.add('is-ready'); });
+      window.addEventListener('resize', function () {
+        var current = document.querySelector('.svc-tab.is-active') || tabs[0];
+        moveIndicator(current);
+      });
+
+      // "See Pricing & Packages" buttons -> jump to pricing + pre-select matching filter
+      document.querySelectorAll('.svc-cta[data-target-filter]').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          var key = btn.getAttribute('data-target-filter');
+          var filterBtn = document.querySelector('.pricing-filter[data-filter="' + key + '"]');
+          if (filterBtn) {
+            e.preventDefault();
+            filterBtn.click();
+            var target = document.getElementById('pricing');
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    })();
+
+    // ---- Pricing filters (#pricingFilters) ----
+    (function pricingFiltersInit() {
+      var wrap = document.getElementById('pricingFilters');
+      var indicator = document.getElementById('pricingFilterIndicator');
+      var filters = Array.from(document.querySelectorAll('.pricing-filter'));
+      var panels = document.querySelectorAll('.pricing-panel');
+      if (!filters.length || !wrap) return;
+
+      var order = filters.map(function (f) { return f.getAttribute('data-filter'); });
+      var activeNow = document.querySelector('.pricing-filter.is-active');
+      var currentIndex = Math.max(0, order.indexOf(activeNow ? activeNow.getAttribute('data-filter') : order[0]));
+
+      function moveIndicator(btn) {
+        if (!indicator || !wrap || !btn) return;
+        var wrapRect = wrap.getBoundingClientRect();
+        var btnRect = btn.getBoundingClientRect();
+        indicator.style.width = btnRect.width + 'px';
+        indicator.style.height = btnRect.height + 'px';
+        indicator.style.transform = 'translate(' + (btnRect.left - wrapRect.left) + 'px,' + (btnRect.top - wrapRect.top) + 'px)';
+      }
+      function activate(key) {
+        var newIndex = order.indexOf(key);
+        if (newIndex === -1) return;
+        var dir = newIndex > currentIndex ? 1 : (newIndex < currentIndex ? -1 : 0);
+        currentIndex = newIndex;
+        filters.forEach(function (f) { f.classList.toggle('is-active', f.getAttribute('data-filter') === key); });
+        panels.forEach(function (p) {
+          var isTarget = p.getAttribute('data-panel') === key;
+          if (isTarget) p.style.setProperty('--slide-x', (dir < 0 ? -64 : 64) + 'px');
+          p.classList.toggle('is-active', isTarget);
+        });
+        var activeBtn = document.querySelector('.pricing-filter[data-filter="' + key + '"]');
+        moveIndicator(activeBtn);
+      }
+      filters.forEach(function (f) { f.addEventListener('click', function () { activate(f.getAttribute('data-filter')); }); });
+      var initialActive = document.querySelector('.pricing-filter.is-active') || filters[0];
+      moveIndicator(initialActive);
+      wrap.classList.remove('is-ready');
+      requestAnimationFrame(function () { wrap.classList.add('is-ready'); });
+      window.addEventListener('resize', function () {
+        var current = document.querySelector('.pricing-filter.is-active') || filters[0];
+        moveIndicator(current);
+      });
+    })();
+  };
+
   // ---- Initial render + live subscription ----
   function doRender() {
     var c = global.RGTContent.getContent();
     if (isHome()) global.RGTRender.renderHome(c);
     if (isPortfolio()) global.RGTRender.renderPortfolio(c);
+    if (isServices()) global.RGTRender.renderServicesPage(c);
   }
 
   function init() {
@@ -1432,6 +1930,7 @@
     global.RGTContent.subscribe(function (content) {
       if (isHome()) global.RGTRender.renderHome(content);
       if (isPortfolio()) global.RGTRender.renderPortfolio(content);
+      if (isServices()) global.RGTRender.renderServicesPage(content);
     });
   }
 
@@ -1519,7 +2018,9 @@
     { key: 'contact', label: 'Contact', icon: IC.contact },
     { key: 'footer', label: 'Footer', icon: IC.footer },
     { group: 'Portfolio Page' },
-    { key: 'portfolio', label: 'Portfolio Content', icon: IC.portfolio }
+    { key: 'portfolio', label: 'Portfolio Content', icon: IC.portfolio },
+    { group: 'Services Page' },
+    { key: 'servicesPage', label: 'Services Page', icon: IC.services }
   ];
 
   /* =====================================================================
@@ -1653,7 +2154,8 @@
       services: buildServices, solutions: buildSolutions, showcase: buildShowcase,
       whyChooseUs: buildWhy, process: buildProcess, testimonials: buildTestimonials,
       portal: buildPortal, contact: buildContact, footer: buildFooter,
-      portfolio: buildPortfolio
+      portfolio: buildPortfolio,
+      servicesPage: buildServicesPage
     };
     if (builders[key]) {
       builders[key](area, desc);
@@ -2024,6 +2526,225 @@
       '<div class="grid-2">' + field('Primary Button Label', p.ctaBanner.primaryLabel, 'primaryLabel') + field('Primary Button Link', p.ctaBanner.primaryLink, 'primaryLink') +
       field('Secondary Button Label', p.ctaBanner.secondaryLabel, 'secondaryLabel') + field('Secondary Button Link', p.ctaBanner.secondaryLink, 'secondaryLink') + '</div>';
     bindGroup(b6, p.ctaBanner);
+  }
+
+  /* =====================================================================
+     SERVICES PAGE
+     ===================================================================== */
+  function buildServicesPage(area, desc) {
+    desc.textContent = 'The dedicated Services page \u2014 hero, service panels, pricing packages, customisation, process, FAQ and the final CTA. All changes publish live to services.html.';
+    var sp = C.servicesPage;
+
+    /* ---- Hero ---- */
+    var hCard = sectionHead(area, 'Page Hero', 'The top banner on the Services page.');
+    var hb = hCard.querySelector('.card-body');
+    hb.innerHTML =
+      field('Headline', sp.hero.headline, 'headline') +
+      field('Sub Copy', sp.hero.subcopy, 'subcopy', { multiline: true }) +
+      field('Hero Button Label', sp.hero.ctaLabel, 'ctaLabel');
+    bindGroup(hb, sp.hero);
+
+    /* ---- Services section heading ---- */
+    var ssCard = sectionHead(area, 'Services Section Heading', 'The "What We Do" intro above the service tabs.');
+    var ssb = ssCard.querySelector('.card-body');
+    ssb.innerHTML = '<div class="grid-2">' + field('Eyebrow', sp.servicesSection.eyebrow, 'eyebrow') + field('Title', sp.servicesSection.title, 'title') + '</div>' + field('Sub Copy', sp.servicesSection.sub, 'sub', { multiline: true });
+    bindGroup(ssb, sp.servicesSection);
+
+    /* ---- Service panels ---- */
+    var spCard = sectionHead(area, 'Service Panels', 'Each panel is a tab on the page. Edit the tab label, eyebrow, title, description, example list and mockup image.');
+    buildServicesPage_panels(spCard, sp.servicesSection.panels);
+
+    /* ---- Pricing section heading ---- */
+    var psCard = sectionHead(area, 'Pricing Section Heading', 'The heading above the pricing filter tabs.');
+    var psb = psCard.querySelector('.card-body');
+    psb.innerHTML = '<div class="grid-2">' + field('Eyebrow', sp.pricingSection.eyebrow, 'eyebrow') + field('Title', sp.pricingSection.title, 'title') + '</div>' + field('Sub Copy', sp.pricingSection.sub, 'sub', { multiline: true });
+    bindGroup(psb, sp.pricingSection);
+
+    /* ---- Pricing panels ---- */
+    var ppCard = sectionHead(area, 'Pricing Panels', 'Each panel maps to a service filter. Add, remove and reorder packages \u2014 each has a tier, description, amount, period, feature list and an optional "Most Popular" badge.');
+    buildServicesPage_pricing(ppCard, sp.pricingSection.panels);
+
+    /* ---- Customise section ---- */
+    var csCard = sectionHead(area, 'Customise Section', 'The "Build A Package Around Your Goals" block with copy points and the quick-quote form.');
+    var csb = csCard.querySelector('.card-body');
+    csb.innerHTML =
+      '<div class="grid-2">' + field('Eyebrow', sp.customizeSection.eyebrow, 'eyebrow') + field('Title', sp.customizeSection.title, 'title') + '</div>' +
+      field('Sub Copy', sp.customizeSection.sub, 'sub', { multiline: true }) +
+      '<div class="grid-2">' + field('Left Eyebrow', sp.customizeSection.leftEyebrow, 'leftEyebrow') + field('Left Title', sp.customizeSection.leftTitle, 'leftTitle') + '</div>' +
+      field('Left Description', sp.customizeSection.leftDesc, 'leftDesc', { multiline: true });
+    bindGroup(csb, sp.customizeSection);
+    var csPts = sectionHead(area, 'Customise Bullet Points', 'The three ticked points under the left column.');
+    buildSimpleFeatures(csPts, sp.customizeSection.points);
+    var csForm = sectionHead(area, 'Customise Form', 'The quick-quote form labels, dropdown options and submit button.');
+    var csfb = csForm.querySelector('.card-body');
+    csfb.innerHTML =
+      '<div class="grid-2">' + field('Form Title', sp.customizeSection.formTitle, 'formTitle') + field('Form Intro', sp.customizeSection.formIntro, 'formIntro') + '</div>' +
+      '<div class="grid-2">' + field('Submit Button Label', sp.customizeSection.submitLabel, 'submitLabel') + field('Notes Placeholder', sp.customizeSection.notesPlaceholder, 'notesPlaceholder') + '</div>';
+    bindGroup(csfb, sp.customizeSection);
+    var csOpts = sectionHead(area, 'Form Dropdown Options', 'The "Starting package" and "Estimated budget" select options (one per line).');
+    var csob = csOpts.querySelector('.card-body');
+    csob.innerHTML =
+      '<div class="grid-2">' +
+        field('Package Options', (sp.customizeSection.packageOptions || []).join('\n'), 'packageOptions', { multiline: true, hint: 'One option per line.' }) +
+        field('Budget Options', (sp.customizeSection.budgetOptions || []).join('\n'), 'budgetOptions', { multiline: true, hint: 'One option per line.' }) +
+      '</div>';
+    $all('[data-k]', csob).forEach(function (el) {
+      el.addEventListener('input', function () {
+        var k = el.getAttribute('data-k');
+        sp.customizeSection[k] = el.value.split('\n').map(function (s) { return s.trim(); }).filter(function (s) { return s.length; });
+        markDirty();
+      });
+    });
+
+    /* ---- Process section ---- */
+    var prCard = sectionHead(area, 'Process Section Heading', 'The "How We Work" intro above the 6-step journey.');
+    var prb = prCard.querySelector('.card-body');
+    prb.innerHTML = '<div class="grid-2">' + field('Eyebrow', sp.processSection.eyebrow, 'eyebrow') + field('Title', sp.processSection.title, 'title') + '</div>' + field('Sub Copy', sp.processSection.sub, 'sub', { multiline: true });
+    bindGroup(prb, sp.processSection);
+    var prSteps = sectionHead(area, 'Process Steps', 'Each step has a number, title, description, icon image and accent colour.');
+    buildRepListImg(prSteps, sp.processSection.steps, ['num', 'title', 'desc', 'icon', 'color'], ['Number', 'Title', 'Description', 'Icon URL', 'Colour (hex)'], function (it) { return (it.num || '') + ' ' + (it.title || 'Step'); }, { multilineKeys: ['desc'] });
+
+    /* ---- FAQ section ---- */
+    var fqCard = sectionHead(area, 'FAQ Section Heading', 'The "Questions, Answered" intro above the accordion.');
+    var fqb = fqCard.querySelector('.card-body');
+    fqb.innerHTML = '<div class="grid-2">' + field('Eyebrow', sp.faqSection.eyebrow, 'eyebrow') + field('Title', sp.faqSection.title, 'title') + '</div>' + field('Sub Copy', sp.faqSection.sub, 'sub', { multiline: true });
+    bindGroup(fqb, sp.faqSection);
+    var fqItems = sectionHead(area, 'FAQ Items', 'Each item is a question and an answer shown in the accordion.');
+    buildRepList(fqItems, sp.faqSection.items, ['q', 'a'], ['Question', 'Answer'], function (it) { return it.q || 'Question'; }, { multilineKeys: ['a'] });
+
+    /* ---- Final CTA banner ---- */
+    var ctaCard = sectionHead(area, 'Final CTA Banner', 'The "Ready To Get Started?" banner at the bottom of the Services page.');
+    var ctab = ctaCard.querySelector('.card-body');
+    ctab.innerHTML =
+      field('Title', sp.ctaBanner.title, 'title') + field('Text', sp.ctaBanner.text, 'text', { multiline: true }) +
+      '<div class="grid-2">' + field('Primary Button Label', sp.ctaBanner.primaryLabel, 'primaryLabel') + field('Primary Button Link', sp.ctaBanner.primaryLink, 'primaryLink') +
+      field('Secondary Button Label', sp.ctaBanner.secondaryLabel, 'secondaryLabel') + field('Secondary Button Link', sp.ctaBanner.secondaryLink, 'secondaryLink') + '</div>';
+    bindGroup(ctab, sp.ctaBanner);
+  }
+
+  // Service panels editor (key, tabLabel, eyebrow, title, desc, examples[], image)
+  function buildServicesPage_panels(card, arr) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add service panel</span></div>';
+    var list = body.querySelector('.rep-list');
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(it.tabLabel || it.title || 'Service', '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var html = '';
+        html += '<div class="grid-2">' + field('Tab Key', it.key, 'key', { hint: 'Unique id, e.g. "software". Must match its pricing panel key.' }) + field('Tab Label', it.tabLabel, 'tabLabel') + '</div>';
+        html += field('Eyebrow', it.eyebrow, 'eyebrow');
+        html += field('Title', it.title, 'title');
+        html += field('Description', it.desc, 'desc', { multiline: true });
+        html += featuresEditor(it.examples || []);
+        html += imgField('Mockup Image', it.image, 'image');
+        rb.innerHTML = html;
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            var k = el.getAttribute('data-k');
+            it[k] = el.value;
+            markDirty();
+            if (k === 'image' && el.tagName === 'INPUT') {
+              var prev = el.closest('.with-img').querySelector('.img-prev');
+              var v = el.value.trim();
+              prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
+            }
+            if (k === 'tabLabel' || k === 'title') rep.querySelector('.rep-title').firstChild.textContent = (it.tabLabel || it.title || 'Service') + ' ';
+          });
+        });
+        bindFeatures(rb, it.examples, markDirty);
+        bindRepActions(rep, arr, i, render, function () { return it.tabLabel || it.title || 'Service'; });
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ key: 'new-service', tabLabel: 'New Service', eyebrow: '', title: '', desc: '', examples: [], image: '' });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Pricing panels editor (key, tabLabel, packages[])
+  function buildServicesPage_pricing(card, arr) {
+    var body = card.querySelector('.card-body') || card;
+    body.innerHTML = '<div class="rep-list"></div><div class="add-btn" data-add>' + IC.add + ' <span>Add pricing panel</span></div>';
+    var list = body.querySelector('.rep-list');
+    function render() {
+      list.innerHTML = '';
+      arr.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(it.tabLabel || it.key || 'Pricing', '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, arr.length);
+        var rb = rep.querySelector('.rep-body');
+        var html = '';
+        html += '<div class="grid-2">' + field('Filter Key', it.key, 'key', { hint: 'Must match a service panel key.' }) + field('Filter Label', it.tabLabel, 'tabLabel') + '</div>';
+        rb.innerHTML = html + '<div class="pkg-list"></div><div class="add-btn sub-add" data-pkgadd>' + IC.add + ' <span>Add package</span></div>';
+        list.appendChild(rep);
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            var k = el.getAttribute('data-k');
+            it[k] = el.value;
+            markDirty();
+            if (k === 'tabLabel' || k === 'key') rep.querySelector('.rep-title').firstChild.textContent = (it.tabLabel || it.key || 'Pricing') + ' ';
+          });
+        });
+        var pkgList = rb.querySelector('.pkg-list');
+        function renderPkgs() {
+          pkgList.innerHTML = '';
+          (it.packages || []).forEach(function (pk, pi) {
+            var pw = document.createElement('div');
+            pw.innerHTML = repItemWrap(pk.tier || 'Package', 'Pkg ' + (pi + 1));
+            var prep = pw.firstChild;
+            prep.querySelector('.rep-actions').innerHTML = repActions(pi, it.packages.length);
+            var prb = prep.querySelector('.rep-body');
+            var ph = '';
+            ph += field('Tier Name', pk.tier, 'tier');
+            ph += field('Description', pk.desc, 'desc', { multiline: true });
+            ph += '<div class="grid-2">' + field('Amount', pk.amount, 'amount', { hint: 'e.g. R15,000' }) + field('Period', pk.period, 'period', { hint: 'e.g. once-off / per device / / month' }) + '</div>';
+            ph += '<div class="grid-2">' + field('Badge Text', pk.badge, 'badge', { hint: 'Leave blank unless this is the highlighted package.' }) + '</div>';
+            ph += featuresEditor(pk.features || []);
+            ph += '<label class="toggle-row"><input type="checkbox" data-k="popular"' + (pk.popular ? ' checked' : '') + ' /><span>Mark as "Most Popular" (highlighted card)</span></label>';
+            prb.innerHTML = ph;
+            pkgList.appendChild(prep);
+            $all('[data-k]', prb).forEach(function (el) {
+              el.addEventListener('input', function () {
+                var k = el.getAttribute('data-k');
+                pk[k] = el.value;
+                markDirty();
+                if (k === 'tier') prep.querySelector('.rep-title').firstChild.textContent = (pk.tier || 'Package') + ' ';
+              });
+            });
+            var popCb = prb.querySelector('[data-k="popular"]');
+            if (popCb) popCb.addEventListener('change', function () { pk.popular = popCb.checked; markDirty(); });
+            bindFeatures(prb, pk.features, markDirty);
+            bindRepActions(prep, it.packages, pi, renderPkgs, function () { return pk.tier || 'Package'; });
+          });
+        }
+        renderPkgs();
+        rb.querySelector('[data-pkgadd]').addEventListener('click', function () {
+          it.packages.push({ tier: 'New Package', desc: '', amount: '', period: 'once-off', features: [], badge: '', popular: false });
+          markDirty();
+          renderPkgs();
+        });
+        bindRepActions(rep, arr, i, render, function () { return it.tabLabel || it.key || 'Pricing'; });
+      });
+    }
+    render();
+    body.querySelector('[data-add]').addEventListener('click', function () {
+      arr.push({ key: 'new-service', tabLabel: 'New Service', packages: [] });
+      markDirty();
+      render();
+      var last = list.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   }
 
   /* =====================================================================
