@@ -986,6 +986,86 @@
         secondaryLabel: 'Start a Project',
         secondaryLink: 'contact.html'
       }
+    },
+
+    /* =====================================================================
+       STORE  (store.html)  — products, brands, categories & conditions
+       Every field here renders live on the public store page.
+       ===================================================================== */
+    store: {
+      eyebrow: 'Our Store',
+      title: 'Gadgets & Software, Sourced For You',
+      sub: "Genuine devices and licensed software, sourced and supported end-to-end.",
+      products: [
+        {
+          id: 'iphone-16',
+          name: 'iPhone 16 l With Free Case',
+          price: 17499,
+          brand: 'apple',
+          category: 'iphone',
+          condition: 'brand-new',
+          stock: 5,
+          image: 'https://i.postimg.cc/K8nRkFtF/iphone16.png',
+          specs: ['128GB', 'A18 Chip', '6.1" OLED'],
+          href: 'product.html?id=iphone-16',
+          order: 1,
+          added: 1
+        },
+        {
+          id: 'iphone-17-pro',
+          name: 'iPhone 17 Pro l With Free Case',
+          price: 24999,
+          brand: 'apple',
+          category: 'iphone',
+          condition: 'pre-owned',
+          stock: 3,
+          image: 'https://i.postimg.cc/g29x2rXQ/iphone17pro.png',
+          specs: ['512GB', 'A19 Pro', 'Titanium'],
+          href: 'product.html?id=iphone-17-pro',
+          order: 2,
+          added: 2
+        },
+        {
+          id: 'iphone-17',
+          name: 'iPhone 17 l With Free Case',
+          price: 19999,
+          brand: 'apple',
+          category: 'iphone',
+          condition: 'brand-new',
+          stock: 0,
+          image: 'https://i.postimg.cc/P5GC5NpY/iphone17.png',
+          specs: ['256GB', 'A19 Chip', '120Hz'],
+          href: 'product.html?id=iphone-17',
+          order: 3,
+          added: 3
+        }
+      ],
+      brands: [
+        { key: 'apple', label: 'Apple', iconType: 'svg', icon: '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50" aria-label="Apple"><path d="M 44.527344 34.75 C 43.449219 37.144531 42.929688 38.214844 41.542969 40.328125 C 39.601563 43.28125 36.863281 46.96875 33.480469 46.992188 C 30.46875 47.019531 29.691406 45.027344 25.601563 45.0625 C 21.515625 45.082031 20.664063 47.03125 17.648438 47 C 14.261719 46.96875 11.671875 43.648438 9.730469 40.699219 C 4.300781 32.429688 3.726563 22.734375 7.082031 17.578125 C 9.457031 13.921875 13.210938 11.773438 16.738281 11.773438 C 20.332031 11.773438 22.589844 13.746094 25.558594 13.746094 C 28.441406 13.746094 30.195313 11.769531 34.351563 11.769531 C 37.492188 11.769531 40.8125 13.480469 43.1875 16.433594 C 35.421875 20.691406 36.683594 31.78125 44.527344 34.75 Z M 31.195313 8.46875 C 32.707031 6.527344 33.855469 3.789063 33.4375 1 C 30.972656 1.167969 28.089844 2.742188 26.40625 4.78125 C 24.878906 6.640625 23.613281 9.398438 24.105469 12.066406 C 26.796875 12.152344 29.582031 10.546875 31.195313 8.46875 Z"></path></svg>' },
+        { key: 'hp', label: 'HP', iconType: 'svg', icon: '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50" aria-label="HP"><path d="M 25.205078 2.0078125 L 20.150391 16 L 23.394531 16 C 25.514531 16 26.657641 17.631953 25.931641 19.626953 L 20.492188 34.001953 L 16.574219 34 L 22.150391 19 L 18.964844 19 L 13.388672 34 L 9.1503906 34 L 20.798828 2.3945312 C 20.327828 2.4815313 19.860391 2.5793125 19.400391 2.6953125 C 9.4163906 5.2023125 2.0019531 14.250953 2.0019531 25.001953 C 2.0019531 35.382953 8.9149062 44.174391 18.378906 47.025391 C 18.699906 47.122391 19.024562 47.215828 19.351562 47.298828 L 20.042969 45.386719 L 24.068359 34.257812 L 24.070312 34.257812 L 30.589844 16 L 38.392578 16 C 40.514578 16 41.656641 17.631953 40.931641 19.626953 L 36.183594 32.314453 C 35.845594 33.241453 34.762391 34 33.775391 34 L 28.150391 34 L 23.826172 45.941406 L 23.111328 47.917969 C 23.403328 47.941969 23.695234 47.964562 23.990234 47.976562 C 24.326234 47.991563 24.662953 48.001953 25.001953 48.001953 C 37.683953 48.001953 48.001953 37.684953 48.001953 25.001953 C 48.000953 12.609953 38.148187 2.4814375 25.867188 2.0234375 C 25.647188 2.0154375 25.426078 2.0098125 25.205078 2.0078125 z M 33.964844 19 L 29.455078 31 L 32.640625 31 L 37.150391 19 L 33.964844 19 z"></path></svg>' },
+        { key: 'samsung', label: 'Samsung', iconType: 'img', icon: 'https://i.postimg.cc/HsmVmsSy/samsung-trans.png' },
+        { key: 'windows', label: 'Windows', iconType: 'svg', icon: '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50" aria-label="Windows"><path d="M19.852 7.761l-15 2.25C4.362 10.085 4 10.505 4 11v12c0 .553.448 1 1 1h15c.552 0 1-.447 1-1V8.75c0-.291-.127-.567-.348-.758C20.432 7.803 20.139 7.721 19.852 7.761zM45.652 4.242c-.22-.189-.512-.271-.801-.231l-21 3.15C23.362 7.235 23 7.655 23 8.15V23c0 .553.448 1 1 1h21c.552 0 1-.447 1-1V5C46 4.709 45.873 4.433 45.652 4.242zM20 26H5c-.552 0-1 .447-1 1v12c0 .495.362.915.852.989l15 2.25c.05.007.099.011.148.011.238 0 .47-.085.652-.242C20.873 41.817 21 41.541 21 41.25V27C21 26.447 20.552 26 20 26zM45 26H24c-.552 0-1 .447-1 1v14.85c0 .495.362.915.852.989l21 3.15C44.901 45.996 44.951 46 45 46c.238 0 .47-.085.652-.242C45.873 45.567 46 45.291 46 45V27C46 26.447 45.552 26 45 26z"></path></svg>' }
+      ],
+      categories: [
+        { key: 'laptops', label: 'Laptops', iconType: 'img', icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAzElEQVR4nO3YQQrCMBSE4elUvI5u9QR6qoIJVa/iMfQmFb1GJYKrUhUa2lHmg2xKaN5P6KaAmZlZNtW8QDwS4U7EVnTdCsR9mrU3o0A4CAzafrMKhLo3JNWmTUC9Gnq3RLx0Bwjnoe8Fwvp1M+8Ofx4Icfw0p0NGRoeIoUPE0CFi6BAxdIgYOkQMHSKGDhFDh4ihQ8TQIWL41yHM/k82noDdAqhm3RHSs7hMe3Kfi9wvnGqBiNeph8iwGpSI2x+PaUqEzXhfqJmZGXQ9AJycU2jDSBgdAAAAAElFTkSuQmCC' },
+        { key: 'macbook', label: 'MacBook', iconType: 'img', icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABmklEQVR4nO3YoU8cQRTH8e+8TWnaVNRgEJjSXIJCtaYGi0EQFAmqqoqkIZUL9942Fa2oKwpBAoKEhH+BC4L0JKIJ4BEVILg2Kck2x24qroTlyB43084v+Zkzs599b8UNxMTExMTE1BDB9gXLA2vrOkgeYokQ/CoRgl8lQvCrRAj/NURPE2zOYdsBQ/QSbArWHgh6EjLkALJRh26Ftlrngr2B5nPQVw5dceh6gs2DPkvIpgX96jvkF6y+pDLZpGA/vIU4bLcacfWtHPk+kXfVEHtR4xrng4IsVUOaDe8hDvtSDYHuCnoNEewb5K6akj6uC8OAIHmCzd4CMiLYsdcQwQ7h06ObGA796Ptq5d06dKPAfH6Y0JwR7DW8n4BUhOxtnWcxSEhR/Slop+f3i7rPYfCQ+ykRgl8lQvCr/HMQCfMWPu9pK9hJSO9k/hrRHdN9K/0/gO7VcG5eQvSsgKRjBJf0aflCOn/+Gzh0Bz6ME0zSJ4ItlxNplxcBxVTCrS6UumbDYZuCfh/+Q1k/105twRaHvBoxMTHcY34DMeUHa2GumSsAAAAASUVORK5CYII=' },
+        { key: 'iphone', label: 'iPhone', iconType: 'img', icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABK0lEQVR4nO2ZTWrDMBCFn+Rb+EpJrlNnZ+hMcqMs25wpP5uuHCaOCRgHUtkjlfI+mJVh5I83ssACCPl7VNBNgB4j5BqhXVrJNUC+K3yui0gEyD795acrQDR7Eo/FfyLkA2jr9G5tHaFN30u7rMn043QXaZbq+ZDpAvRrqZ7vLHqxRYck+jGzWdfdzGS6CDkjF8NMj8VSXiJAD6/6ujNe0JIwmWGzpiYUS4tMPE9KKJYWGScwTii1rzv/cI+09ZwEpr9aml9k2XNEtiVF7DRuljzZYyERlwJFfglFQBEfKAKK+EARUMQHioAiPlAEFPGBIqCIDxQBRXygCCjiw/Pvu0udkAu7F/cSCTkvQ+0K2Uukgq6QE7sLcUhDUAJLxkZh5p65WI/sSRCCt7gBIksSJ2xI0F0AAAAASUVORK5CYII=' },
+        { key: 'ipad', label: 'iPad', iconType: 'img', icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA50lEQVR4nO3YzQnCQBCG4W/GLtQCtAXRm30JzuQQbEf0YGzJnwqUaAIiOSRx0U38HthDLpt5IYIMQERERH9hNRb4RuB7gR9+fPb5LICPGkaspwo/K/z2egaw5TePvr0/nwlIJrUzBLaruOSGL9OKGQS2bXLBNdYQhV0+vCCWEK8/B0MCU4YUGBKYMqTAkMC0byHy+ONoWesQwGaAzX8ZIrCsfBb4sW3IHEgWnQ/ReD6tYxnR6RDty49dGQKGBKUMKTAkMGVI39ZB0pcFHaJdmdqp0cr0yUcCTyNaYqfAatgwgoiIiNBFdz6NdiAFWchiAAAAAElFTkSuQmCC' },
+        { key: 'desktop', label: 'Desktop', iconType: 'svg', icon: '<svg class="filter-cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>' },
+        { key: 'imac', label: 'iMac', iconType: 'svg', icon: '<svg class="filter-cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M9 21h6"/><path d="M12 16v5"/></svg>' },
+        { key: 'apple-watch', label: 'Apple Watch', iconType: 'img', icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACfklEQVR4nO2aPWsVURCG3zNJdY2oYIyNxvyDkE4Lxd9gZ6P4gVdFOyuFI8ysifgHYiViYxFBC0mhjQmKiYWp/CpiQIUUokH7rIw711UQYdfdPfce9oVplnvOzrM75+xlzgtUohtbCHzagW8TZJHAHwn8hSDfCZJmwd/s2icCLzjwLQKfBHwH/SGeIMhannDR4PcAj4emgAPftKRWCHx+CMlhhQOmdwAz2/Jf+pHsGu8B+CBBugR+qWMdZBahRZBVTQaQyeKjZcreyluEld9tiWwAnkqMH7a1swkkYwilIcgRK42HZedwkHl7GMeqza5QEnzfkrhQdg5dV/YwHqF5pY4g3iA+/7moi+r6VgKv24bhdW40Iz+ipVR+u/13OPBcA98Wv4vAL+qCoDyWgWS0LohhvUEDEKmV7JLes3IMAp9tDkJ60a0D5FkAkKd1gGwEAPlaA0jjEKlGNCAEeQfwgRhAUgK/HmgQB7lrIJsDDULgK5WvlUBldTkKEAe+E0lpSS9exQDyBri2f+BBULVaELQgqcViLCBpC/I3tSBoQdIWpD9BeAFVKoq3ERkIx9IO4lgadNJtHoTPVA5ix2RLDYI8r6WJnSkZbagjvwz4nahXvuMg9+rsZaE5E0HqHPiq1fG6Hp+Vn8tv1+M7A7mEEHLgx5bAubJzEOSivYkH1WZXLInjlsR82Tny88jkKMIpGdPmmR76l9thPPU+tGo+QEip/SJLRKaKj5ZJK81VhJaDzNqiV4NMF0gOATN7MwPN75uAnsX/NNVMqPHGjAIrfWOqAXhcrUr/seWuAdP70B/yHYKcyMxk8iQ3nqlh5tffjZ7x7IO2eMykdqqqb8YPXGfSqH7CE4QAAAAASUVORK5CYII=' },
+        { key: 'accessories', label: 'Accessories', iconType: 'svg', icon: '<svg class="filter-cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>' }
+      ],
+      conditions: [
+        { key: 'brand-new', label: 'Brand New' },
+        { key: 'pre-owned', label: 'Pre-Owned' }
+      ],
+      priceMax: 30000,
+      softwareEnabled: false,
+      softwareTitle: 'Software coming soon',
+      softwareText: "We're finalising our licensed software lineup. Tell us what you need and we'll source it for you.",
+      softwareCtaLabel: 'Ask About Software',
+      softwareCtaLink: 'contact.html'
     }
   };
 
@@ -1995,6 +2075,7 @@
     contact: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 7-10 5L2 7"/></svg>',
     footer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>',
     portfolio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M3 5v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/></svg>',
+    store: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 4 4h16l1 5"/><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M3 9h18"/><path d="M9 21V12h6v9"/></svg>',
     trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
     up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
     down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
@@ -2022,6 +2103,8 @@
     { key: 'footer', label: 'Footer', icon: IC.footer },
     { group: 'Portfolio Page' },
     { key: 'portfolio', label: 'Portfolio Content', icon: IC.portfolio },
+    { group: 'Store Page' },
+    { key: 'store', label: 'Store Management', icon: IC.store },
     { group: 'Services Page' },
     { key: 'servicesPage', label: 'Services Page', icon: IC.services }
   ];
@@ -2158,7 +2241,8 @@
       whyChooseUs: buildWhy, process: buildProcess, testimonials: buildTestimonials,
       portal: buildPortal, contact: buildContact, footer: buildFooter,
       portfolio: buildPortfolio,
-      servicesPage: buildServicesPage
+      servicesPage: buildServicesPage,
+      store: buildStore
     };
     if (builders[key]) {
       builders[key](area, desc);
@@ -2202,11 +2286,34 @@
     return '<div class="efield with-img"><div class="img-prev">' + prev + '</div><div class="img-input"><label>' + esc(label) + '</label><input type="text" data-k="' + esc(key) + '" value="' + esc(value) + '" placeholder="https://..." /><div class="hint">Paste an image URL. Preview updates as you type.</div></div></div>';
   }
 
+  // select / dropdown field. options: array of {value,label} OR array of strings.
+  function selectField(label, value, key, options, opts) {
+    opts = opts || {};
+    var hint = opts.hint ? '<div class="hint">' + esc(opts.hint) + '</div>' : '';
+    var optsHtml = '';
+    options.forEach(function (o) {
+      var v, l;
+      if (typeof o === 'string') { v = o; l = o; } else { v = o.value; l = o.label; }
+      optsHtml += '<option value="' + esc(v) + '"' + (String(v) === String(value) ? ' selected' : '') + '>' + esc(l) + '</option>';
+    });
+    return '<div class="efield"><label>' + esc(label) + '</label><select data-k="' + esc(key) + '">' + optsHtml + '</select>' + hint + '</div>';
+  }
+
+  // number field
+  function numField(label, value, key, opts) {
+    opts = opts || {};
+    var hint = opts.hint ? '<div class="hint">' + esc(opts.hint) + '</div>' : '';
+    var min = opts.min != null ? ' min="' + opts.min + '"' : '';
+    var step = opts.step != null ? ' step="' + opts.step + '"' : '';
+    return '<div class="efield"><label>' + esc(label) + '</label><input type="number" data-k="' + esc(key) + '" value="' + esc(value) + '"' + min + step + ' />' + hint + '</div>';
+  }
+
   // bind a flat group of data-k fields back into an object
   function bindGroup(cardBody, obj) {
     $all('[data-k]', cardBody).forEach(function (el) {
-      el.addEventListener('input', function () {
-        obj[el.getAttribute('data-k')] = el.value;
+      var handler = function () {
+        var k = el.getAttribute('data-k');
+        obj[k] = el.tagName === 'SELECT' ? el.value : el.value;
         markDirty();
         // live image preview update
         if (el.tagName === 'INPUT' && el.closest('.with-img')) {
@@ -2214,7 +2321,9 @@
           var v = el.value.trim();
           prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
         }
-      });
+      };
+      el.addEventListener('input', handler);
+      if (el.tagName === 'SELECT') el.addEventListener('change', handler);
     });
   }
 
@@ -3177,6 +3286,264 @@
           render();
         }
       });
+    });
+  }
+
+  /* =====================================================================
+     STORE MANAGEMENT  (store.html)
+     Full control over products, brands, categories, conditions & settings.
+     All changes publish live to the public store page in real time.
+     ===================================================================== */
+  function buildStore(area, desc) {
+    desc.textContent = 'Full control of the online store \u2014 add and edit products, update stock levels, manage brands, categories and conditions. Every change publishes live to store.html in real time.';
+    var st = C.store;
+
+    /* ---------- helper: brand / category / condition option lists ---------- */
+    function brandOpts() { return st.brands.map(function (b) { return { value: b.key, label: b.label || b.key }; }); }
+    function catOpts() { return st.categories.map(function (c) { return { value: c.key, label: c.label || c.key }; }); }
+    function condOpts() { return st.conditions.map(function (c) { return { value: c.key, label: c.label || c.key }; }); }
+
+    /* ---------- Card 1: Store settings ---------- */
+    var cSettings = sectionHead(area, 'Store Settings', 'Store page heading, price range, software tab and tab labels.');
+    var bS = cSettings.querySelector('.card-body');
+    bS.innerHTML =
+      '<div class="grid-2">' + field('Eyebrow', st.eyebrow, 'eyebrow') + field('Title', st.title, 'title') + '</div>' +
+      field('Sub Copy', st.sub, 'sub', { multiline: true }) +
+      '<div class="grid-2">' + numField('Price Slider Max (R)', st.priceMax, 'priceMax', { hint: 'Maximum value of the price filter slider.' }) +
+      selectField('Software Tab', st.softwareEnabled ? 'on' : 'off', 'softwareEnabled', [{ value: 'off', label: 'Hidden (show "coming soon")' }, { value: 'on', label: 'Enabled (show software products)' }], { hint: 'Toggle the "Software Products" tab.' }) + '</div>';
+    bindGroup(bS, st);
+    // softwareEnabled is a boolean toggle stored as string -> normalise
+    var swSel = bS.querySelector('[data-k="softwareEnabled"]');
+    if (swSel) swSel.addEventListener('change', function () { st.softwareEnabled = (swSel.value === 'on'); markDirty(); });
+
+    /* ---------- Card 2: Products ---------- */
+    var cProducts = sectionHead(area, 'Products', 'Add, edit, reorder or remove products. Each product has a name, price, brand, category, condition, stock count, image, spec badges and a detail-page link. Stock = 0 marks a product as out of stock.');
+    var bP = cProducts.querySelector('.card-body');
+    bP.innerHTML = '<div class="rep-list" id="storeProductsList"></div><div class="add-btn" data-add-product>' + IC.add + ' <span>Add new product</span></div>';
+    var pList = bP.querySelector('#storeProductsList');
+
+    function productTitleFn(it) {
+      var stockBadge = (parseInt(it.stock, 10) <= 0) ? ' <span class="rep-badge" style="background:#e03131">Out of stock</span>' : (it.name ? '' : '');
+      return (it.name || 'New product') + stockBadge;
+    }
+
+    function renderProducts() {
+      pList.innerHTML = '';
+      st.products.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(productTitleFn(it), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, st.products.length);
+        var rb = rep.querySelector('.rep-body');
+
+        rb.innerHTML =
+          imgField('Product Image URL', it.image, 'image') +
+          field('Product Name', it.name, 'name') +
+          '<div class="grid-3">' +
+            numField('Price (R)', it.price, 'price', { min: 0, step: 1 }) +
+            numField('Stock', it.stock, 'stock', { min: 0, step: 1, hint: '0 = out of stock' }) +
+            field('Detail Page Link', it.href, 'href', { hint: 'e.g. product.html?id=...' }) +
+          '</div>' +
+          '<div class="grid-3">' +
+            selectField('Brand', it.brand, 'brand', brandOpts()) +
+            selectField('Category', it.category, 'category', catOpts()) +
+            selectField('Condition', it.condition, 'condition', condOpts()) +
+          '</div>' +
+          '<div class="grid-2">' +
+            field('Product ID (slug)', it.id, 'id', { hint: 'Unique id, e.g. "iphone-16". Used in the detail-page link.' }) +
+            field('Spec Badges (comma separated)', (it.specs || []).join(', '), 'specs', { hint: 'e.g. 128GB, A18 Chip, 6.1" OLED' }) +
+          '</div>' +
+          '<div class="grid-2">' +
+            numField('Featured Order', it.order, 'order', { min: 0, hint: 'Sort order when "Featured" is selected.' }) +
+            numField('Added Order', it.added, 'added', { min: 0, hint: 'Used for Newest / Oldest sorting.' }) +
+          '</div>';
+
+        // bind text/number/select/image fields
+        $all('[data-k]', rb).forEach(function (el) {
+          var handler = function () {
+            var k = el.getAttribute('data-k');
+            if (k === 'specs') {
+              it.specs = el.value.split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length; });
+            } else if (k === 'price' || k === 'stock' || k === 'order' || k === 'added') {
+              it[k] = parseInt(el.value, 10) || 0;
+            } else {
+              it[k] = el.value;
+            }
+            markDirty();
+            // live image preview
+            if (k === 'image' && el.tagName === 'INPUT') {
+              var prev = el.closest('.with-img').querySelector('.img-prev');
+              var v = el.value.trim();
+              prev.innerHTML = v ? '<img src="' + esc(v) + '" alt=""/>' : '<span class="ph">No image</span>';
+            }
+            // live title + stock badge update
+            rep.querySelector('.rep-title').innerHTML = productTitleFn(it) + ' <span class="rep-badge">#' + (i + 1) + '</span>';
+          };
+          el.addEventListener('input', handler);
+          if (el.tagName === 'SELECT') el.addEventListener('change', handler);
+        });
+
+        bindRepActions(rep, st.products, i, renderProducts, productTitleFn);
+        pList.appendChild(rep);
+      });
+    }
+    renderProducts();
+
+    bP.querySelector('[data-add-product]').addEventListener('click', function () {
+      var maxAdded = 0;
+      st.products.forEach(function (p) { if ((parseInt(p.added, 10) || 0) > maxAdded) maxAdded = parseInt(p.added, 10); });
+      var slug = 'product-' + Date.now().toString(36);
+      st.products.push({
+        id: slug,
+        name: '',
+        price: 0,
+        brand: st.brands.length ? st.brands[0].key : '',
+        category: st.categories.length ? st.categories[0].key : '',
+        condition: st.conditions.length ? st.conditions[0].key : '',
+        stock: 0,
+        image: '',
+        specs: [],
+        href: 'product.html?id=' + slug,
+        order: st.products.length + 1,
+        added: maxAdded + 1
+      });
+      markDirty();
+      renderProducts();
+      // refresh brand/category/condition dropdowns are already rebuilt in renderProducts
+      var last = pList.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    /* ---------- Card 3: Brands ---------- */
+    var cBrands = sectionHead(area, 'Brands', 'The brand filter tiles along the top of the store. Each brand has a key (used by products), a label and an icon (inline SVG markup OR an image URL).');
+    var bBrands = cBrands.querySelector('.card-body');
+    bBrands.innerHTML = '<div class="rep-list" id="storeBrandsList"></div><div class="add-btn" data-add-brand>' + IC.add + ' <span>Add new brand</span></div>';
+    var brandList = bBrands.querySelector('#storeBrandsList');
+
+    function brandTitleFn(it) { return it.label || it.key || 'Brand'; }
+    function renderBrands() {
+      brandList.innerHTML = '';
+      st.brands.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(brandTitleFn(it), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, st.brands.length);
+        var rb = rep.querySelector('.rep-body');
+        rb.innerHTML =
+          '<div class="grid-2">' + field('Brand Key', it.key, 'key', { hint: 'Unique id, e.g. "apple". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
+          selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Image URL' }]) +
+          field(it.iconType === 'img' ? 'Icon Image URL' : 'Icon SVG markup', it.icon, 'icon', { multiline: it.iconType !== 'img', hint: it.iconType === 'img' ? 'Paste an image URL.' : 'Paste the full <svg>...</svg> markup.' });
+        $all('[data-k]', rb).forEach(function (el) {
+          var handler = function () {
+            var k = el.getAttribute('data-k');
+            it[k] = el.value;
+            markDirty();
+            if (k === 'iconType') {
+              // re-render this row so the icon field label/hint/multiline updates
+              renderBrands();
+            } else {
+              rep.querySelector('.rep-title').firstChild.textContent = brandTitleFn(it) + ' ';
+            }
+          };
+          el.addEventListener('input', handler);
+          if (el.tagName === 'SELECT') el.addEventListener('change', handler);
+        });
+        bindRepActions(rep, st.brands, i, renderBrands, brandTitleFn);
+        brandList.appendChild(rep);
+      });
+    }
+    renderBrands();
+    bBrands.querySelector('[data-add-brand]').addEventListener('click', function () {
+      st.brands.push({ key: 'brand-' + Date.now().toString(36), label: '', iconType: 'svg', icon: '' });
+      markDirty();
+      renderBrands();
+      renderProducts(); // refresh product brand dropdowns
+      var last = brandList.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    /* ---------- Card 4: Categories ---------- */
+    var cCats = sectionHead(area, 'Categories', 'The category filter pills under the brand row. Each category has a key (used by products), a label and an icon (inline SVG markup OR an image URL / data-URI).');
+    var bCats = cCats.querySelector('.card-body');
+    bCats.innerHTML = '<div class="rep-list" id="storeCatsList"></div><div class="add-btn" data-add-cat>' + IC.add + ' <span>Add new category</span></div>';
+    var catList = bCats.querySelector('#storeCatsList');
+
+    function catTitleFn(it) { return it.label || it.key || 'Category'; }
+    function renderCats() {
+      catList.innerHTML = '';
+      st.categories.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(catTitleFn(it), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, st.categories.length);
+        var rb = rep.querySelector('.rep-body');
+        rb.innerHTML =
+          '<div class="grid-2">' + field('Category Key', it.key, 'key', { hint: 'Unique id, e.g. "iphone". Products reference this.' }) + field('Label', it.label, 'label') + '</div>' +
+          selectField('Icon Type', it.iconType, 'iconType', [{ value: 'svg', label: 'Inline SVG markup' }, { value: 'img', label: 'Image URL / data-URI' }]) +
+          field(it.iconType === 'img' ? 'Icon Image URL' : 'Icon SVG markup', it.icon, 'icon', { multiline: it.iconType !== 'img', hint: it.iconType === 'img' ? 'Paste an image URL or data-URI.' : 'Paste the full <svg>...</svg> markup.' });
+        $all('[data-k]', rb).forEach(function (el) {
+          var handler = function () {
+            var k = el.getAttribute('data-k');
+            it[k] = el.value;
+            markDirty();
+            if (k === 'iconType') {
+              renderCats();
+            } else {
+              rep.querySelector('.rep-title').firstChild.textContent = catTitleFn(it) + ' ';
+            }
+          };
+          el.addEventListener('input', handler);
+          if (el.tagName === 'SELECT') el.addEventListener('change', handler);
+        });
+        bindRepActions(rep, st.categories, i, renderCats, catTitleFn);
+        catList.appendChild(rep);
+      });
+    }
+    renderCats();
+    bCats.querySelector('[data-add-cat]').addEventListener('click', function () {
+      st.categories.push({ key: 'category-' + Date.now().toString(36), label: '', iconType: 'svg', icon: '' });
+      markDirty();
+      renderCats();
+      renderProducts();
+      var last = catList.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    /* ---------- Card 5: Conditions ---------- */
+    var cConds = sectionHead(area, 'Conditions', 'The condition badges shown on product cards (e.g. Brand New, Pre-Owned). Each has a key (used by products) and a display label.');
+    var bConds = cConds.querySelector('.card-body');
+    bConds.innerHTML = '<div class="rep-list" id="storeCondsList"></div><div class="add-btn" data-add-cond>' + IC.add + ' <span>Add new condition</span></div>';
+    var condList = bConds.querySelector('#storeCondsList');
+
+    function condTitleFn(it) { return it.label || it.key || 'Condition'; }
+    function renderConds() {
+      condList.innerHTML = '';
+      st.conditions.forEach(function (it, i) {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = repItemWrap(condTitleFn(it), '#' + (i + 1));
+        var rep = wrap.firstChild;
+        rep.querySelector('.rep-actions').innerHTML = repActions(i, st.conditions.length);
+        var rb = rep.querySelector('.rep-body');
+        rb.innerHTML = '<div class="grid-2">' + field('Condition Key', it.key, 'key', { hint: 'Unique id, e.g. "brand-new".' }) + field('Label', it.label, 'label') + '</div>';
+        $all('[data-k]', rb).forEach(function (el) {
+          el.addEventListener('input', function () {
+            it[el.getAttribute('data-k')] = el.value;
+            markDirty();
+            rep.querySelector('.rep-title').firstChild.textContent = condTitleFn(it) + ' ';
+          });
+        });
+        bindRepActions(rep, st.conditions, i, renderConds, condTitleFn);
+        condList.appendChild(rep);
+      });
+    }
+    renderConds();
+    bConds.querySelector('[data-add-cond]').addEventListener('click', function () {
+      st.conditions.push({ key: 'condition-' + Date.now().toString(36), label: '' });
+      markDirty();
+      renderConds();
+      renderProducts();
+      var last = condList.lastChild;
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   }
 
